@@ -1,31 +1,3 @@
-==V2==
-TODO: Pause refreshing when screen is out of focus
-TODO: Add browser checks (with Modernizer?). Don't allow browsers that don't work.
-TODO: Collapsible bars. Show in one link, with time and an unlabeled, thin bar using up the rest of the space.
-TODO: Color picking for bars (for psuedo grouping)
-TODO: save user data to cloud
-TODO: tooltip on icon only buttons
-TODO: update size on window resize
-TODO: group-able bars
-TODO: Convert datepicker to jQuery (http://updates.html5rocks.com/2012/08/Quick-FAQs-on-input-type-date-in-Google-Chrome)
-TODO: Confirmation warning when people reset a timer.
-TODO: Confirmation warning when deleting a progress bar.
-TODO: Convert input boxes to jQuery ui spinners (when not in chrome)
-TODO: Copy to clipboard option, so people can paste progress in email e.g.
-		TITLE : DESCRIPTION
-		At B in progress from A to C
-		[===================|-----] 80%
-TODO: bell or alert when a clock or timer ends
-TODO: "Last working backup": When a page loads successful, save a backup. Add a functionality to restore when a page isn't working.
-TODO: Feedback form
-TODO: Reminder to rate (after 6th load)
-TODO: Handles alerts for add/edit dialog (in checkDataQuality function)
-TODO: Switch bar to jQuery UI progressbar?
-TODO: Remove D3 altogether
-TODO: Curly Notation - add ability to change end with the notation: {1000/2000}
-BUG: Setting counter to -10/-100/100 doesn't give an error
-DONE: string backup / restore in settings menu
-
 ==Future==
 TODO: Use Globalize for number parsing and dates (https://github.com/jquery/globalize)
 TODO: Is this worth it: http://trentrichardson.com/examples/timepicker/ ?
