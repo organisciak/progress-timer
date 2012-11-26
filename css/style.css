@@ -1,0 +1,161 @@
+body {
+	font-family: Georgia, serif;
+	font-size: 12pt;
+	/*image from subtlepatterns.com*/
+	background: #333 url(images/classy_fabric.png) 50% 50% repeat;
+	margin: 0;
+}
+
+.slip, .dialog {
+  	position: relative;
+	border-bottom: solid 1px lightgray;
+    border-top: solid 1px lightgray;
+    border-left: none;
+    border-right: none;
+	margin: 10px auto 10px auto;
+    padding: 10px 0;
+}
+
+.note {
+	color: darkGray;
+  	margin: 5px 0;
+}
+
+h2 {
+ 	font-size: 14pt;
+  	margin: 0;
+}
+
+h3 {
+  font-size: 12pt;
+}
+
+.choose-type h3 {
+ margin: 5px;
+}
+
+
+.choose-type input {
+    margin: 0 5px 0 25px;
+}
+
+#details-div, #context-div {
+	width: 49%;
+}
+
+#details-div {
+	height: 200px;
+	border-right: solid 1px #AAA;
+}
+
+#context-div {
+	right:0;
+	position: absolute;
+}
+
+.bar-outline {
+	fill: whitesmoke;
+}
+
+input[type=date] {
+    /*width: 100px; */
+}
+
+text {
+ font-size: 10pt;
+ text-anchor: middle;
+}
+
+.bar {
+ /*background:gray; */
+}
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: white;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+
+.ui-button {
+	font-size: 0.7em;
+}
+
+#container {
+	margin: 0px auto;
+	background: white;
+	min-height: 95%;
+	padding: 10px 10px 0 10px;
+	border-width: 0 3px 3px 3px;
+	border-style: solid;
+	border-color: #252525;
+}
+
+#controls {
+    background: url("images/diagonal-manilla.png") repeat scroll 50% 50% #EFE7A6;
+    border-bottom: 2px solid #222222;
+    border-radius: 0 0 10px 10px;
+    border-right: 3px solid #222222;
+    float: left;
+    margin: 0 15px;
+    padding: 20px 10px;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100px;
+}
+
+#credit, #credit a {
+	position: fixed;
+	bottom: 0px;
+	right: 10px;
+	font-size: 10px;
+	font-family: Verdana, sans-serif;
+	color: #888;
+	text-decoration: none;
+}
+
+.ui-state-highlight { 
+	/*height: 5em; */
+	line-height: 1.2em;
+	background: whitesmoke;
+	border: dotted 1px #999;
+}
+
+#export-dialog textarea, #import-dialog textarea {
+	width: 90%;
+	font-size: 8pt;
+	font-family: monospace;
+	height: 100px;
+}
+
+.ui-dialog-buttonpane .errors {
+	width: 500px;
+	font-size: 10pt;
+	padding: 10px;
+}
+
+.ui-button .ui-button-text {
+	display: inline;
+}
+
+/* CLOCK CONTROLS */
+input[name=start-time], input[name=end-time] {
+	width: 100px;
+	padding-left: 5px;
+	margin-left: 10px;
+}
+input[name=start-date], input[name=end-date] {
+	width: 125px;
+}
+
+textarea[name=description-input], input[name=title-input] {
+	width: 350px;
+	display: block;
+}
+
+textarea[name=description-input] {
+	height: 80px;
+}

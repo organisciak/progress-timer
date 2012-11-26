@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="css/delta/normalise.css">
+		<link rel="stylesheet" href="css/delta/custom.css">
+		<link rel="stylesheet" href="css/delta/jquery-ui.css">
+		<!--<link rel="stylesheet" href="css/progress-theme-2/jquery-ui-1.8.24.custom.css"
+		rel="stylesheet" />-->
+		<script type="text/javascript" src="js/lib/jquery-1.8.2.min.js"></script>
+		<!--Development version-->
+		<script type="text/javascript" src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/lib/d3.v2.min.js"></script>
+		<script type="text/javascript" src="js/lib/json2.js"></script>
+		<script src="js/delta/modernizr-2.0.6.min.js"></script>
+		<script src="js/globalize-master/lib/globalize.js"></script>
+		<!--Development version-->
+		<script src="js/delta/custom.js"></script>
+		<link rel="stylesheet" href="css/style.css" rel="stylesheet" />
+		<script type="text/javascript" src="js/progress.js"></script>
+	</head>
+	<!--<body class="ui-widget-header">-->
+	<body>
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+
+				/*var input = {
+		"barWidth" : 500,
+		"bars":[	
+			{
+			"type": "counter",
+			"name": "Manual",
+			"key": "sdffbs3",
+			"note": "...and a note",
+			"start": 0,
+			"end": 100,
+			"current": 30
+			},
+			{
+			"type": "clock",
+			"name": "Date",
+			"key": "qdfr3",
+			"note": null,
+			"start": 1346475600000,
+			"end": 1351659600000,
+			"current": null
+			},
+			{
+			"type": "timer",
+			"name": "Timer",
+			"key": "hu54i58",
+			"note": null,
+			"start": 0,
+			"end": 1000000,
+			"current": 0,
+			"progress" : {"start":null, "current":null}
+			}
+		]
+	};
+	progress.load(input);
+	*/
+
+				progress.load();
+				progress.draw(true);
+				//progress.add();
+				//DEBUGGING
+				var timer;
+				timer = timer = window.setInterval(function() {
+					progress.draw();
+				}, 1000);
+
+				$("#add").button().click(progress.add);
+				$("#set").button().click(function() {
+					timer = window.setInterval(function() {
+						progress.draw();
+					}, 1000);
+				});
+				$("#clear").button().click(function() {
+					clearInterval(timer);
+				});
+				$("#reset").button().click(progress.reset);
+				$("#export").button().click(progress.export);
+				$("#import").button().click(progress.import);
+
+
+			});
+		</script>
+		<div id="credit"><a href="http://www.porganized.com">Peter Organisciak</a>
+		</div>
+		<div id="controls">
+			<button id="add" />Add bar</button>Debug:
+			<button id="set" />Set Interval</button>
+			<button id="clear" />Clear Interval</button>
+			<button id="reset" />Clear Data</button>
+			<button id="export" />Export Data</button>
+			<button id="import" />Import Data</button>
+		</div>
+		<div id="container"></div>
+	</body>
+
+</html>
