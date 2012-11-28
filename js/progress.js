@@ -27,7 +27,7 @@ var progress = (function() {
 		pageWidth = document.width <= 1200 ? document.width : 1200,
 		pageMargin = 170,
 		containerWidth = pageWidth - pageMargin * 2,
-		slipMargin = 20,
+		slipMargin = 10,
 		slipWidth = containerWidth - slipMargin * 2,
 		barWidth = slipWidth - slipMargin * 2,
 
@@ -358,7 +358,7 @@ var progress = (function() {
 				}
 			})
 				.attr("x", function(d) {
-				return progressLocation(d, barWidth) + 20
+				return progressLocation(d, barWidth) + slipMargin
 			});
 
 			$("#container").sortable({
@@ -464,59 +464,55 @@ var progress = (function() {
 			selection.append("p").attr("class", "note");
 			var bar = selection.append("svg")
 				.attr("width", slipWidth)
-				.attr("height", 60)
+				.attr("height", 45)
 				.attr("class", "bar")
 				.append("g")
-				.attr("transform", "translate(" + 0 + "," + (60 - 20) / 2 + ")");
+				.attr("transform", "translate(" + 0 + "," + 10 + ")");
+
+			bar.append("rect")
+				.attr("class", "bar-outline")
+				.attr("width", barWidth)
+				.attr("height", 20)
+				.attr("x", slipMargin);
+
+			var progress = bar.append("rect")
+				.attr("class", "progress")
+			//.attr("width", function(d){return progressLocation(d, barWidth)})
+			.attr("height", 20)
+				.attr("x", slipMargin);
+				
 			//Start text
 			bar.append("text")
 				.attr("class", "start")
 				.text(function(d) {
 				return format(d.start, d.type)
 			})
-				.attr("x", function(d) {
-				a = format(d.start, d.type).length;
-				if (a > 5) {
-					return 20 + (20 / a) * 2
-				} else {
-					return 20
-				}
-			})
+				.attr("x", slipMargin)
 				.attr("y", 31);
 			//progress text
+			
+			//progress text - background
 			bar.append("text")
-				.attr("class", "current")
-				.style("font-size", 12 + "pt")
+				.attr("class", "current current-background")
 			//.text(function(d){return (d.current <= d.end ? d.current : d.end)})
 			//.attr("x", function(d){return progressLocation(d, barWidth)+20})
-			.attr("y", - 5);
+			.attr("y", 15);
+			
+			bar.append("text")
+				.attr("class", "current")
+			//.text(function(d){return (d.current <= d.end ? d.current : d.end)})
+			//.attr("x", function(d){return progressLocation(d, barWidth)+20})
+			.attr("y", 15);
+			
 			//End text
 			bar.append("text")
 				.attr("class", "end")
+				.attr("text-anchor", "start")
 				.text(function(d) {
 				return format(d.end, d.type)
 			})
-				.attr("x", function(d) {
-				a = format(d.start, d.type).length;
-				if (a > 5) {
-					return barWidth + 20 - (20 / a) * 2
-				} else {
-					return barWidth + 20
-				}
-			})
+				.attr("x", barWidth + slipMargin)
 				.attr("y", 31);
-
-			bar.append("rect")
-				.attr("class", "bar-outline")
-				.attr("width", barWidth)
-				.attr("height", 20)
-				.attr("x", 20);
-
-			var progress = bar.append("rect")
-				.attr("class", "progress")
-			//.attr("width", function(d){return progressLocation(d, barWidth)})
-			.attr("height", 20)
-				.attr("x", 20);
 		},
 		slipAdd = function(key, type, name, note, start, end, current) {
 			if (!current) {

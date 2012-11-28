@@ -61,11 +61,6 @@ input[type=date] {
     /*width: 100px; */
 }
 
-text {
- font-size: 10pt;
- text-anchor: middle;
-}
-
 .bar {
  /*background:gray; */
 }
@@ -158,4 +153,32 @@ textarea[name=description-input], input[name=title-input] {
 
 textarea[name=description-input] {
 	height: 80px;
+}
+
+/* SVG BAR */
+text {
+ font-size: 10pt;
+}
+
+.current {
+	font-size: 10pt;
+	fill: white;
+}
+
+.current-background {
+	stroke-width: 5px;
+	stroke: black;
+	stroke-linejoin: round;
+}
+
+.start {
+	text-anchor: left;
+}
+
+.current {
+	text-anchor: middle;
+}
+
+.end {
+	text-anchor:end;
 }
