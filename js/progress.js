@@ -193,6 +193,10 @@ var progress = (function() {
 				if (current > high || current < low) {
 					errors.push("Current value must be between start and end values.");
 				};
+				log(current);
+				log(high);
+				log(low);
+				
 			}
 
 			if (errors.length >= 1) {
@@ -223,14 +227,14 @@ var progress = (function() {
 			var start, current, end;
 			switch (type) {
 				case 'counter':
-					start = $("input[name='counter-start']").attr("value"),
-					current = $("input[name='counter-current']").attr("value"),
-					end = $("input[name='counter-end']").attr("value");
+					start = parseFloat($("input[name='counter-start']").attr("value")),
+					current = parseFloat($("input[name='counter-current']").attr("value")),
+					end = parseFloat($("input[name='counter-end']").attr("value"));
 					break;
 				case 'timer':
-					var hours = $("input[name='hours']").attr("value"),
-						minutes = $("input[name='minutes']").attr("value"),
-						seconds = $("input[name='seconds']").attr("value");
+					var hours = parseInt($("input[name='hours']").attr("value")),
+						minutes = parseInt($("input[name='minutes']").attr("value")),
+						seconds = parseInt($("input[name='seconds']").attr("value"));
 					start = 0,
 					current = (index === undefined) ? 0 : input.bars[index].current,
 					//In milliseconds
@@ -238,10 +242,10 @@ var progress = (function() {
 					break;
 				case 'clock':
 					var offset = getTimeOffset(),
-						startDate = $("input[name=start-date]").attr("value"),
-						startTime = $("input[name=start-time]").timespinner( "value" ),
-						endDate = $("input[name=end-date]").attr("value"),
-						endTime = $("input[name=end-time]").timespinner( "value" );
+						startDate = parseInt($("input[name=start-date]").attr("value")),
+						startTime = parseInt($("input[name=start-time]").timespinner( "value" )),
+						endDate = parseInt($("input[name=end-date]").attr("value")),
+						endTime = parseInt($("input[name=end-time]").timespinner( "value" ));
 					start = new Date(startDate).getTime()+ msToday(startTime),
 					current = (new Date).getTime(),	
 					end = new Date(endDate).getTime() + msToday(endTime);
@@ -271,7 +275,7 @@ var progress = (function() {
 			if (input.bars[index].type === "timer" && !input.bars[index].progress.start) {
 				input.bars[index].progress.start = new Date().getTime();
 			}
-			saveLocalData();
+			progress.save();
 
 		},
 		resetTimer = function(selection) {
@@ -283,7 +287,7 @@ var progress = (function() {
 					delete input.bars[index].progress.start;
 					startTimer(selection); //Starting also includes a data save
 				} else {
-					saveLocalData();
+					progress.save();
 				}
 			}
 
@@ -295,7 +299,7 @@ var progress = (function() {
 				//Date() timer progress into the 'current' var
 				input.bars[index].current = input.bars[index].current + (new Date().getTime() - input.bars[index].progress.start);
 				delete input.bars[index].progress.start;
-				saveLocalData();
+				progress.save();
 			}
 		},
 		toggleTimer = function(selection) {
@@ -373,7 +377,7 @@ var progress = (function() {
 					end = ui.item.prevAll().length;
 					bar = input.bars.splice(start, 1);
 					input.bars.splice(end, 0, bar[0]);
-					saveLocalData();
+					progress.save();
 				}
 			});
 			$("#container").disableSelection();
@@ -537,26 +541,26 @@ var progress = (function() {
 			}
 			log(newBar);
 			input.bars.push(newBar);
-			saveLocalData();
+			progress.save();
 			progress.draw();
 		},
 		slipDelete = function(selection) {
 			index = input.bars.indexOf(selection);
 			input.bars.splice(index, 1);
-			saveLocalData();
+			progress.save();
 			progress.draw();
 		},
 		slipEdit = function(selection) {
 			index = input.bars.indexOf(selection);
 			draw.editDialog(index);
-			saveLocalData();
+			progress.save();
 			progress.draw();
 		},
 		//DATA FUNCTIONS
 		changeCounter = function(data, change) {
 			index = input.bars.indexOf(data);
 			input.bars[index].current = parseInt(input.bars[index].current) + parseInt(change);
-			saveLocalData();
+			progress.save();
 			progress.draw();
 		},
 		saveLocalData = function() {
@@ -576,7 +580,7 @@ var progress = (function() {
       		- checks to make sure the data is well-formed
       		*/
 			input = json;
-			saveLocalData();
+			progress.save();
 			progress.draw();
 			return
 		},
@@ -592,10 +596,19 @@ var progress = (function() {
 				};
 				progress.draw();
 			} else {
+				
 				input = JSON.parse(str);
+				parseDataTypes();
 				progress.draw();
 			}
 			return;
+		},
+		parseDataTypes = function() {
+			for (var i=0;i<input.bars.length;i++) {
+				input.bars[i].start = parseFloat(input.bars[i].start);
+				input.bars[i].current = parseFloat(input.bars[i].current);
+				input.bars[i].end = parseFloat(input.bars[i].end);
+			}
 		},
 		deleteLocalData = function() {
 			/* 
@@ -930,6 +943,15 @@ var progress = (function() {
 				progress.add();
 				return false;
 			}
+			
+			//Add saving event for page unload
+			$(window).unload(function() {
+			  progress.save();
+			});
+		},
+		save: function() {
+			//Public rapper for saving.
+			saveLocalData();
 		},
 		draw: function(debug) {
 			/*
