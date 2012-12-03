@@ -181,16 +181,16 @@ var progress = (function() {
 				};
 			} else if (type === "counter") {
 				var low = values.start,
-					high = values.end;
+					high = values.end,
+					current = values.current;
 				if (low > high) {
 					alerts.push("This counter will count down.");
 					low = values.end;
 					high = values.start;
-				} else if (values.start === values.end) {
+				} else if (low === high) {
 					errors.push("Start and end values need to be different");
 				};
-
-				if (values.current > high || values.current < low) {
+				if (current > high || current < low) {
 					errors.push("Current value must be between start and end values.");
 				};
 			}
@@ -895,13 +895,13 @@ var progress = (function() {
 									$.extend(input.bars[index], {
 										"name": title,
 										"note": description,
-										"start": values.start,
-										"current": values.current,
-										"end": values.end
+										"start": parseFloat(values.start),
+										"current": parseFloat(values.current),
+										"end": parseFloat(values.end)
 									});
 								} else {
 									slipAdd(key, type, title, description,
-									parseInt(values.start), parseInt(values.end), parseInt(values.current));
+									parseFloat(values.start), parseFloat(values.end), parseFloat(values.current));
 								}
 								dialog.remove();
 							},
@@ -1064,7 +1064,6 @@ var fullTimeToMs = function(str) {
 			str = str.split(":");
 			return (str[0] * 60 * 60 * 1000) + (str[1] * 60 * 1000) + (str[2] * 1000);
 		};
-
 
 //JQUERY TIMESPINNER EXTENSION (http://jqueryui.com/spinner/#time)
 $.widget( "ui.timespinner", $.ui.spinner, {
