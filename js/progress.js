@@ -395,7 +395,6 @@ var progress = (function() {
 					progress.save();
 				}
 			});
-			//$("#container").disableSelection();
 		},
 		enter = function(selection) {
 			//START DEBUG
@@ -423,41 +422,8 @@ var progress = (function() {
 
 			$("button").button();
 
-			var counters = selection.filter(function(d, i) {
-				return d.type == "counter"
-			});
-
-			var counterValues = [1, 5, 10, 50];
-
-			counterValues = counterValues
-			//Add the 0 value that stands in for the quick edit button (TODO)
-			.concat([0])
-			//Add negative versions to counter values
-			.concat(counterValues.map(function(v) {
-				return -v
-			}))
-			//Sort descending (since buttons are places right to left
-			.sort(function(a, b) {
-				return b - a
-			});
-
-			for (var i = 0; i < counterValues.length; i++) {
-				var v = counterValues[i];
-				if (v != 0) {
-					counters.append("button").text((v >= 0 ? "+" : "-") + v).style("float", "right")
-						.on("click", (function(val) {
-						return function(d) {
-							changeCounter(d, val);
-						}
-					})(v) ///Yay private closures!
-					)
-				} else {
-					//TODO: MAKE A QUICK EDIT BUTTON
-					/*
-          		counters.append("button").html("Quick<br/>Edit").style("float", "right")
-          		*/
-				}
-			}
+			addCounterButtons(selection);
+			
 			selection.filter(function(d, i) {
 				return d.type == "timer"
 			})
@@ -528,6 +494,42 @@ var progress = (function() {
 			})
 				.attr("x", barWidth + slipMargin)
 				.attr("y", 31);
+		},
+		addCounterButtons = function(selection) {
+			var counters = selection.filter(function(d, i) {
+				return d.type === "counter" && d.curly !== true
+			});
+			var counterValues = [1, 5, 10, 50];
+
+			counterValues = counterValues
+			//Add the 0 value that stands in for the quick edit button (TODO)
+			.concat([0])
+			//Add negative versions to counter values
+			.concat(counterValues.map(function(v) {
+				return -v
+			}))
+			//Sort descending (since buttons are places right to left
+			.sort(function(a, b) {
+				return b - a
+			});
+
+			for (var i = 0; i < counterValues.length; i++) {
+				var v = counterValues[i];
+				if (v != 0) {
+					counters.append("button").text((v >= 0 ? "+" : "-") + v).style("float", "right")
+						.on("click", (function(val) {
+						return function(d) {
+							changeCounter(d, val);
+						}
+					})(v) ///Yay private closures!
+					)
+				} else {
+					//TODO: MAKE A QUICK EDIT BUTTON
+					/*
+          		counters.append("button").html("Quick<br/>Edit").style("float", "right")
+          		*/
+				}
+			}
 		},
 		slipAdd = function(key, type, name, note, start, end, current) {
 			if (!current) {
@@ -901,7 +903,8 @@ var progress = (function() {
 						resizable: false,
 						buttons: {
 							"OK": function() {
-								var key = generateKey();
+								var key = generateKey(),
+									curly = false;
 
 								//Get Start and end values
 								var values = getDialogValues(type, index),
@@ -912,7 +915,8 @@ var progress = (function() {
 									newCurrent = parseDescription(description);
 									if (newCurrent !== null) {
 										values.current = newCurrent;
-									}
+										curly = true;
+									} 
 								}
 								
 								if (index !== undefined) {
@@ -921,12 +925,14 @@ var progress = (function() {
 										"note": description,
 										"start": parseFloat(values.start),
 										"current": parseFloat(values.current),
-										"end": parseFloat(values.end)
+										"end": parseFloat(values.end),
+										"curly":curly
 									});
 								} else {
 									slipAdd(key, type, title, description,
 									parseFloat(values.start), parseFloat(values.end), parseFloat(values.current));
 								}
+								
 								dialog.remove();
 							},
 							"Cancel": function() {
