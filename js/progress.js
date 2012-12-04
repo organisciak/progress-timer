@@ -102,7 +102,7 @@ var progress = (function() {
 		progressLocation = function(data, fullWidth) {
 			current = (function() {
 				if (data.type === "timer" && data.progress.start) {
-					return data.current + data.progress.current - data.progress.start;
+					return data.current + new Date().getTime() - data.progress.start;
 				} else {
 					return data.current;
 				}
@@ -110,11 +110,14 @@ var progress = (function() {
 			var countUp = (data.start < data.end);
 			if (current <= data.start && countUp) {
 				percentage = 0;
-			} else if (current >= data.end && countUp) {
+			} 
+			else if (current >= data.end && countUp) {
 				percentage = 1;
-			} else if (current <= data.end && !countUp) {
+			} 
+			else if (current <= data.end && !countUp) {
 				percentage = 1;
-			} else if (current >= data.start && !countUp) {
+			} 
+			else if (current >= data.start && !countUp) {
 				percentage = 0;
 			} else {
 				percentage = countUp ? (current - data.start) / (data.end - data.start) : (data.start - current) / (data.start - data.end);
@@ -295,10 +298,13 @@ var progress = (function() {
 		pauseTimer = function(selection) {
 			index = input.bars.indexOf(selection);
 			if (input.bars[index].type === "timer" && input.bars[index].progress.start) {
+				var start = input.bars[index].progress.start,
+					current = new Date().getTime();
+				delete input.bars[index].progress.start;
 				//Upon disengaging the timer, save the temporary
 				//Date() timer progress into the 'current' var
-				input.bars[index].current = input.bars[index].current + (new Date().getTime() - input.bars[index].progress.start);
-				delete input.bars[index].progress.start;
+				input.bars[index].current = input.bars[index].current + (current - start);
+
 				progress.save();
 			}
 		},
@@ -328,8 +334,6 @@ var progress = (function() {
 				.attr("width", function(d) {
 				if (d.type === "clock") {
 					d.current = currentTime;
-				} else if (d.type === "timer" && d.progress.start) {
-					d.progress.current = currentTime;
 				}
 				return progressLocation(d, barWidth);
 			});
@@ -345,25 +349,27 @@ var progress = (function() {
 			});
 
 			//Update text for current progress
+			//Currently, everything below happens twice, once for the text 
+			//outline and once for the foreground text
 			d3.selectAll(".current")
 				.transition()
 				.duration(300)
 				.text(function(d) {
-				var c = d.current;
-				if (d.type === "clock") {
-					c = currentTime;
-				} else if (d.type === "timer" && d.progress.start) {
-					c = d.current + (currentTime - d.progress.start);
-				}
-				if (d.start < d.end) {
-					return format((c <= d.end ? c : d.end), d.type);
-				} else if (d.start > d.end) {
-					return format((c >= d.end ? c : d.end), d.type);
-				}
-			})
+					var c = d.current;
+					if (d.type === "clock") {
+						c = currentTime;
+					} else if (d.type === "timer" && d.progress.start) {
+						c = d.current + (currentTime - d.progress.start);
+					}
+					if (d.start < d.end) {
+						return format((c <= d.end ? c : d.end), d.type);
+					} else if (d.start > d.end) {
+						return format((c >= d.end ? c : d.end), d.type);
+					}
+				})
 				.attr("x", function(d) {
-				return progressLocation(d, barWidth) + slipMargin
-			});
+					return progressLocation(d, barWidth) + slipMargin
+				});
 
 			$("#container").sortable({
 				placeholder: "ui-state-highlight",
@@ -707,7 +713,7 @@ var progress = (function() {
 				timerControls: function(parentDiv, data, index) {
 					log(data);
 					parentDiv.empty();
-					var detailDiv = $("<em>A timer lets you counter down for a given amount of time. Like an egg timer!</em><br/>").appendTo(parentDiv);
+					var detailDiv = $("<em>A timer lets you count down for a given amount of time. Like an egg timer!</em><br/>").appendTo(parentDiv);
 
 					var startDiv = $("<div style='position:absolute;width:125px;'>")
 						.css("left", 0)
