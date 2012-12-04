@@ -371,10 +371,10 @@ var progress = (function() {
 					return progressLocation(d, barWidth) + slipMargin
 				})
 				.style("fill", function(d) {
-					if (d.progress.start) {
-						return;
-					} else {
+					if (d.type === "timer" && d.progress.start === undefined) {
 						return "#ccc";
+					} else {
+						return;
 					}
 				})
 				;
@@ -384,6 +384,7 @@ var progress = (function() {
 				axis: "y",
 				containment: "parent",
 				items: "> .slip",
+				cancel: "h2, span",
 				start: function(event, ui) {
 					start = ui.item.prevAll().length;
 				},
@@ -394,7 +395,7 @@ var progress = (function() {
 					progress.save();
 				}
 			});
-			$("#container").disableSelection();
+			//$("#container").disableSelection();
 		},
 		enter = function(selection) {
 			//START DEBUG
@@ -479,7 +480,7 @@ var progress = (function() {
 			// END DEBUG
 
 			selection.append("h2");
-			selection.append("p").attr("class", "note");
+			selection.append("p").append("span").attr("class", "note");
 			var bar = selection.append("svg")
 				.attr("width", slipWidth)
 				.attr("height", 45)

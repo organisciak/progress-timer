@@ -165,6 +165,11 @@ text {
 	fill: white;
 }
 
+/* Done so that we can cancel dragging on h2 while keeping whitespace draggable*/
+.slip h2 {
+	display: inline;
+}
+
 .current-background {
 	stroke-width: 5px;
 	stroke: black;
