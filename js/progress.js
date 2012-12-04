@@ -369,7 +369,15 @@ var progress = (function() {
 				})
 				.attr("x", function(d) {
 					return progressLocation(d, barWidth) + slipMargin
-				});
+				})
+				.style("fill", function(d) {
+					if (d.progress.start) {
+						return;
+					} else {
+						return "#ccc";
+					}
+				})
+				;
 
 			$("#container").sortable({
 				placeholder: "ui-state-highlight",
@@ -504,14 +512,10 @@ var progress = (function() {
 			//progress text - background
 			bar.append("text")
 				.attr("class", "current current-background")
-			//.text(function(d){return (d.current <= d.end ? d.current : d.end)})
-			//.attr("x", function(d){return progressLocation(d, barWidth)+20})
 			.attr("y", 15);
 			
 			bar.append("text")
 				.attr("class", "current")
-			//.text(function(d){return (d.current <= d.end ? d.current : d.end)})
-			//.attr("x", function(d){return progressLocation(d, barWidth)+20})
 			.attr("y", 15);
 			
 			//End text
