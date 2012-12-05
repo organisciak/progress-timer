@@ -178,10 +178,10 @@ var progress = (function() {
 					errors.push("Start time must be before end time.");
 				} else if (values.start === values.end) {
 					errors.push("Start and end times need to be different");
-				};
+				}
 				if (values.current > values.end) {
 					errors.push("End time must be in the future.");
-				};
+				}
 			} else if (type === "counter") {
 				var low = values.start,
 					high = values.end,
@@ -192,10 +192,10 @@ var progress = (function() {
 					high = values.start;
 				} else if (low === high) {
 					errors.push("Start and end values need to be different");
-				};
+				}
 				if (current > high || current < low) {
 					errors.push("Current value must be between start and end values.");
-				};
+				}
 				log(current);
 				log(high);
 				log(low);
@@ -219,8 +219,8 @@ var progress = (function() {
 			/*a = new Date(); 
 			b= new Date(a.toLocaleString()).getTime() - a.getTime();
 			return b;*/
-			return (new Date()).getTimezoneOffset()*60*1000
-		}
+			return (new Date()).getTimezoneOffset()*60*1000;
+		},
 		getDialogValues = function(type, index) {
 			/* 
 		Get start/current/end values from the add/edit dialog. 
@@ -235,9 +235,9 @@ var progress = (function() {
 					end = parseFloat($("input[name='counter-end']").attr("value"));
 					break;
 				case 'timer':
-					var hours = parseInt($("input[name='hours']").attr("value")),
-						minutes = parseInt($("input[name='minutes']").attr("value")),
-						seconds = parseInt($("input[name='seconds']").attr("value"));
+					var hours = parseInt($("input[name='hours']").attr("value"), 10),
+						minutes = parseInt($("input[name='minutes']").attr("value"), 10),
+						seconds = parseInt($("input[name='seconds']").attr("value"), 10);
 					start = 0,
 					current = (index === undefined) ? 0 : input.bars[index].current,
 					//In milliseconds
@@ -245,15 +245,15 @@ var progress = (function() {
 					break;
 				case 'clock':
 					var offset = getTimeOffset(),
-						startDate = parseInt($("input[name=start-date]").attr("value")),
-						startTime = parseInt($("input[name=start-time]").timespinner( "value" )),
-						endDate = parseInt($("input[name=end-date]").attr("value")),
-						endTime = parseInt($("input[name=end-time]").timespinner( "value" ));
+						startDate = parseInt($("input[name=start-date]").attr("value"), 10),
+						startTime = parseInt($("input[name=start-time]").timespinner( "value" ), 10),
+						endDate = parseInt($("input[name=end-date]").attr("value"), 10),
+						endTime = parseInt($("input[name=end-time]").timespinner( "value" ), 10);
 					start = new Date(startDate).getTime()+ msToday(startTime),
-					current = (new Date).getTime(),	
+					current = (new Date()).getTime(),	
 					end = new Date(endDate).getTime() + msToday(endTime);
 					break;
-			};
+			}
 			return {
 				"start": start,
 				"current": current,
@@ -321,10 +321,10 @@ var progress = (function() {
 			var currentTime = (new Date()).getTime();
 
 			selection.selectAll("h2").text(function(d) {
-				return d.name
+				return d.name;
 			});
 			selection.selectAll(".note").text(function(d) {
-				return d.note
+				return d.note;
 			});
 
 			var progress = selection.selectAll(".progress");
@@ -341,11 +341,11 @@ var progress = (function() {
 			//Sometimes a user editing a bar changes the start or end
 			d3.selectAll(".start")
 				.text(function(d) {
-				return format(d.start, d.type)
+				return format(d.start, d.type);
 			});
 			d3.selectAll(".end")
 				.text(function(d) {
-				return format(d.end, d.type)
+				return format(d.end, d.type);
 			});
 
 			//Update text for current progress
@@ -368,7 +368,7 @@ var progress = (function() {
 					}
 				})
 				.attr("x", function(d) {
-					return progressLocation(d, barWidth) + slipMargin
+					return progressLocation(d, barWidth) + slipMargin;
 				})
 				.style("fill", function(d) {
 					if (d.type === "timer" && d.progress.start === undefined) {
@@ -425,7 +425,7 @@ var progress = (function() {
 			addCounterButtons(selection);
 			
 			selection.filter(function(d, i) {
-				return d.type == "timer"
+				return d.type == "timer";
 			})
 				.append("button")
 				.attr("class", "timer-toggle")
@@ -435,7 +435,7 @@ var progress = (function() {
 				.on("click", toggleTimer);
 
 			selection.filter(function(d, i) {
-				return d.type == "timer"
+				return d.type == "timer";
 			})
 				.append("button")
 				.attr("class", "timer-reset")
@@ -470,7 +470,7 @@ var progress = (function() {
 			bar.append("text")
 				.attr("class", "start")
 				.text(function(d) {
-				return format(d.start, d.type)
+				return format(d.start, d.type);
 			})
 				.attr("x", slipMargin)
 				.attr("y", 31);
@@ -490,14 +490,14 @@ var progress = (function() {
 				.attr("class", "end")
 				.attr("text-anchor", "start")
 				.text(function(d) {
-				return format(d.end, d.type)
+				return format(d.end, d.type);
 			})
 				.attr("x", barWidth + slipMargin)
 				.attr("y", 31);
 		},
 		addCounterButtons = function(selection) {
 			var counters = selection.filter(function(d, i) {
-				return d.type === "counter" && d.curly !== true
+				return d.type === "counter" && d.curly !== true;
 			});
 			var counterValues = [1, 5, 10, 50];
 
@@ -506,35 +506,35 @@ var progress = (function() {
 			.concat([0])
 			//Add negative versions to counter values
 			.concat(counterValues.map(function(v) {
-				return -v
+				return -v;
 			}))
 			//Sort descending (since buttons are places right to left
 			.sort(function(a, b) {
-				return b - a
+				return b - a;
 			});
 
 			for (var i = 0; i < counterValues.length; i++) {
 				var v = counterValues[i];
-				if (v != 0) {
+				if (v !== 0) {
 					counters.append("button").text((v >= 0 ? "+" : "-") + v).style("float", "right")
 						.on("click", (function(val) {
 						return function(d) {
 							changeCounter(d, val);
-						}
+						};
 					})(v) ///Yay private closures!
-					)
+					);
 				} else {
 					//TODO: MAKE A QUICK EDIT BUTTON
 					/*
-          		counters.append("button").html("Quick<br/>Edit").style("float", "right")
-          		*/
+		counters.append("button").html("Quick<br/>Edit").style("float", "right")
+		*/
 				}
 			}
 		},
 		slipAdd = function(key, type, name, note, start, end, current) {
 			if (!current) {
 				current = start;
-			};
+			}
 			var newBar = {
 				"key": key,
 				"type": type,
@@ -542,15 +542,15 @@ var progress = (function() {
 				"note": note,
 				"start": start,
 				"end": end,
-				"current": current,
+				"current": current
 				//"direction" : ((start>=end) ? "normal" : "reverse")
 			};
 
 			if (type === "timer") {
-				newBar["progress"] = {
+				newBar.progress = {
 					"start": new Date().getTime(),
 					"current": null
-				}
+				};
 			}
 			log(newBar);
 			input.bars.push(newBar);
@@ -572,35 +572,35 @@ var progress = (function() {
 		//DATA FUNCTIONS
 		changeCounter = function(data, change) {
 			index = input.bars.indexOf(data);
-			input.bars[index].current = parseInt(input.bars[index].current) + parseInt(change);
+			input.bars[index].current = parseInt(input.bars[index].current, 10) + parseInt(change, 10);
 			progress.save();
 			progress.draw();
 		},
 		saveLocalData = function() {
 			/* 
-      		Save data to local storage as a JSON string
-      		*/
+		Save data to local storage as a JSON string
+		*/
 			//Stringify JSON
 			var str = JSON.stringify(input);
 			localStorage.setItem('progressData', str);
-			return
+			return;
 		},
 		loadNewData = function(json) {
 			/* 
-      		Load new JSON object to input var
-      		
-      		 TODO:
-      		- checks to make sure the data is well-formed
-      		*/
+		Load new JSON object to input var
+		
+		TODO:
+		- checks to make sure the data is well-formed
+		*/
 			input = json;
 			progress.save();
 			progress.draw();
-			return
+			return;
 		},
 		loadLocalData = function() {
 			/* 
-      		Load local storage JSON string and parse to object 
-      		*/
+		Load local storage JSON string and parse to object 
+		*/
 			var str = localStorage.getItem('progressData');
 			if (str === null) {
 				input = {
@@ -625,19 +625,19 @@ var progress = (function() {
 		},
 		deleteLocalData = function() {
 			/* 
-    		Remove Local storage data
-    		*/
+		Remove Local storage data
+		*/
 			localStorage.removeItem('progressData');
-		}
+		};
 		//MENU DRAWING
 		draw = (function() {
 			/* 
-      			Functions for drawing certain elements
-      		*/
+			Functions for drawing certain elements
+		*/
 			var checkMinMax = function() {
-				var min = parseInt($(this).attr("min"));
-				var value = parseInt($(this).attr("value"));
-				var max = parseInt($(this).attr("max"));
+				var min = parseInt($(this).attr("min"), 10);
+				var value = parseInt($(this).attr("value"), 10);
+				var max = parseInt($(this).attr("max"), 10);
 
 				if (value < min) {
 					$(this).attr("value", min);
@@ -647,12 +647,12 @@ var progress = (function() {
 			},
 			boundCurrent = function(start, current, end) {
 				/*
-		      		Make the 'current' slider bound between the start and end
-		      		value, with provisions to account for either count-up or count-down
-		      		*/
-				var startVal = parseInt(start.attr("value")),
-					endVal = parseInt(end.attr("value")),
-					currentVal = parseInt(current.attr("value"));
+				Make the 'current' slider bound between the start and end
+				value, with provisions to account for either count-up or count-down
+				*/
+				var startVal = parseInt(start.attr("value"), 10),
+					endVal = parseInt(end.attr("value"), 10),
+					currentVal = parseInt(current.attr("value"), 10);
 				if (startVal < endVal && currentVal < startVal) {
 					/** Lower than min on count-up */
 					current.attr("value", startVal);
@@ -666,7 +666,7 @@ var progress = (function() {
 					/** Lower than min on count-down */
 					current.attr("value", endVal);
 				}
-			}
+			};
 			return {
 				descriptionBoxes: function(parentDiv, data) {
 					$("<div class='progress-description'>")
@@ -686,8 +686,8 @@ var progress = (function() {
 					
 					log("Offset"+offset);
 					if (data !== undefined) {
-						var start = new Date(data.start + offset);
-						var end = new Date(data.end + offset);
+						start = new Date(data.start + offset);
+						end = new Date(data.end + offset);
 					}
 
 					parentDiv.empty();
@@ -707,7 +707,7 @@ var progress = (function() {
 						.datepicker("setDate", end);
 					log("Start time: " + start.toString());
 					$("input[name='start-time']")
-							.timespinner() 							//Initialize timespinner
+							.timespinner()							//Initialize timespinner
 							.timespinner("value", msToday(start) ); //set timespinner value
 					$("input[name='end-time']")
 						.timespinner()
@@ -715,7 +715,7 @@ var progress = (function() {
 
 					$(parentDiv).find("input").change(function() {
 						checkDataQuality("clock");
-					})
+					});
 				},
 				timerControls: function(parentDiv, data, index) {
 					log(data);
@@ -783,8 +783,8 @@ var progress = (function() {
 				},
 				counterControls: function(parentDiv, data) {
 					/* 
-		      		Clears parent object and adds new controls for using the counter type.
-		      		*/
+				Clears parent object and adds new controls for using the counter type.
+				*/
 					parentDiv.empty();
 					$("<em>A counter lets you track progress between two numbers. You have to manually set the current place.</em><br/>").appendTo(parentDiv);
 
@@ -871,7 +871,7 @@ var progress = (function() {
 								draw.clockControls(contextDiv, oldData, index);
 								break;
 						}
-					};
+					}
 					if (index !== undefined) {
 						/* If editing an existing bar. */
 						$(".dialog").attr("title", "Edit an existing progress bar.");
@@ -942,14 +942,14 @@ var progress = (function() {
 					});
 
 				}
-			}
-		})();;
+			};
+		})();
 
 	return {
 		load: function(json) {
 			/*
-    			Load data. If json is specified, load new data. 
-    		*/
+			Load data. If json is specified, load new data. 
+		*/
 			if (json) {
 				loadNewData(json);
 			} else {
@@ -963,7 +963,7 @@ var progress = (function() {
 			
 			//Add saving event for page unload
 			$(window).unload(function() {
-			  progress.save();
+			progress.save();
 			});
 		},
 		save: function() {
@@ -972,10 +972,10 @@ var progress = (function() {
 		},
 		draw: function(debug) {
 			/*
-    		Update the progress bar drawing. This implements the 
-    		Enter-Update-Exit model for D3.
-    		
-    		*/
+		Update the progress bar drawing. This implements the 
+		Enter-Update-Exit model for D3.
+		
+		*/
 			if (input === undefined) {
 				progress.load();
 			}
@@ -989,7 +989,7 @@ var progress = (function() {
 			var slips = container.selectAll(".slip")
 				.data(input.bars, function(d) {
 				return d.key;
-			})
+			});
 
 			//ENTER
 			slips.enter().append("div")
@@ -1037,10 +1037,10 @@ var progress = (function() {
 
 
 		},
-		export: function() {
+		exportData: function() {
 			/* 
-      				Show a window with the full data string for the app 
-      				*/
+				Show a window with the full data string for the app 
+				*/
 			var str = JSON.stringify(input);
 			$("<div title='Export your data' id='export-dialog'>If you'd like all your information back, select all the text in the box and then copy it.<br/><textarea readonly='true'>" + str + "</textarea></div>")
 				.appendTo("body")
@@ -1056,10 +1056,10 @@ var progress = (function() {
 				}
 			});
 		},
-		import: function() {
+		importData: function() {
 			/* 
-      				Show a window where you can input previously output data. 
-      				*/
+				Show a window where you can input previously output data. 
+				*/
 			$("<div title='Import your data' id='import-dialog'>Paste your previously exported information below. </em>Importing information will overwrite your current progress bars.</em><br/><textarea id='input-box'></textarea></div>")
 				.appendTo("body")
 				.dialog({
@@ -1113,23 +1113,23 @@ $.widget( "ui.timespinner", $.ui.spinner, {
             page: 60
         },
        _parse: function( value ) {
-       		
+		
             if ( typeof value === "string" ) {
                 // already a timestamp
                 if ( Number( value ) == value ) {
                     return Number( value );
                 }
-           		a = Globalize.parseDate( value );
+		a = Globalize.parseDate( value );
                 return +Globalize.parseDate( value );
             }
             return value;
         },
  
         _format: function( value ) {
-        	console.log(value);
+	console.log(value);
              a = Globalize.format( new Date(value), "t" );
              console.log("TIME!!");
              console.log(a);
-             return a
+             return a;
         }
     });
