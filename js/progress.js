@@ -132,6 +132,15 @@ var progress = (function() {
 		leadingZero = function(int) {
 			return (int > 9 ? "" + int : "0" + int);
 		},
+		getCurrentVal = function(d) {
+			var c = d.current;
+			if (d.type === "clock") {
+				c = currentTime;
+			} else if (d.type === "timer" && d.progress.start) {
+				c = d.current + (currentTime - d.progress.start);
+			}
+			return c;
+		},
 		formatDate = function(date) {
 			var y = date.getFullYear(),
 				m = 1 + date.getMonth(),
@@ -248,8 +257,6 @@ var progress = (function() {
 					start = new Date(startDate).getTime() + msToday(startTime),
 					current = (new Date()).getTime(),	
 					end = new Date(endDate).getTime() + msToday(endTime);
-					console.log(start);
-					console.log(new Date(start).toString());
 					break;
 			}
 			return {
@@ -317,16 +324,13 @@ var progress = (function() {
 		//D3 FUNCTIONS
 		update = function(selection) {
 			var currentTime = (new Date()).getTime();
-
 			selection.selectAll("h2").text(function(d) {
 				return d.name;
 			});
 			selection.selectAll(".note").text(function(d) {
 				return d.note;
 			});
-
 			var progress = selection.selectAll(".progress");
-
 			progress.transition()
 				.duration(300)
 				.attr("width", function(d) {
@@ -335,7 +339,6 @@ var progress = (function() {
 				}
 				return progressLocation(d, barWidth);
 			});
-
 			//Sometimes a user editing a bar changes the start or end
 			d3.selectAll(".start")
 				.text(function(d) {
@@ -353,24 +356,20 @@ var progress = (function() {
 				.transition()
 				.duration(300)
 				.text(function(d) {
-					var c = d.current;
-					if (d.type === "clock") {
-						c = currentTime;
-					} else if (d.type === "timer" && d.progress.start) {
-						c = d.current + (currentTime - d.progress.start);
-					}
-					if (d.start < d.end) {
-						return format((c <= d.end ? c : d.end), d.type);
-					} else if (d.start > d.end) {
-						return format((c >= d.end ? c : d.end), d.type);
-					}
+					var c = getCurrentVal(d);
+					return format(c, d.type);
 				})
 				.attr("x", function(d) {
 					return progressLocation(d, barWidth) + slipMargin;
 				})
 				.style("fill", function(d) {
+					var c = getCurrentVal(d);
 					if (d.type === "timer" && d.progress.start === undefined) {
 						return "#ccc";
+					} else if ((d.start < d.end) && (c > d.end || c < d.start)) {
+						return "#f00";
+					} else if ((d.start > d.end) && (c < d.end || c > d.start)) {
+						return "#f00";
 					} else {
 						return;
 					}
@@ -789,12 +788,6 @@ var progress = (function() {
 						.attr("value", "0")
 						.change(function() {
 						checkDataQuality("counter");
-						//var newVal = $(this).attr("value");
-						// Commented out: you should be able to have bars that go in the negatives
-						//$("input[name=counter-current]").attr("min", parseInt(newVal));
-						//$("input[name=counter-end]").attr("min", parseInt(newVal)+1);
-						//$("input").each(checkMinMax);
-						//boundCurrent($("input[name=counter-start]"),$("input[name=counter-current]"),$("input[name=counter-end]"));
 					})
 						.appendTo(startDiv);
 					var currentDiv = $("<div style='position:absolute;width:125px;'>")
@@ -807,7 +800,6 @@ var progress = (function() {
 						.appendTo(currentDiv)
 						.change(function() {
 						checkDataQuality("counter");
-						//boundCurrent($("input[name=counter-start]"),$("input[name=counter-current]"),$("input[name=counter-end]"));
 					});
 
 					var endDiv = $("<div style='position:absolute;width:125px;'>")
@@ -820,11 +812,6 @@ var progress = (function() {
 						.appendTo(endDiv)
 						.change(function() {
 						checkDataQuality("counter");
-						//var newVal = $(this).attr("value");
-						//boundCurrent($("input[name=counter-start]"),$("input[name=counter-current]"),$("input[name=counter-end]"));
-						//$("input[name=counter-current]").attr("max", parseInt(newVal));
-						//$("input[name=counter-start]").attr("max", parseInt(newVal)-1);
-						//$("input").each(checkMinMax);
 					});
 
 					if (data !== undefined) {
