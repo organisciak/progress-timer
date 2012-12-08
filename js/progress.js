@@ -196,10 +196,6 @@ var progress = (function() {
 				if (current > high || current < low) {
 					errors.push("Current value must be between start and end values.");
 				}
-				log(current);
-				log(high);
-				log(low);
-				
 			}
 
 			if (errors.length >= 1) {
@@ -245,10 +241,10 @@ var progress = (function() {
 					break;
 				case 'clock':
 					var offset = getTimeOffset(),
-						startDate = parseInt($("input[name=start-date]").attr("value"), 10),
-						startTime = parseInt($("input[name=start-time]").timespinner( "value" ), 10),
-						endDate = parseInt($("input[name=end-date]").attr("value"), 10),
-						endTime = parseInt($("input[name=end-time]").timespinner( "value" ), 10);
+						startDate = $("input[name=start-date]").attr("value"),
+						startTime = $("input[name=start-time]").timespinner( "value" ),
+						endDate = $("input[name=end-date]").attr("value"),
+						endTime = $("input[name=end-time]").timespinner( "value" );
 					start = new Date(startDate).getTime()+ msToday(startTime),
 					current = (new Date()).getTime(),	
 					end = new Date(endDate).getTime() + msToday(endTime);
@@ -392,7 +388,7 @@ var progress = (function() {
 					end = ui.item.prevAll().length;
 					bar = input.bars.splice(start, 1);
 					input.bars.splice(end, 0, bar[0]);
-					progress.save();
+					saveLocalData();
 				}
 			});
 		},
@@ -552,7 +548,6 @@ var progress = (function() {
 					"current": null
 				};
 			}
-			log(newBar);
 			input.bars.push(newBar);
 			progress.save();
 			progress.draw();
@@ -683,8 +678,6 @@ var progress = (function() {
 						start = new Date( new Date().getTime() + offset ),
 						end = new Date(start);
 					end.setMinutes(start.getMinutes() + 60);
-					
-					log("Offset"+offset);
 					if (data !== undefined) {
 						start = new Date(data.start + offset);
 						end = new Date(data.end + offset);
@@ -705,7 +698,6 @@ var progress = (function() {
 					$('input[name="end-date"]')
 						.datepicker({})
 						.datepicker("setDate", end);
-					log("Start time: " + start.toString());
 					$("input[name='start-time']")
 							.timespinner()							//Initialize timespinner
 							.timespinner("value", msToday(start) ); //set timespinner value
@@ -1126,10 +1118,7 @@ $.widget( "ui.timespinner", $.ui.spinner, {
         },
  
         _format: function( value ) {
-	console.log(value);
              a = Globalize.format( new Date(value), "t" );
-             console.log("TIME!!");
-             console.log(a);
              return a;
         }
     });
