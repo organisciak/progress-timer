@@ -49,7 +49,7 @@ var progress = (function() {
 			}
 			v = new Date(date);
 			v.setHours(0,0,0,0);
-			return (date.getTime() - v.getTime());
+			return (date.getTime() - v.getTime() );
 		},
 		sumArr = function(arr) {
 			/* Sum all the values in an array */
@@ -245,9 +245,11 @@ var progress = (function() {
 						startTime = $("input[name=start-time]").timespinner( "value" ),
 						endDate = $("input[name=end-date]").attr("value"),
 						endTime = $("input[name=end-time]").timespinner( "value" );
-					start = new Date(startDate).getTime()+ msToday(startTime),
+					start = new Date(startDate).getTime() + msToday(startTime),
 					current = (new Date()).getTime(),	
 					end = new Date(endDate).getTime() + msToday(endTime);
+					console.log(start);
+					console.log(new Date(start).toString());
 					break;
 			}
 			return {
@@ -372,8 +374,7 @@ var progress = (function() {
 					} else {
 						return;
 					}
-				})
-				;
+				});
 
 			$("#container").sortable({
 				placeholder: "ui-state-highlight",
@@ -675,14 +676,13 @@ var progress = (function() {
 				},
 				clockControls: function(parentDiv, data) {
 					var offset = getTimeOffset(),
-						start = new Date( new Date().getTime() + offset ),
+						start = new Date( new Date().getTime() ),
 						end = new Date(start);
-					end.setMinutes(start.getMinutes() + 60);
+						end.setMinutes(start.getMinutes() + 60);
 					if (data !== undefined) {
-						start = new Date(data.start + offset);
-						end = new Date(data.end + offset);
+						start = new Date(data.start);
+						end = new Date(data.end);
 					}
-
 					parentDiv.empty();
 					$("<div class='choose-timer'>")
 						.html("<h3>Choose start time</h3>" + "<input type='text' name='start-date'>" + "<input name='start-time'>")
@@ -700,10 +700,10 @@ var progress = (function() {
 						.datepicker("setDate", end);
 					$("input[name='start-time']")
 							.timespinner()							//Initialize timespinner
-							.timespinner("value", msToday(start) ); //set timespinner value
+							.timespinner("value", msToday(start)+offset ); //set timespinner value
 					$("input[name='end-time']")
 						.timespinner()
-						.timespinner("value", msToday(end) );
+						.timespinner("value", msToday(end)+offset );
 
 					$(parentDiv).find("input").change(function() {
 						checkDataQuality("clock");
