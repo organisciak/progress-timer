@@ -221,7 +221,7 @@ var progress = (function() {
 			}
 			
 			if (alerts.length >= 1) {
-				$(".ui-dialog-buttonpane").append("<div class='alerts ui-state-highlight'></div>");
+				$(".ui-dialog-buttonpane").append("<div class='alerts .ui-state-highlight'></div>");
 			}
 			for (var i = 0; i < errors.length; i++) {
 				var error = errors[i];
@@ -990,9 +990,6 @@ var progress = (function() {
 			//ENTER
 			slips.enter().append("div")
 				.attr("class", "slip ui-widget-content")
-			//.style("background", "blue")
-			.style("padding", 4 + "px " + slipMargin + "px")
-				.style("width", slipWidth + "px")
 				.call(enter);
 
 			//UPDATE
