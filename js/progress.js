@@ -390,7 +390,7 @@ var progress = (function() {
 				});
 
 			$("#container").sortable({
-				placeholder: "ui-state-highlight",
+				placeholder: "ui-sortable-placeholder",
 				axis: "y",
 				containment: "parent",
 				items: "> .slip",

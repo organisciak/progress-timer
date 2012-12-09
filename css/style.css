@@ -32,6 +32,11 @@ h3 {
   font-size: 12pt;
 }
 
+h1, h2, h3, h4 {
+	color: #404040;
+	font-family: Futura, Helvetica, Arial, sans-serif;
+}
+
 .choose-type h3 {
  margin: 5px;
 }
@@ -94,10 +99,17 @@ h3 {
 }
 
 .ui-state-highlight { 
-	/*height: 5em; */
 	line-height: 1.2em;
 	background: whitesmoke;
 	border: dotted 1px #999;
+}
+
+.ui-sortable-placeholder {
+	height: 6em;
+	line-height: 1.2em;
+	background: rgba(200,200,200,0.2);
+	border: dotted 1px #999;
+	border-radius: 5px;
 }
 
 #export-dialog textarea, #import-dialog textarea {
