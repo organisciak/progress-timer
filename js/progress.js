@@ -172,6 +172,7 @@ var progress = (function() {
 			Assumes dialog has class "dialog".
 		*/
 			$(".ui-dialog-buttonpane .errors").remove();
+			$(".ui-dialog-buttonpane .alerts").remove();
 			var values = {}, errors = [],
 				alerts = [],
 				warnings = [];
@@ -184,12 +185,12 @@ var progress = (function() {
 			}
 			if (type === "clock") {
 				if (values.start > values.end) {
-					errors.push("Start time must be before end time.");
+					errors.push("Start time must be before end time. You can move back in time, man.");
 				} else if (values.start === values.end) {
-					errors.push("Start and end times need to be different");
+					errors.push("Start and end times need to be different.");
 				}
 				if (values.current > values.end) {
-					errors.push("End time must be in the future.");
+					alerts.push("Hey, not to alarm you, but your end time is in the past.");
 				}
 			} else if (type === "counter") {
 				var low = values.start,
@@ -202,8 +203,13 @@ var progress = (function() {
 				} else if (low === high) {
 					errors.push("Start and end values need to be different");
 				}
-				if (current > high || current < low) {
-					errors.push("Current value must be between start and end values.");
+				if (current > high) {
+					alerts.push("Note that current value is higher than end point.");
+				} else if (current < low) {
+					alerts.push("Note that current value is lower than start point.");
+				}
+				if (current < 0 || low < 0 || high < 0) {
+					errors.push("Sorry, values cannot be below zero. Did you know that you can count down though?");
 				}
 			}
 
@@ -213,10 +219,18 @@ var progress = (function() {
 			} else {
 				$(":button:contains('OK')").prop("disabled", false).removeClass("ui-state-disabled");
 			}
-
+			
+			if (alerts.length >= 1) {
+				$(".ui-dialog-buttonpane").append("<div class='alerts ui-state-highlight'></div>");
+			}
 			for (var i = 0; i < errors.length; i++) {
 				var error = errors[i];
 				$(".ui-dialog-buttonpane .errors").append("ERROR:" + error + "</br>");
+			}
+			
+			for (var i = 0; i < alerts.length; i++) {
+				var alert = alerts[i];
+				$(".ui-dialog-buttonpane .alerts").append("ALERT:" + alert + "</br>");
 			}
 		},
 		getTimeOffset = function() {
@@ -694,7 +708,7 @@ var progress = (function() {
 					$('input[name="start-date"]')
 						.datepicker({})
 						.datepicker("setDate", start);
-					$('input[name="end-date"]')
+					$("input[name='end-date']")
 						.datepicker({})
 						.datepicker("setDate", end);
 					$("input[name='start-time']")
@@ -704,7 +718,10 @@ var progress = (function() {
 						.timespinner()
 						.timespinner("value", msToday(end)+offset );
 
-					$(parentDiv).find("input").change(function() {
+//#########ADD checkDataQuality to the timespinner changing
+
+
+					$("input[name='start-date'], input[name='end-date']").change(function() {
 						checkDataQuality("clock");
 					});
 				},

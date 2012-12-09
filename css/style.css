@@ -119,9 +119,9 @@ h3 {
 	height: 100px;
 }
 
-.ui-dialog-buttonpane .errors {
+.ui-dialog-buttonpane .errors, .ui-dialog-buttonpane .alerts {
 	width: 500px;
-	font-size: 10pt;
+	font-size: 8pt;
 	padding: 10px;
 }
 
