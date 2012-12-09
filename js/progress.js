@@ -133,7 +133,8 @@ var progress = (function() {
 			return (int > 9 ? "" + int : "0" + int);
 		},
 		getCurrentVal = function(d) {
-			var c = d.current;
+			var currentTime = (new Date()).getTime(),
+				c = d.current;
 			if (d.type === "clock") {
 				c = currentTime;
 			} else if (d.type === "timer" && d.progress.start) {
@@ -374,7 +375,18 @@ var progress = (function() {
 					return format(c, d.type);
 				})
 				.attr("x", function(d) {
-					return progressLocation(d, barWidth) + slipMargin;
+					var textBoundingWidth = $(this)[0].getBBox().width,
+						loc = progressLocation(d, barWidth);
+					if (loc + slipMargin < textBoundingWidth/2) {
+						//If at the very start of the bar, position text so that it 
+						//doesn't go beyond edges
+						return textBoundingWidth/2 + + slipMargin;
+					} else if (loc + slipMargin > slipWidth-textBoundingWidth/2) {
+						//Same correction for the end of the bar
+						return slipWidth - textBoundingWidth/2 - slipMargin;
+					} else {
+						return loc + slipMargin;
+					}
 				})
 				.style("fill", function(d) {
 					var c = getCurrentVal(d);
