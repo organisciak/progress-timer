@@ -344,6 +344,7 @@ var progress = (function() {
 			selection.selectAll(".note").text(function(d) {
 				return d.note;
 			});
+			
 			var progress = selection.selectAll(".progress");
 			progress.transition()
 				.duration(300)
@@ -361,6 +362,20 @@ var progress = (function() {
 			d3.selectAll(".slip.active .end")
 				.text(function(d) {
 				return format(d.end, d.type);
+			});
+			
+			d3.selectAll(".slip.active")
+			.each(function(d){ 
+				if (d.type !== "counter") {
+					return;
+				}
+				var that = d3.select(this),
+					buttons = that.selectAll(".change-counter");
+				if (d.curly === true && buttons[0].length > 0) {
+					buttons.remove();
+				} else if (d.curly === false && buttons[0].length < 0) {
+					//TODO: Add buttons back here
+				}
 			});
 
 			//Update text for current progress
@@ -538,7 +553,10 @@ var progress = (function() {
 			for (var i = 0; i < counterValues.length; i++) {
 				var v = counterValues[i];
 				if (v !== 0) {
-					counters.append("button").text((v >= 0 ? "+" : "-") + v).style("float", "right")
+					counters.append("button")
+						.attr("class", "change-counter")
+						.text((v >= 0 ? "+" : "-") + v)
+						.style("float", "right")
 						.on("click", (function(val) {
 						return function(d) {
 							changeCounter(d, val);
