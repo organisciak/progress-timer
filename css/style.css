@@ -1,6 +1,6 @@
 body {
-	font-family: Georgia, serif;
-	font-size: 12pt;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
 	/*image from subtlepatterns.com*/
 	background: #333 url(images/classy_fabric.png) 50% 50% repeat;
 	margin: 0;
@@ -104,7 +104,7 @@ h1, h2, h3, h4 {
 	border: dotted 1px #999;
 }
 
-.ui-sortable-placeholder {
+.ui-sortable-placeholder, .slip.disabled {
 	height: 6em;
 	line-height: 1.2em;
 	background: rgba(200,200,200,0.2);
@@ -180,3 +180,46 @@ text {
 .end {
 	text-anchor:end;
 }
+
+/* Example Bar */
+.slip.disabled {
+	background: rgba(255,255,255,0.2);
+	height: 7em;
+	border-color: rgba(200,200,200,0.1);
+}
+
+
+.slip.disabled h2,  .slip.disabled p,  .slip.disabled .note {
+    color: black;
+}
+    
+ .slip.disabled .progress, .slip.disabled .start, .slip.disabled .end {
+     fill: #DDD;
+  }
+  
+.slip.disabled h2, .slip.disabled p,  .slip.disabled .note, .slip.disabled .progress, .slip.disabled .start, .slip.disabled .end, .slip.disabled .current, .slip.disabled .bar-outline {
+	opacity: 0.2;
+  }
+  
+  .add-question {
+    position: absolute;
+    left: 0;
+    background: none;
+    border-radius: 5px;
+    width: 100%;
+    top: 0;
+    height: 100%;
+    cursor: pointer;
+    color: white;
+    z-index: 100;
+}
+.add-question:focus, .add-question:hover  {
+    background: rgba(255,255,255,0.05);
+    color: hotpink;
+}
+.add-question .text {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 17pt;
+}
+

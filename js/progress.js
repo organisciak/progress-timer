@@ -186,11 +186,10 @@ var progress = (function() {
 			}
 			if (type === "clock") {
 				if (values.start > values.end) {
-					errors.push("Start time must be before end time. You can move back in time, man.");
+					errors.push("Start time must be before end time. You can't move back in time, man.");
 				} else if (values.start === values.end) {
 					errors.push("Start and end times need to be different.");
-				}
-				if (values.current > values.end) {
+				} else if (values.current > values.end) {
 					alerts.push("Hey, not to alarm you, but your end time is in the past.");
 				}
 			} else if (type === "counter") {
@@ -355,11 +354,11 @@ var progress = (function() {
 				return progressLocation(d, barWidth);
 			});
 			//Sometimes a user editing a bar changes the start or end
-			d3.selectAll(".start")
+			d3.selectAll(".slip.active .start")
 				.text(function(d) {
 				return format(d.start, d.type);
 			});
-			d3.selectAll(".end")
+			d3.selectAll(".slip.active .end")
 				.text(function(d) {
 				return format(d.end, d.type);
 			});
@@ -367,7 +366,7 @@ var progress = (function() {
 			//Update text for current progress
 			//Currently, everything below happens twice, once for the text 
 			//outline and once for the foreground text
-			d3.selectAll(".current")
+			d3.selectAll(".slip.active .current")
 				.transition()
 				.duration(300)
 				.text(function(d) {
@@ -405,13 +404,14 @@ var progress = (function() {
 				placeholder: "ui-sortable-placeholder",
 				axis: "y",
 				containment: "parent",
-				items: "> .slip",
+				items: ".slip.active",
 				cancel: "h2, span",
 				start: function(event, ui) {
-					start = ui.item.prevAll().length;
+					start = ui.item.prevAll(".slip.active").length;
 				},
 				update: function(e, ui) {
-					end = ui.item.prevAll().length;
+					end = ui.item.prevAll(".slip.active").length;
+					log(end);
 					bar = input.bars.splice(start, 1);
 					input.bars.splice(end, 0, bar[0]);
 					saveLocalData();
@@ -623,7 +623,8 @@ var progress = (function() {
 		Load local storage JSON string and parse to object 
 		*/
 			var str = localStorage.getItem('progressData');
-			if (str === null) {
+			
+			if (str === null || str === "") {
 				input = {
 					"barWidth": 500,
 					"bars": []
@@ -738,7 +739,6 @@ var progress = (function() {
 					});
 				},
 				timerControls: function(parentDiv, data, index) {
-					log(data);
 					parentDiv.empty();
 					var detailDiv = $("<em>A timer lets you count down for a given amount of time. Like an egg timer!</em><br/>").appendTo(parentDiv);
 
@@ -994,14 +994,14 @@ var progress = (function() {
 				.style("width", containerWidth)
 				.style("margin", "0 " + pageMargin + "px");
 
-			var slips = container.selectAll(".slip")
+			var slips = container.selectAll(".slip.active")
 				.data(input.bars, function(d) {
 				return d.key;
 			});
 
 			//ENTER
-			slips.enter().append("div")
-				.attr("class", "slip ui-widget-content")
+			slips.enter().insert("div", ".slip.disabled")
+				.attr("class", "slip active ui-widget-content")
 				.call(enter);
 
 			//UPDATE

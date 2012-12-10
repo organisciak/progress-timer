@@ -22,43 +22,6 @@
 	<body>
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
-
-				/*var input = {
-		"barWidth" : 500,
-		"bars":[	
-			{
-			"type": "counter",
-			"name": "Manual",
-			"key": "sdffbs3",
-			"note": "...and a note",
-			"start": 0,
-			"end": 100,
-			"current": 30
-			},
-			{
-			"type": "clock",
-			"name": "Date",
-			"key": "qdfr3",
-			"note": null,
-			"start": 1346475600000,
-			"end": 1351659600000,
-			"current": null
-			},
-			{
-			"type": "timer",
-			"name": "Timer",
-			"key": "hu54i58",
-			"note": null,
-			"start": 0,
-			"end": 1000000,
-			"current": 0,
-			"progress" : {"start":null, "current":null}
-			}
-		]
-	};
-	progress.load(input);
-	*/
-
 				progress.load();
 				progress.draw(true);
 				//progress.add();
@@ -68,7 +31,7 @@
 					progress.draw();
 				}, 1000);
 
-				$("#add").button().click(progress.add);
+				$(".add-question, #add").click(progress.add);
 				$("#set").button().click(function() {
 					timer = window.setInterval(function() {
 						progress.draw();
@@ -94,7 +57,10 @@
 			<button id="export" />Export Data</button>
 			<button id="import" />Import Data</button>
 		</div>
-		<div id="container"></div>
+		<div id="container">
+		<div class="slip ui-widget-content disabled" style="position: relative;"><h2>Losing Weight</h2><div class="add-question"><div class="text">Add a new bar.</div></div><p><span class="note">Tracking my progress to my goal weight.</span></p><svg width="840" height="45" class="bar"><g transform="translate(0,10)"><rect class="bar-outline" width="820" height="20" x="10"></rect><rect class="progress" height="20" x="10" width="615"></rect><text class="start" x="10" y="31">220</text><text class="current" y="15" x="625">190</text><text class="end" text-anchor="start" x="830" y="31">180</text></g></svg></div>
+		
+		</div>
 	</body>
 
 </html>
