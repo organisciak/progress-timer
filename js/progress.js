@@ -3,6 +3,7 @@ var progress = (function() {
 	//PRIVATE VARIABLES
 	var input = {
 		"barWidth": 500,
+		"lastTip" : -1,
 		"bars": [
 			{
 			"type": "counter",
@@ -18,6 +19,25 @@ var progress = (function() {
 	opts = {
 		debug: false
 	},
+	tips = [
+	{
+	"preamble":"Dueling bars",
+	"tip":"Sometimes it's useful to have a counter bar next to a clock or timer. If you have a deadline to hit the end of your counter (e.g. \"write 400 words in 2 hours\"), you can make sure that you stay on track.",
+	"image":""
+	},
+	{
+	"preamble":"Track your weight loss.",
+	"tip":"",
+	"image":""
+	}, 
+	{
+	"preamble":"Super-secret pro-tip: Curly notation",
+	"tip":"If you write numbers between curly braces in the description of a counter timer, the progress bar will add them up and set them as the current progress. This is an experimental feature, but really useful sometimes.",
+	"image":"",
+	"example": ""
+	}
+	
+	],
 	version = [
 		{
 		"number": "0.05",
@@ -664,6 +684,7 @@ var progress = (function() {
 				input.bars[i].current = parseFloat(input.bars[i].current);
 				input.bars[i].end = parseFloat(input.bars[i].end);
 			}
+			input.lastTip = input.lastTip ? parseInt(input.bars.lastTip) : -1;
 		},
 		deleteLocalData = function() {
 			/* 
@@ -990,7 +1011,6 @@ var progress = (function() {
 					}
 				}
 			});
-			
 			//Import Data Dialog
 			$("#import-dialog").dialog({
 				width: 800,
@@ -1005,8 +1025,8 @@ var progress = (function() {
 						$(this).dialog("close");
 					}
 				}
-			});
-			
+			});		
+			//Data reset dialog
 			$(".delete.dialog").dialog({
 				buttons: {
 					"Delete all data": function() {
@@ -1020,7 +1040,39 @@ var progress = (function() {
 					}
 				}
 			});
-		
+			//Tips Dialog
+			$(".tips.dialog").dialog({
+				open: function( event, ui ) {
+					var nextTip = input.lastTip+1<tips.length ? input.lastTip+1 : 0,
+						tip = tips[nextTip],
+						fields = ["preamble","tip","image","example"];
+					
+					for (var i=0; i<fields.length;i++) {
+						field = fields[i];
+						if (tip[field] && tip[field] !== "") {
+							var val = tip[field];
+							if (field ==="image") {
+								val = "<img src='"+val+"' />";
+							}
+							$(this).children("."+field)
+								.html(val).show();
+						} else {
+							$(this).children("."+field).hide();
+						}
+					}
+					input.lastTip = nextTip;
+				}, //End Open
+				buttons: {
+					"New tip": function() {
+						$(this).dialog("close").dialog("open");
+					}
+				} //End buttons
+			});
+			//debug dialog
+			$(".debug.dialog").dialog({
+				modal: false, 
+				resizable: true
+			});
 		};
 
 	return {
