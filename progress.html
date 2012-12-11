@@ -19,10 +19,10 @@
 			jQuery(document).ready(function() {
 				progress.load();
 				progress.draw(true);
-				//progress.add();
+				
 				//DEBUGGING
 				var timer;
-				timer = timer = window.setInterval(function() {
+				timer = window.setInterval(function() {
 					progress.draw();
 				}, 1000);
 
@@ -38,23 +38,43 @@
 				$("#reset").button().click(progress.reset);
 				$("#export").button().click(progress.exportData);
 				$("#import").button().click(progress.importData);
-
-
+				$("#settings").button().click(progress.settingsMenu);
 			});
 		</script>
 		<div id="credit"><a href="http://www.porganized.com">Peter Organisciak</a>
 		</div>
+<!--DIALOGS-->
+<!-- Settings Dialog -->
+		<div class="settings menu dialog" title="Settings">
+			<h3>Export Your Data</h3>
+			Export all your data as a JSON string.
+			<button id="export" />Export Data</button>
+			<h3>Import Your Data</h3>
+			Import a JSON string of your progress bar settings.</br> 
+			<button id="import" />Import Data</button>
+			<h3>Delete all your data</h3>
+			<button id="reset" />Clear Data</button>
+		</div>
+
+<!--Import Data Dialog-->
+<div title='Import your data' id='import-dialog' class="import dialog">Paste your previously exported information below.</em> Importing information will overwrite your current progress bars.<br/><span class='ui-icon ui-icon-alert inline'></span>Improperly formatted data can break your app!</em><br/><textarea id='input-box'></textarea></div>
+
+<!--Export Data Dialog-->
+<div title='Export your data' id='export-dialog' class="export dialog">If you'd like all your information back, select all the text in the box and then copy it.<br/><textarea readonly='true'></textarea></div>
+
+<!--Delete Data Dialog-->
+<div class='delete dialog' title="Delete your data"><span class='ui-icon ui-icon-alert inline'></span>Are you sure?</div>
+		
+<!-- END DIALOGS -->
+
 		<div id="controls">
 			<button id="add" />Add bar</button>Debug:
 			<button id="set" />Set Interval</button>
 			<button id="clear" />Clear Interval</button>
-			<button id="reset" />Clear Data</button>
-			<button id="export" />Export Data</button>
-			<button id="import" />Import Data</button>
+			<button id="settings" />Settings</button>
 		</div>
 		<div id="container">
 		<div class="slip ui-widget-content disabled" style="position: relative;"><h2>Losing Weight</h2><div class="add-question"><div class="text">Add a new bar.</div></div><p><span class="note">Tracking my progress to my goal weight.</span></p><svg width="840" height="45" class="bar"><g transform="translate(0,10)"><rect class="bar-outline" width="820" height="20" x="10"></rect><rect class="progress" height="20" x="10" width="615"></rect><text class="start" x="10" y="31">220</text><text class="current" y="15" x="625">190</text><text class="end" text-anchor="start" x="830" y="31">180</text></g></svg></div>
-		
 		</div>
 	</body>
 

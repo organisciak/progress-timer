@@ -266,6 +266,12 @@ $ui-images-folder : 'delta/images';
   width: 16px;
   height: 16px;
   background-image: url('#{$ui-images-folder}/ui-icons_222222_256x240.png');
+  &.inline {
+	display: inline-block;
+	}
+  &.float {
+  	float:left;
+  }
 }
 
 .ui-widget-content .ui-icon, .ui-widget-header .ui-icon {

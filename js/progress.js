@@ -670,7 +670,7 @@ var progress = (function() {
 		Remove Local storage data
 		*/
 			localStorage.removeItem('progressData');
-		};
+		},
 		//MENU DRAWING
 		draw = (function() {
 			/* 
@@ -972,13 +972,65 @@ var progress = (function() {
 
 				}
 			};
-		})();
+		})(),
+		prepareDialogs =function() { 
+			//Defaults for all
+			$(".dialog").dialog({autoOpen: false, modal: true, resizable: false});
+			
+			//Export Data Dialog
+			$(".export.dialog").dialog({
+				width: 800,
+				open: function( event, ui ) {
+					var str = JSON.stringify(input);
+					$(".export.dialog textarea").text(str);
+				},
+				buttons: {
+					"Close": function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+			
+			//Import Data Dialog
+			$("#import-dialog").dialog({
+				width: 800,
+				buttons: {
+					"Import": function() {
+						//Parse text, if there's an error than hopefully it will happen before sending to progress.load
+						var input = JSON.parse($('#input-box').attr("value"));
+						progress.load(input);
+						$(this).dialog("close");
+					},
+					"Cancel": function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+			
+			$(".delete.dialog").dialog({
+				buttons: {
+					"Delete all data": function() {
+						deleteLocalData();
+						progress.load();
+						progress.draw();
+						$(this).dialog("close");
+					},
+					Cancel: function() {
+						$(this).dialog("close");
+					}
+				}
+			});
+		
+		};
 
 	return {
 		load: function(json) {
 			/*
 			Load data. If json is specified, load new data. 
-		*/
+			*/
+			//Initialise dialogs
+			prepareDialogs();
+			//Load Data
 			if (json) {
 				loadNewData(json);
 			} else {
@@ -1040,70 +1092,19 @@ var progress = (function() {
 			draw.editDialog();
 		},
 		reset: function() {
-			var dialog = $("<div class='dialog'>Are you sure?</div>")
-				.appendTo("#container");
-
-			dialog.dialog({
-				resizable: false,
-				//height:140,
-				title: "Clear Data",
-				modal: false,
-				buttons: {
-					"Delete all data": function() {
-						deleteLocalData();
-						progress.load();
-						progress.draw();
-						$(this).dialog("close");
-					},
-					Cancel: function() {
-						$(this).dialog("close");
-					}
-				}
-			});
-
-
+			$(".delete.dialog").dialog("open");
 		},
 		exportData: function() {
-			/* 
-				Show a window with the full data string for the app 
-				*/
-			var str = JSON.stringify(input);
-			$("<div title='Export your data' id='export-dialog'>If you'd like all your information back, select all the text in the box and then copy it.<br/><textarea readonly='true'>" + str + "</textarea></div>")
-				.appendTo("body")
-				.dialog({
-				autoOpen: true,
-				width: 800,
-				modal: true,
-				resizable: false,
-				buttons: {
-					"Close": function() {
-						$(this).remove();
-					}
-				}
-			});
+			/* Show a window with the full data string for the app */
+			$(".export.dialog").dialog("open");
+			
 		},
 		importData: function() {
-			/* 
-				Show a window where you can input previously output data. 
-				*/
-			$("<div title='Import your data' id='import-dialog'>Paste your previously exported information below. </em>Importing information will overwrite your current progress bars.</em><br/><textarea id='input-box'></textarea></div>")
-				.appendTo("body")
-				.dialog({
-				autoOpen: true,
-				width: 800,
-				modal: true,
-				buttons: {
-					"Import": function() {
-						//Parse text, if there's an error than hopefully it will happen before sending to progress.load
-						var input = JSON.parse($('#input-box').attr("value"));
-						progress.load(input);
-						$(this).remove();
-					},
-					"Cancel": function() {
-						$(this).remove();
-					}
-				}
-			});
+			/* Show a window where you can input previously output data. */
+			$(".import.dialog").dialog("open");
+		},
+		settingsMenu: function() {
+			$(".settings.menu.dialog").dialog("open");
 		}
 	};
 })();
