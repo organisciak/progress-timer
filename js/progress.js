@@ -214,23 +214,25 @@ var progress = (function() {
 			}
 
 			if (errors.length >= 1) {
-				$(".ui-dialog-buttonpane").append("<div class='errors ui-state-error'></div>");
+				$(".ui-dialog-buttonpane")
+					.append("<div class='errors ui-state-error'><span class='ui-icon ui-icon-alert' style='float: left; margin-right: .3em;'></span></div>");
 				$(":button:contains('OK')").prop("disabled", true).addClass("ui-state-disabled");
 			} else {
 				$(":button:contains('OK')").prop("disabled", false).removeClass("ui-state-disabled");
 			}
 			
 			if (alerts.length >= 1) {
-				$(".ui-dialog-buttonpane").append("<div class='alerts .ui-state-highlight'></div>");
+				$(".ui-dialog-buttonpane")
+					.append("<div class='alerts ui-state-highlight'><span class='ui-icon ui-icon-info' style='float: left; margin-right: .3em;'></span></div>");
 			}
 			for (var i = 0; i < errors.length; i++) {
 				var error = errors[i];
-				$(".ui-dialog-buttonpane .errors").append("ERROR:" + error + "</br>");
+				$(".ui-dialog-buttonpane .errors").append(error + "</br>");
 			}
 			
 			for (var i = 0; i < alerts.length; i++) {
 				var alert = alerts[i];
-				$(".ui-dialog-buttonpane .alerts").append("ALERT:" + alert + "</br>");
+				$(".ui-dialog-buttonpane .alerts").append(alert + "</br>");
 			}
 		},
 		getTimeOffset = function() {
@@ -743,13 +745,14 @@ var progress = (function() {
 						.datepicker({})
 						.datepicker("setDate", end);
 					$("input[name='start-time']")
-							.timespinner()							//Initialize timespinner
+						//Initialize timespinner
+							.timespinner({ stop: function( event, ui ) {checkDataQuality("clock");} })
 							.timespinner("value", msToday(start)+offset ); //set timespinner value
+							
+					spinOpts = (function( event, ui ) {console.log("test");})();
 					$("input[name='end-time']")
-						.timespinner()
-						.timespinner("value", msToday(end)+offset );
-
-//#########ADD checkDataQuality to the timespinner changing
+						.timespinner({ stop: function( event, ui ) {checkDataQuality("clock");} })
+						.timespinner("value", msToday(end)+offset);
 
 
 					$("input[name='start-date'], input[name='end-date']").change(function() {
