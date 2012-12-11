@@ -1,4 +1,8 @@
 /* style.scss */
+@import "jquery-ui";
+@import "delta-normalise";
+@import "delta-custom";
+
 $highlight-color: hotpink;
 $text-color: #404040;
 $border-radius: 5px;
@@ -41,10 +45,10 @@ h1, h2, h3, h4 {
 	font-family: Futura, Helvetica, Arial, sans-serif;
 }
 
-.choose-type {
+#choose-type {
 	h3 {	margin: 5px;	}
 	input {
-    	margin: 0 5px 0 25px;
+    	margin: 0 5px 0 20px;
     }
 }
 
@@ -93,7 +97,7 @@ h1, h2, h3, h4 {
     position: fixed; 
     text-align: center; 
     top: 0; 
-    width: 100px; 
+    width: 100px;
     height: 100%; 
     border-right: 3px solid #222222;
 }
@@ -104,8 +108,10 @@ h1, h2, h3, h4 {
 	right: 10px;
 	font-size: 10px;
 	font-family: Verdana, sans-serif;
-	color: #888;
-	text-decoration: none;
+	a {
+		color: #888;
+		text-decoration: none;
+	}
 }
 
 .ui-state-highlight { 
@@ -183,37 +189,36 @@ text {
 		fill: white;
 	}
 	.end {	text-anchor:end; }
-}
-
 /* Example Bar */
-.slip.disabled {
-	background: rgba(255,255,255,0.2);
-	height: 7em;
-	border-color: rgba(200,200,200,0.1);
-	
-	h2, p, .note { color: black }
-	.progress, .start, .end { fill: #DDD }
-	h2, p, .note, .progress, .start, .end, .current, .bar-outline { opacity: 0.2; }
-	
-	.add-question {
-		position: absolute;
-		left: 0;
-		background: none;
-		border-radius: $border-radius;
-		width: 100%;
-		top: 0;
-		height: 100%;
-		cursor: pointer;
-		color: white;
-		z-index: 100;
-		&:hover, &:focus {
-			background: rgba(255,255,255,0.05);
-			color: $highlight-color;
-		}
-		.text {
-			margin-top: 50px;
-			text-align: center;
-			font-size: 17pt;
+	&.disabled {
+		background: rgba(255,255,255,0.2);
+		height: 7em;
+		border-color: rgba(200,200,200,0.1);
+		
+		h2, p, .note { color: black }
+		.progress, .start, .end { fill: #DDD }
+		h2, p, .note, .progress, .start, .end, .current, .bar-outline { opacity: 0.2; }
+		
+		.add-question {
+			position: absolute;
+			left: 0;
+			background: none;
+			border-radius: $border-radius;
+			width: 100%;
+			top: 0;
+			height: 100%;
+			cursor: pointer;
+			color: white;
+			z-index: 100;
+			&:hover, &:focus {
+				background: rgba(255,255,255,0.05);
+				color: $highlight-color;
+			}
+			.text {
+				margin-top: 50px;
+				text-align: center;
+				font-size: 17pt;
+			}
 		}
 	}
 }
