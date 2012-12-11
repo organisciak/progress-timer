@@ -1,0 +1,219 @@
+/* style.scss */
+$highlight-color: hotpink;
+$text-color: #404040;
+$border-radius: 5px;
+$border1: solid 1px lightgray;
+
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	/*image from subtlepatterns.com*/
+	background: #333 url(images/classy_fabric.png) 50% 50% repeat;
+	margin: 0;
+	color: $text-color;
+}
+
+.slip, .dialog {
+  	position: relative;
+	border-bottom: $border1;
+    border-top: $border1;
+    border-left: none;
+    border-right: none;
+	margin: 10px auto 10px auto;
+  	padding: 15px 10px;
+  	border-radius: $border-radius;
+}
+
+.note {
+	color: darkGray;
+  	margin: 5px 0;
+}
+
+h2 {
+ 	font-size: 14pt;
+  	margin: 0;
+}
+
+h3 { font-size: 12pt; }
+
+h1, h2, h3, h4 {
+	color: $text-color;
+	font-family: Futura, Helvetica, Arial, sans-serif;
+}
+
+.choose-type {
+	h3 {	margin: 5px;	}
+	input {
+    	margin: 0 5px 0 25px;
+    }
+}
+
+#details-div, #context-div {
+	width: 49%;
+}
+
+#details-div {
+	height: 200px;
+	border-right: $border1;
+}
+
+#context-div {
+	right:0;
+	position: absolute;
+}
+
+.bar-outline {
+	fill: whitesmoke;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: white;
+  width: 100%;
+  height: 100%;
+  opacity: 0.9;
+}
+
+.ui-button {
+	font-size: 0.7em;
+}
+
+#container {
+	margin: 0 auto;
+	padding: 10px;
+}
+
+#controls {
+    background: url("images/diagonal-manilla.png") repeat scroll 50% 50% #EFE7A6; 
+    float: left; 
+    margin: 0 15px 0 0; 
+    padding: 10px; 
+    position: fixed; 
+    text-align: center; 
+    top: 0; 
+    width: 100px; 
+    height: 100%; 
+    border-right: 3px solid #222222;
+}
+
+#credit, #credit a {
+	position: fixed;
+	bottom: 0;
+	right: 10px;
+	font-size: 10px;
+	font-family: Verdana, sans-serif;
+	color: #888;
+	text-decoration: none;
+}
+
+.ui-state-highlight { 
+	line-height: 1.2em;
+	background: whitesmoke;
+	border: dotted 1px #999;
+}
+
+.ui-sortable-placeholder, .slip.disabled {
+	height: 6em;
+	line-height: 1.2em;
+	background: rgba(200,200,200,0.2);
+	border: dotted 1px #999;
+	border-radius: $border-radius;
+}
+
+#export-dialog textarea, #import-dialog textarea {
+	width: 90%;
+	font-size: 8pt;
+	font-family: monospace;
+	height: 100px;
+}
+
+.ui-dialog-buttonpane {
+	.errors, .alerts {
+		width: 500px;
+		font-size: 8pt;
+		padding: 10px;
+	}
+}
+
+.ui-button .ui-button-text {
+	display: inline;
+}
+
+/* CLOCK CONTROLS */
+input {
+	&[name=start-time], &[name=end-time]  {
+		width: 100px;
+		padding-left: 5px;
+		margin-left: 10px;
+	}
+	&[name=start-date], &[name=end-date] {
+		width: 125px;
+	}
+}
+
+textarea {
+	&[name=description-input], &[name=title-input] {
+		width: 350px;
+		display: block;
+	}
+	&[name=description-input] {
+		height: 80px;
+	}
+}
+
+/* SVG BAR */
+text {
+	font-size: 10pt;
+}
+
+/* Done so that we can cancel dragging on h2 while keeping whitespace draggable*/
+.slip {
+	h2 { display: inline; }
+	.start { text-anchor: left; }
+	.current-background {
+		stroke-width: 5px;
+		stroke: black;
+		stroke-linejoin: round;
+	}
+	.current { 
+		text-anchor: middle; 
+		font-size: 10pt;
+		fill: white;
+	}
+	.end {	text-anchor:end; }
+}
+
+/* Example Bar */
+.slip.disabled {
+	background: rgba(255,255,255,0.2);
+	height: 7em;
+	border-color: rgba(200,200,200,0.1);
+	
+	h2, p, .note { color: black }
+	.progress, .start, .end { fill: #DDD }
+	h2, p, .note, .progress, .start, .end, .current, .bar-outline { opacity: 0.2; }
+	
+	.add-question {
+		position: absolute;
+		left: 0;
+		background: none;
+		border-radius: $border-radius;
+		width: 100%;
+		top: 0;
+		height: 100%;
+		cursor: pointer;
+		color: white;
+		z-index: 100;
+		&:hover, &:focus {
+			background: rgba(255,255,255,0.05);
+			color: $highlight-color;
+		}
+		.text {
+			margin-top: 50px;
+			text-align: center;
+			font-size: 17pt;
+		}
+	}
+}
