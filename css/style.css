@@ -2166,6 +2166,19 @@ body {
   padding: 15px 10px;
   border-radius: 5px; }
 
+.dialog .image {
+  border: 0;
+  float: right;
+  margin: 10px;
+  border: solid 1px lightgrey;
+  border-radius: 5px;
+  padding: 5px; }
+.dialog.export textarea, .dialog.import textarea {
+  width: 90%;
+  font-size: 8pt;
+  font-family: monospace;
+  height: 100px; }
+
 .note {
   color: darkGray;
   margin: 5px 0; }
@@ -2244,17 +2257,11 @@ h1, h2, h3, h4, .ui-dialog-title {
   border: dotted 1px #999; }
 
 .ui-sortable-placeholder, .slip.disabled {
-  height: 6em;
+  height: 10em;
   line-height: 1.2em;
   background: rgba(200, 200, 200, 0.2);
   border: dotted 1px #999;
   border-radius: 5px; }
-
-#export-dialog textarea, #import-dialog textarea {
-  width: 90%;
-  font-size: 8pt;
-  font-family: monospace;
-  height: 100px; }
 
 .ui-dialog-buttonpane .errors, .ui-dialog-buttonpane .alerts {
   width: 500px;

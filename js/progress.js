@@ -21,20 +21,21 @@ var progress = (function() {
 	},
 	tips = [
 	{
-	"preamble":"Dueling bars",
+	"preamble":"Dueling bars 2",
 	"tip":"Sometimes it's useful to have a counter bar next to a clock or timer. If you have a deadline to hit the end of your counter (e.g. \"write 400 words in 2 hours\"), you can make sure that you stay on track.",
-	"image":""
+	"image":"images/dueling-bars.png"
 	},
 	{
-	"preamble":"Track your weight loss.",
-	"tip":"",
-	"image":""
+	"preamble":"Idea: tracking your weight loss.",
+	"tip":"Did you know that progress bars can count down? Set the start of the bar as your starting weight, and the end as your target.",
+	}, 
+	{
+	"preamble":"Sorting progress bars",
+	"tip":"Click and drag on an empty spot of a progress bar slip to sort progress bars to your preferred order.",
 	}, 
 	{
 	"preamble":"Super-secret pro-tip: Curly notation",
 	"tip":"If you write numbers between curly braces in the description of a counter timer, the progress bar will add them up and set them as the current progress. This is an experimental feature, but really useful sometimes.",
-	"image":"",
-	"example": ""
 	}
 	
 	],
@@ -994,6 +995,26 @@ var progress = (function() {
 				}
 			};
 		})(),
+		setNewTip = function() {
+			var nextTip = input.lastTip+1<tips.length ? input.lastTip+1:0,
+				tip = tips[nextTip],
+				fields = ["preamble","tip","image","example"];
+			
+			for (var i=0; i<fields.length;i++) {
+				field = fields[i];
+				if (tip[field] && tip[field] !== "") {
+					var val = tip[field];
+					if (field ==="image") {
+						val = "<img src='"+val+"' />";
+					}
+					$(this).children("."+field)
+						.html(val).show();
+				} else {
+					$(this).children("."+field).hide();
+				}
+			}
+			input.lastTip = nextTip;
+		},
 		prepareDialogs =function() { 
 			//Defaults for all
 			$(".dialog").dialog({autoOpen: false, modal: true, resizable: false});
@@ -1042,30 +1063,10 @@ var progress = (function() {
 			});
 			//Tips Dialog
 			$(".tips.dialog").dialog({
-				open: function( event, ui ) {
-					var nextTip = input.lastTip+1<tips.length ? input.lastTip+1 : 0,
-						tip = tips[nextTip],
-						fields = ["preamble","tip","image","example"];
-					
-					for (var i=0; i<fields.length;i++) {
-						field = fields[i];
-						if (tip[field] && tip[field] !== "") {
-							var val = tip[field];
-							if (field ==="image") {
-								val = "<img src='"+val+"' />";
-							}
-							$(this).children("."+field)
-								.html(val).show();
-						} else {
-							$(this).children("."+field).hide();
-						}
-					}
-					input.lastTip = nextTip;
-				}, //End Open
+				width: 700,
+				open: setNewTip, //End Open
 				buttons: {
-					"New tip": function() {
-						$(this).dialog("close").dialog("open");
-					}
+					"New tip": setNewTip
 				} //End buttons
 			});
 			//debug dialog
@@ -1203,7 +1204,6 @@ $.widget( "ui.timespinner", $.ui.spinner, {
             }
             return value;
         },
- 
         _format: function( value ) {
              a = Globalize.format( new Date(value), "t" );
              return a;
