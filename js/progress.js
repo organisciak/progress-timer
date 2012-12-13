@@ -1088,6 +1088,11 @@ var progress = (function() {
 				modal: false, 
 				resizable: true
 			});
+		},
+		postLoad = function() {
+			//Set correct settings
+			$(".tip-toggle")
+				.attr('checked', input.settings.tipShow)
 		};
 
 	return {
@@ -1114,9 +1119,7 @@ var progress = (function() {
 				progress.save();
 			});
 			
-			//Set correct settings
-			$(".tip-toggle")
-				.attr('checked', input.settings.tipShow)
+			postLoad();
 		},
 		save: function() {
 			/*Public wrapper for saving.*/
