@@ -37,6 +37,14 @@ body {
 		border-radius: $border-radius;
 		padding: 5px;
 	}
+	.footnote {
+		border-top: solid 1px darkgray;
+		clear: both;
+		margin-bottom: 0;
+		color: #555;
+		font-size: 10pt;
+		font-style: italic;
+	}
 	&.export, &.import {
 		textarea {
 			width: 90%;

@@ -51,16 +51,19 @@
 		</div>
 <!--DIALOGS-->
 <!-- Settings Dialog -->
-		<div class="settings menu dialog" title="Settings">
-			<h3>Export Your Data</h3>
-			Export all your data as a JSON string.
-			<button id="export" />Export Data</button>
-			<h3>Import Your Data</h3>
-			Import a JSON string of your progress bar settings.</br> 
-			<button id="import" />Import Data</button>
-			<h3>Delete all your data</h3>
-			<button id="reset" />Clear Data</button>
-		</div>
+<div class="settings menu dialog" title="Settings">
+<h3>Tips</h3>
+<input type="checkbox" name="tipToggle" class="tip-toggle" value="true">Show tips on page load.
+      
+	<h3>Export Your Data</h3>
+	Export all your data as a JSON string.
+	<button id="export" />Export Data</button>
+	<h3>Import Your Data</h3>
+	Import a JSON string of your progress bar settings.</br> 
+	<button id="import" />Import Data</button>
+	<h3>Delete all your data</h3>
+	<button id="reset" />Clear Data</button>
+</div>
 
 <!--Import Data Dialog-->
 <div title='Import your data' id='import-dialog' class="import dialog">Paste your previously exported information below.</em> Importing information will overwrite your current progress bars.<br/><span class='ui-icon ui-icon-alert inline'></span>Improperly formatted data can break your app!</em><br/><textarea id='input-box'></textarea></div>
@@ -76,6 +79,9 @@
 <p class="image"></p>
 <h3 class="preamble"></h3>
 <p class="tip"></p>
+<p class="footnote">
+<input type="checkbox" name="tipToggle" class="tip-toggle" value="true">Show tips on page load.
+</p>
 </div>
 <!--Introduction Dialog-->
 

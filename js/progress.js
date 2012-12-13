@@ -3,7 +3,6 @@ var progress = (function() {
 	//PRIVATE VARIABLES
 	var input = {
 		"barWidth": 500,
-		"lastTip" : -1,
 		"bars": [
 			{
 			"type": "counter",
@@ -14,7 +13,11 @@ var progress = (function() {
 			"end": 100,
 			"current": 30
 		}
-			]
+			],
+		"settings": {
+			"lastTip" : -1,
+			"tipDismiss" : false,
+		}
 	},
 	opts = {
 		debug: false
@@ -685,7 +688,10 @@ var progress = (function() {
 				input.bars[i].current = parseFloat(input.bars[i].current);
 				input.bars[i].end = parseFloat(input.bars[i].end);
 			}
-			input.lastTip = input.lastTip ? parseInt(input.bars.lastTip) : -1;
+			input.settings = input.settings ? input.settings : {};
+			input.settings.lastTip = input.settings.lastTip ? parseInt(input.settings.lastTip) : -1;
+			input.settings.tipDismiss = (typeof(input.settings.tipDismiss) !=="undefined") ? (input.settings.tipDismiss==="true") : true;
+			console.log(input);
 		},
 		deleteLocalData = function() {
 			/* 
@@ -996,7 +1002,7 @@ var progress = (function() {
 			};
 		})(),
 		setNewTip = function() {
-			var nextTip = input.lastTip+1<tips.length ? input.lastTip+1:0,
+			var nextTip = input.settings.lastTip+1<tips.length ? input.settings.lastTip+1:0,
 				tip = tips[nextTip],
 				fields = ["preamble","tip","image","example"];
 			
@@ -1013,12 +1019,22 @@ var progress = (function() {
 					$(this).children("."+field).hide();
 				}
 			}
-			input.lastTip = nextTip;
+			input.settings.lastTip = nextTip;
 		},
 		prepareDialogs =function() { 
 			//Defaults for all
-			$(".dialog").dialog({autoOpen: false, modal: true, resizable: false});
-			
+			$(".dialog")
+				.dialog({autoOpen: false, modal: true, resizable: false});
+				
+			//Setting Dialog
+			$(".tip-toggle")
+				.attr('checked', input.settings.tipDismiss)
+				.change(function() {
+					var status = $(this).is(':checked');
+					input.settings.tipDismiss = status;
+					$(".tip-toggle").attr('checked', input.settings.tipDismiss);
+					});
+					
 			//Export Data Dialog
 			$(".export.dialog").dialog({
 				width: 800,

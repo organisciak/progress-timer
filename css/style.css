@@ -2173,6 +2173,13 @@ body {
   border: solid 1px lightgrey;
   border-radius: 5px;
   padding: 5px; }
+.dialog .footnote {
+  border-top: solid 1px darkgray;
+  clear: both;
+  margin-bottom: 0;
+  color: #555;
+  font-size: 10pt;
+  font-style: italic; }
 .dialog.export textarea, .dialog.import textarea {
   width: 90%;
   font-size: 8pt;
