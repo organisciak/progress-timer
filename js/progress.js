@@ -4,7 +4,7 @@ var progress = (function() {
 	var input = {
 		"barWidth": 500,
 		"bars": [
-			{
+			/*{
 			"type": "counter",
 			"name": "Manual",
 			"key": "sdffbs3",
@@ -12,11 +12,11 @@ var progress = (function() {
 			"start": 0,
 			"end": 100,
 			"current": 30
-		}
+		}*/
 			],
 		"settings": {
 			"lastTip" : -1,
-			"tipDismiss" : false,
+			"tipShow" : false,
 		}
 	},
 	opts = {
@@ -667,18 +667,18 @@ var progress = (function() {
 		Load local storage JSON string and parse to object 
 		*/
 			var str = localStorage.getItem('progressData');
-			
 			if (str === null || str === "") {
-				input = {
-					"barWidth": 500,
-					"bars": []
-				};
+				//Use default data (see input variable above)
 				progress.draw();
+				//Show introduction window
+				$(".introduction.dialog").dialog("open");
 			} else {
-				
 				input = JSON.parse(str);
 				parseDataTypes();
 				progress.draw();
+				if (input.settings.tipShow) {
+					$(".tips.dialog").dialog("open");
+				}
 			}
 			return;
 		},
@@ -690,8 +690,7 @@ var progress = (function() {
 			}
 			input.settings = input.settings ? input.settings : {};
 			input.settings.lastTip = input.settings.lastTip ? parseInt(input.settings.lastTip) : -1;
-			input.settings.tipDismiss = (typeof(input.settings.tipDismiss) !=="undefined") ? (input.settings.tipDismiss==="true") : true;
-			console.log(input);
+			input.settings.tipShow = (typeof(input.settings.tipShow) !=="undefined") ? input.settings.tipShow : true;
 		},
 		deleteLocalData = function() {
 			/* 
@@ -777,7 +776,6 @@ var progress = (function() {
 							.timespinner({ stop: function( event, ui ) {checkDataQuality("clock");} })
 							.timespinner("value", msToday(start)+offset ); //set timespinner value
 							
-					spinOpts = (function( event, ui ) {console.log("test");})();
 					$("input[name='end-time']")
 						.timespinner({ stop: function( event, ui ) {checkDataQuality("clock");} })
 						.timespinner("value", msToday(end)+offset);
@@ -1025,14 +1023,14 @@ var progress = (function() {
 			//Defaults for all
 			$(".dialog")
 				.dialog({autoOpen: false, modal: true, resizable: false});
-				
+
 			//Setting Dialog
 			$(".tip-toggle")
-				.attr('checked', input.settings.tipDismiss)
 				.change(function() {
 					var status = $(this).is(':checked');
-					input.settings.tipDismiss = status;
-					$(".tip-toggle").attr('checked', input.settings.tipDismiss);
+					input.settings.tipShow = status;
+					$(".tip-toggle").attr('checked', input.settings.tipShow);
+					saveLocalData();
 					});
 					
 			//Export Data Dialog
@@ -1113,11 +1111,15 @@ var progress = (function() {
 			
 			//Add saving event for page unload
 			$(window).unload(function() {
-			progress.save();
+				progress.save();
 			});
+			
+			//Set correct settings
+			$(".tip-toggle")
+				.attr('checked', input.settings.tipShow)
 		},
 		save: function() {
-			//Public rapper for saving.
+			/*Public wrapper for saving.*/
 			saveLocalData();
 		},
 		draw: function(debug) {
