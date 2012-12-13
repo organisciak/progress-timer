@@ -200,14 +200,8 @@ var progress = (function() {
 			$(".ui-dialog-buttonpane .alerts").remove();
 			var values = {}, errors = [],
 				alerts = [],
-				warnings = [];
-			if (type !== "timer") {
-				/**Since timers don't need a data quality check, don't bother with 
-			getting values. We still want to run this check to remove earlier 
-			errors (i.e. if you have an error with the counter, then switch to
-			timer) and reactivate the OK button **/
+				warnings = [],
 				values = getDialogValues(type, index);
-			}
 			if (type === "clock") {
 				if (values.start > values.end) {
 					errors.push("Start time must be before end time. You can't move back in time, man.");
@@ -215,6 +209,14 @@ var progress = (function() {
 					errors.push("Start and end times need to be different.");
 				} else if (values.current > values.end) {
 					alerts.push("Hey, not to alarm you, but your end time is in the past.");
+				}
+			} else if (type === "timer") {
+				if (values.end < values.start) {
+					errors.push("It's not a back-in-timer, just a plain timer.");
+				} else if (values.end === values.start) {
+					errors.push("You can't have a null time progress bar.");
+				} else if (values.current > values.end) {
+					alerts.push("Hey, your timer has already ended. Maybe you want to reset?");
 				}
 			} else if (type === "counter") {
 				var low = values.start,
@@ -796,7 +798,10 @@ var progress = (function() {
 					$("<input type='number' name='hours' min='0'>")
 						.css("width", "4em")
 						.attr("value", "0")
-						.appendTo(startDiv);
+						.appendTo(startDiv)
+						.change(function() {
+							checkDataQuality("timer");
+						});
 
 					var currentDiv = $("<div style='position:absolute;width:125px;'>")
 						.css("left", 125)
@@ -805,7 +810,10 @@ var progress = (function() {
 					$("<input type='number' name='minutes' min='0' max='59'>")
 						.css("width", "3em")
 						.attr("value", "1")
-						.appendTo(currentDiv);
+						.appendTo(currentDiv)
+						.change(function() {
+							checkDataQuality("timer");
+						});
 
 					var endDiv = $("<div style='position:absolute;width:125px;'>")
 						.css("left", 250)
@@ -814,7 +822,10 @@ var progress = (function() {
 					$("<input type='number' name='seconds' min='0' max='59'>")
 						.css("width", "3em")
 						.attr("value", "0")
-						.appendTo(endDiv);
+						.appendTo(endDiv)
+						.change(function() {
+							checkDataQuality("timer");
+						});
 
 					//$("input[type=number]").spinner();
 
@@ -945,7 +956,6 @@ var progress = (function() {
 						$(".dialog input[name=bar-type]").change(function() {
 							type = $(this).attr("value").toLowerCase();
 							drawControls(type);
-							log("Changed type to " + type);
 						});
 					}
 					drawControls(type);
@@ -983,6 +993,7 @@ var progress = (function() {
 										"end": parseFloat(values.end),
 										"curly":curly
 									});
+									console.log(input);
 								} else {
 									slipAdd(key, type, title, description,
 									parseFloat(values.start), parseFloat(values.end), parseFloat(values.current));
