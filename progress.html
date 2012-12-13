@@ -8,6 +8,7 @@
 		<script type="text/javascript" src="js/lib/json2.js"></script>
 		<script src="js/delta/modernizr-2.0.6.min.js"></script>
 		<script src="js/globalize-master/lib/globalize.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Parisienne|Raleway:600' rel='stylesheet' type='text/css'>
 		<!--Development version-->
 		<script src="js/delta/custom.js"></script>
 		<link rel="stylesheet" href="css/style.css" rel="stylesheet" />
@@ -26,7 +27,7 @@
 					progress.draw();
 				}, 1000);
 
-				$(".add-question, #add").click(progress.add);
+				$(".add-question, .header .add.button").click(progress.add);
 				$("#set").button().click(function() {
 					timer = window.setInterval(function() {
 						progress.draw();
@@ -38,16 +39,23 @@
 				$("#debug").button().click(function(){
 					$(".debug.dialog").dialog("open");
 				});
-				$("#tips").button().click(function(){
+				$(".header .tips.button").click(function(){
 					$(".tips.dialog").dialog("open");
 				});
 				$("#reset").button().click(progress.reset);
 				$("#export").button().click(progress.exportData);
 				$("#import").button().click(progress.importData);
-				$("#settings").button().click(progress.settingsMenu);
+				$(".header .settings.button").click(progress.settingsMenu);
 			});
 		</script>
 		<div id="credit"><a href="http://www.porganized.com">Peter Organisciak</a>
+		</div>
+		<div class="header">
+			<a class="add button">Add bar</a>
+			<a class="settings button">Settings</a>
+			<h1>Progress Bar Timer</h1>
+			<a class="help button">Help</a>
+			<a class="tips button">Tips</a>
 		</div>
 <!--DIALOGS-->
 <!-- Settings Dialog -->
@@ -97,12 +105,6 @@ Blah blah blah.
 </div>
 
 <!-- END DIALOGS -->
-		<div id="controls">
-			<button id="add" />Add bar</button>
-			<button id="settings" />Settings</button>
-			<button id="debug" />Debug</button>
-			<button id="tips" />Tips</button>
-		</div>
 		<div id="container">
 		<div class="slip ui-widget-content disabled" style="position: relative;"><h2>Losing Weight</h2><div class="add-question"><div class="text">Add a new bar.</div></div><p><span class="note">Tracking my progress to my goal weight.</span></p><svg width="840" height="45" class="bar"><g transform="translate(0,10)"><rect class="bar-outline" width="820" height="20" x="10"></rect><rect class="progress" height="20" x="10" width="615"></rect><text class="start" x="10" y="31">220</text><text class="current" y="15" x="625">190</text><text class="end" text-anchor="start" x="830" y="31">180</text></g></svg></div>
 		</div>

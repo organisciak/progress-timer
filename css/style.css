@@ -2151,27 +2151,50 @@ header .ui-toggle-switch {
 body {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 10pt;
-  /*image from subtlepatterns.com*/
-  background: #333333 url(images/classy_fabric.png) 50% 50% repeat;
+  background: #dddddd;
+  background: url(images/debut_light.png) 50% 50% repeat;
   margin: 0;
+  padding: 0;
   color: #404040; }
+
+.header {
+  width: 100%;
+  padding-top: 15px;
+  text-align: center; }
+  .header h1 {
+    border-bottom: solid 1px #b9b9b9;
+    width: 400;
+    margin: 0 -30px;
+    padding: 10px;
+    cursor: default;
+    display: inline-block; }
+  .header a.button {
+    font-family: Parisienne, Raleway, Futura, Helvetica, Arial, sans-serif;
+    font-size: 15pt;
+    vertical-align: top;
+    color: #404040;
+    margin: 0 5px;
+    cursor: pointer; }
+    .header a.button:hover, .header a.button:focus {
+      color: hotpink; }
 
 .slip, .dialog {
   position: relative;
-  border-bottom: solid 1px lightgrey;
-  border-top: solid 1px lightgrey;
-  border-left: none;
-  border-right: none;
   margin: 10px auto 10px auto;
   padding: 15px 10px;
-  border-radius: 5px; }
+  border-radius: 3px;
+  border-bottom: solid 2px #b9b9b9;
+  background: white;
+  border-left: none;
+  border-right: none;
+  border-radius: 3px; }
 
 .dialog .image {
   border: 0;
   float: right;
   margin: 10px;
   border: solid 1px lightgrey;
-  border-radius: 5px;
+  border-radius: 3px;
   padding: 5px; }
 .dialog .footnote {
   border-top: solid 1px darkgray;
@@ -2199,7 +2222,7 @@ h3 {
 
 h1, h2, h3, h4, .ui-dialog-title {
   color: #404040;
-  font-family: Futura, Helvetica, Arial, sans-serif; }
+  font-family: Raleway, Futura, Helvetica, Arial, sans-serif; }
 
 #choose-type h3 {
   margin: 5px; }
@@ -2233,27 +2256,16 @@ h1, h2, h3, h4, .ui-dialog-title {
   font-size: 0.7em; }
 
 #container {
-  margin: 0 auto;
+  margin: 0 auto 200px auto;
   padding: 10px; }
-
-#controls {
-  background: url("images/diagonal-manilla.png") repeat scroll 50% 50% #efe7a6;
-  float: left;
-  margin: 0 15px 0 0;
-  padding: 10px;
-  position: fixed;
-  text-align: center;
-  top: 0;
-  width: 100px;
-  height: 100%;
-  border-right: 3px solid #222222; }
 
 #credit, #credit a {
   position: fixed;
   bottom: 0;
   right: 10px;
   font-size: 10px;
-  font-family: Verdana, sans-serif; }
+  font-family: Verdana, sans-serif;
+  z-index: 300; }
   #credit a, #credit a a {
     color: #888;
     text-decoration: none; }
@@ -2268,7 +2280,7 @@ h1, h2, h3, h4, .ui-dialog-title {
   line-height: 1.2em;
   background: rgba(200, 200, 200, 0.2);
   border: dotted 1px #999;
-  border-radius: 5px; }
+  border-radius: 3px; }
 
 .ui-dialog-buttonpane .errors, .ui-dialog-buttonpane .alerts {
   width: 500px;
@@ -2327,15 +2339,15 @@ text {
       position: absolute;
       left: 0;
       background: none;
-      border-radius: 5px;
+      border-radius: 3px;
       width: 100%;
       top: 0;
       height: 100%;
       cursor: pointer;
-      color: white;
+      color: #404040;
       z-index: 100; }
       .slip.disabled .add-question:hover, .slip.disabled .add-question:focus {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.05);
         color: hotpink; }
       .slip.disabled .add-question .text {
         margin-top: 50px;

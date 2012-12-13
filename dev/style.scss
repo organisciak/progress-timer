@@ -5,27 +5,63 @@
 
 $highlight-color: hotpink;
 $text-color: #404040;
-$border-radius: 5px;
+$border-radius: 3px;
 $border1: solid 1px lightgray;
+
+@mixin page-bg($opacity) {
+	background: rgba(221, 221, 221, $opacity);
+}
+
+@mixin card {
+  border-bottom:solid 2px #b9b9b9;
+  background: white;
+  border-left: none;
+  border-right: none;
+  border-radius: $border-radius;
+}
 
 body {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 10pt;
-	/*image from subtlepatterns.com*/
-	background: #333 url(images/classy_fabric.png) 50% 50% repeat;
+	@include page-bg(1.0); //Background
+	///*image from subtlepatterns.com*/
+	background: url(images/debut_light.png) 50% 50% repeat;
 	margin: 0;
+	padding: 0;
 	color: $text-color;
+}
+
+.header {
+	width: 100%;
+	padding-top: 15px;
+	text-align: center;
+	h1 {
+		border-bottom: solid 1px #b9b9b9;
+		width: 400;
+		margin: 0 -30px;
+		padding: 10px;
+		cursor: default;
+		display: inline-block;
+	}
+	a.button {
+		font-family: Parisienne, Raleway, Futura, Helvetica, Arial, sans-serif;
+		font-size: 15pt;
+		vertical-align: top;
+		color:$text-color;
+		margin: 0 5px;
+		cursor: pointer;
+		&:hover, &:focus {
+			color:$highlight-color;
+		}
+	}
 }
 
 .slip, .dialog {
   	position: relative;
-	border-bottom: $border1;
-    border-top: $border1;
-    border-left: none;
-    border-right: none;
 	margin: 10px auto 10px auto;
   	padding: 15px 10px;
   	border-radius: $border-radius;
+  	@include card;
 }
 
 .dialog {
@@ -69,7 +105,7 @@ h3 { font-size: 12pt; }
 
 h1, h2, h3, h4, .ui-dialog-title {
 	color: $text-color;
-	font-family: Futura, Helvetica, Arial, sans-serif;
+	font-family: Raleway, Futura, Helvetica, Arial, sans-serif;
 }
 
 #choose-type {
@@ -112,21 +148,8 @@ h1, h2, h3, h4, .ui-dialog-title {
 }
 
 #container {
-	margin: 0 auto;
+	margin: 0 auto 200px auto;
 	padding: 10px;
-}
-
-#controls {
-    background: url("images/diagonal-manilla.png") repeat scroll 50% 50% #EFE7A6; 
-    float: left; 
-    margin: 0 15px 0 0; 
-    padding: 10px; 
-    position: fixed; 
-    text-align: center; 
-    top: 0; 
-    width: 100px;
-    height: 100%; 
-    border-right: 3px solid #222222;
 }
 
 #credit, #credit a {
@@ -139,6 +162,7 @@ h1, h2, h3, h4, .ui-dialog-title {
 		color: #888;
 		text-decoration: none;
 	}
+	z-index: 300;
 }
 
 .ui-state-highlight { 
@@ -230,10 +254,10 @@ text {
 			top: 0;
 			height: 100%;
 			cursor: pointer;
-			color: white;
+			color: $text-color;
 			z-index: 100;
 			&:hover, &:focus {
-				background: rgba(255,255,255,0.05);
+				background: rgba(0,0,0,0.05);
 				color: $highlight-color;
 			}
 			.text {
