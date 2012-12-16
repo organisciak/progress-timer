@@ -1082,6 +1082,7 @@ var progress = (function() {
 						var input = JSON.parse($('#input-box').attr("value"));
 						progress.load(input);
 						$(this).dialog("close");
+						document.location.reload();
 					},
 					"Cancel": function() {
 						$(this).dialog("close");
