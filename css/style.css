@@ -2323,6 +2323,10 @@ text {
     text-anchor: middle;
     font-size: 10pt;
     fill: white; }
+    .slip .current.highlight {
+      fill: hotpink; }
+    .slip .current.inactive {
+      fill: #cccccc; }
   .slip .end {
     text-anchor: end; }
   .slip.disabled {

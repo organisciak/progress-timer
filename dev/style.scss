@@ -4,6 +4,7 @@
 @import "delta-custom";
 
 $highlight-color: hotpink;
+$inactive-color: #ccc;
 $text-color: #404040;
 $border-radius: 3px;
 $border1: solid 1px lightgray;
@@ -231,6 +232,8 @@ text {
 		text-anchor: middle; 
 		font-size: 10pt;
 		fill: white;
+		&.highlight {fill: $highlight-color;}
+		&.inactive {fill: $inactive-color;}
 	}
 	.end {	text-anchor:end; }
 	

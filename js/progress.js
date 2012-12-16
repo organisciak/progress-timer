@@ -410,11 +410,38 @@ var progress = (function() {
 			//Currently, everything below happens twice, once for the text 
 			//outline and once for the foreground text
 			d3.selectAll(".slip.active .current")
-				.transition()
-				.duration(300)
+				.classed("highlight", function(d) {
+						var c = getCurrentVal(d);
+						if ((d.start < d.end) && (c > d.end || c < d.start)) {
+							return true;
+						} else if ((d.start > d.end) && (c < d.end || c > d.start)) {
+							return true;
+						} else {
+							return false;
+						}
+					})
+				.classed("inactive", function(d) {
+					if (d.type === "timer" && d.progress.start === undefined) {
+						return true;
+					} else {
+						return false;
+					}
+				})
 				.text(function(d) {
 					var c = getCurrentVal(d);
 					return format(c, d.type);
+				})
+				.transition()
+				.duration(function(d) { 
+					if (d.type === "timer" && d.progress.start === undefined) {
+						//If a paused timer, slowly animate to nothing
+						return 1000
+					} else if (d.type === "timer" && new Date().getTime() - d.progress.start < 1000) {
+						//If a paused timer that was recently unpaused, ease back into the rhythm
+						return 1000
+					} else {
+						return 300
+					}
 				})
 				.attr("x", function(d) {
 					var textBoundingWidth = $(this)[0].getBBox().width,
@@ -429,19 +456,8 @@ var progress = (function() {
 					} else {
 						return loc + slipMargin;
 					}
-				})
-				.style("fill", function(d) {
-					var c = getCurrentVal(d);
-					if (d.type === "timer" && d.progress.start === undefined) {
-						return "#ccc";
-					} else if ((d.start < d.end) && (c > d.end || c < d.start)) {
-						return "#f00";
-					} else if ((d.start > d.end) && (c < d.end || c > d.start)) {
-						return "#f00";
-					} else {
-						return;
-					}
 				});
+				
 
 			$("#container").sortable({
 				placeholder: "ui-sortable-placeholder",
