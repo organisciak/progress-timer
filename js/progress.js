@@ -115,7 +115,7 @@ var progress = (function() {
 				return value;
 			} else if (type === "clock") {
 				date = new Date(value);
-				return date.toLocaleTimeString();
+				return date.toLocaleString();
 			} else if (type === "timer") {
 				time = msToFullTime(value);
 				return time.hours + ":" + leadingZero(time.minutes) + ":" + leadingZero(time.seconds);
@@ -510,8 +510,7 @@ var progress = (function() {
 			})
 				.append("button")
 				.attr("class", "timer-toggle")
-			//.text(function(d){ if(d.progress.start){return "Pause"} else return {"Start"}})
-			.text("Start/Pause")
+				.text("Start/Pause")
 				.style("float", "right")
 				.on("click", toggleTimer);
 
@@ -1121,6 +1120,11 @@ var progress = (function() {
 			//Set correct settings
 			$(".tip-toggle")
 				.attr('checked', input.settings.tipShow)
+				
+			//Set-up Sample Bar
+			var example = d3.selectAll(".slip.disabled");
+			example.select(".bar-outline").attr("width", barWidth);
+			example.select(".progress").attr("width", barWidth*0.75);
 		};
 
 	return {
