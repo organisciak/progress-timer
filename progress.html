@@ -16,38 +16,6 @@
 	</head>
 	<!--<body class="ui-widget-header">-->
 	<body>
-		<script type="text/javascript">
-			jQuery(document).ready(function() {
-				progress.load();
-				progress.draw(true);
-				
-				//DEBUGGING
-				var timer;
-				timer = window.setInterval(function() {
-					progress.draw();
-				}, 1000);
-
-				$(".add-question, .header .add.button").click(progress.add);
-				$("#set").button().click(function() {
-					timer = window.setInterval(function() {
-						progress.draw();
-					}, 1000);
-				});
-				$("#clear").button().click(function() {
-					clearInterval(timer);
-				});
-				$("#debug").button().click(function(){
-					$(".debug.dialog").dialog("open");
-				});
-				$(".header .tips.button").click(function(){
-					$(".tips.dialog").dialog("open");
-				});
-				$("#reset").button().click(progress.reset);
-				$("#export").button().click(progress.exportData);
-				$("#import").button().click(progress.importData);
-				$(".header .settings.button").click(progress.settingsMenu);
-			});
-		</script>
 		<div id="credit"><a href="http://www.porganized.com">Peter Organisciak</a>
 		</div>
 		<div class="header">

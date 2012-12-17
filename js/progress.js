@@ -1223,10 +1223,6 @@ var progress = (function() {
 		}
 	};
 })();
-
-
-//
-
 var msToFullTime = function(milliseconds) {
 			hours = Math.floor(milliseconds / (1000 * 60 * 60)) % 24;
 			minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
@@ -1237,7 +1233,6 @@ var msToFullTime = function(milliseconds) {
 				"seconds": seconds
 			};
 		};
-		
 var fullTimeToMs = function(str) {
 			/*
 			Takes string in format hh:mm:ss and converts to milliseconds
@@ -1245,7 +1240,6 @@ var fullTimeToMs = function(str) {
 			str = str.split(":");
 			return (str[0] * 60 * 60 * 1000) + (str[1] * 60 * 1000) + (str[2] * 1000);
 		};
-
 //JQUERY TIMESPINNER EXTENSION (http://jqueryui.com/spinner/#time)
 $.widget( "ui.timespinner", $.ui.spinner, {
         options: {
@@ -1271,3 +1265,35 @@ $.widget( "ui.timespinner", $.ui.spinner, {
              return a;
         }
     });
+
+//Main on-load script
+jQuery(document).ready(function() {
+	progress.load();
+	progress.draw(true);
+	
+	//DEBUGGING
+	var timer;
+	timer = window.setInterval(function() {
+		progress.draw();
+	}, 1000);
+
+	$(".add-question, .header .add.button").click(progress.add);
+	$("#set").button().click(function() {
+		timer = window.setInterval(function() {
+			progress.draw();
+		}, 1000);
+	});
+	$("#clear").button().click(function() {
+		clearInterval(timer);
+	});
+	$("#debug").button().click(function(){
+		$(".debug.dialog").dialog("open");
+	});
+	$(".header .tips.button").click(function(){
+		$(".tips.dialog").dialog("open");
+	});
+	$("#reset").button().click(progress.reset);
+	$("#export").button().click(progress.exportData);
+	$("#import").button().click(progress.importData);
+	$(".header .settings.button").click(progress.settingsMenu);
+});
