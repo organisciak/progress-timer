@@ -42,12 +42,13 @@ var progress = (function() {
 	}
 	
 	],
-	version = [
-		{
-		"number": "0.05",
-		"new": []
-	}
-	],
+	sample_items = [
+				{"title": "Losing Weight", "description":"Tracking my progress to my goal weight.","start":220, "current":190, "end":180},
+				{"title": "Essay Progress", "description":"Toward a max word count of 6000", "start":0, "current":5000, "end":6000},
+				{"title": "Days until Christmas", "description":"", "start":"Dec 1", "current":"Dec 18", "end":"Dec 24"},
+				{"title": "Work Day", "start":0, "description":"The end is coming..", "current":6, "end":8},
+				{"title": "Pokemon Collection", "description":"Gotta catch 'em all!", "start":0, "current":150, "end":100},
+			],
 		pageWidth = document.width <= 1200 ? document.width : 1200,
 		pageMargin = 170,
 		containerWidth = pageWidth - pageMargin * 2,
@@ -1125,6 +1126,14 @@ var progress = (function() {
 			var example = d3.selectAll(".slip.disabled");
 			example.select(".bar-outline").attr("width", barWidth);
 			example.select(".progress").attr("width", barWidth*0.75);
+			
+			var sample = sample_items[Math.floor(Math.random()*sample_items.length)];
+			example.select("h2").text(sample.title);
+			example.select(".note").text(sample.description);
+			example.select(".start").text(sample.start);
+			example.select(".current").text(sample.current);
+			example.select(".end").text(sample.end);
+			
 		};
 
 	return {
