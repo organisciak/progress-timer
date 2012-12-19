@@ -580,19 +580,26 @@ var progress = (function() {
 			var counters = selection.filter(function(d, i) {
 				return d.type === "counter" && d.curly !== true;
 			});
-			var counterValues = [1, 5, 10, 50];
+
+			d = 500;
+			var counterValues;
+			if (d < 40) counterValues = [1, 5, 10];
+			if (d < 80) counterValues = [1, 5, 10];
+			else if (d < 120) counterValues = [1, 5, 50];
+			else if (d < 500) counterValues = [1, 10, 100];
+			else counterValues = [1, 10, 100];
 
 			counterValues = counterValues
-			//Add the 0 value that stands in for the quick edit button (TODO)
-			.concat([0])
-			//Add negative versions to counter values
-			.concat(counterValues.map(function(v) {
-				return -v;
-			}))
-			//Sort descending (since buttons are places right to left
-			.sort(function(a, b) {
-				return b - a;
-			});
+				//Add the 0 value that stands in for the quick edit button (TODO)
+				.concat([0])
+				//Add negative versions to counter values
+				.concat(counterValues.map(function(v) {
+					return -v;
+				}))
+				//Sort descending (since buttons are places right to left
+				.sort(function(a, b) {
+					return b - a;
+				});
 
 			for (var i = 0; i < counterValues.length; i++) {
 				var v = counterValues[i];
@@ -608,10 +615,8 @@ var progress = (function() {
 					})(v) ///Yay private closures!
 					);
 				} else {
-					//TODO: MAKE A QUICK EDIT BUTTON
-					/*
-		counters.append("button").html("Quick<br/>Edit").style("float", "right")
-		*/
+					// TODO: Make quick edit button
+					//counters.append("button").html("Quick<br/>Edit").style("float", "right")
 				}
 			}
 		},
