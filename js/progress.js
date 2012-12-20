@@ -693,15 +693,11 @@ var progress = (function() {
 			if (str === null || str === "") {
 				//Use default data (see input variable above)
 				progress.draw();
-				//Show introduction window
-				$(".introduction.dialog").dialog("open");
+
 			} else {
 				input = JSON.parse(str);
 				parseDataTypes();
 				progress.draw();
-				if (input.settings.tipShow) {
-					$(".tips.dialog").dialog("open");
-				}
 			}
 			return;
 		},
@@ -1121,6 +1117,18 @@ var progress = (function() {
 				modal: false, 
 				resizable: true
 			});
+			
+			//Introduction dialog
+			$(".introduction.dialog").dialog({
+				modal: false, 
+				width: 500,
+				buttons: {
+					"Add a Bar" : function() {
+						draw.editDialog();
+						$(this).dialog("close");
+						}
+				}
+			});
 		},
 		postLoad = function() {
 			//Set correct settings
@@ -1139,6 +1147,15 @@ var progress = (function() {
 			example.select(".current").text(sample.current);
 			example.select(".end").text(sample.end);
 			
+			//If data is empty, draw the add dialog
+			if (input.bars.length === 0) {
+				//Show introduction window
+				$(".introduction.dialog").dialog("open");
+				return false;
+			} else if (input.settings.tipShow) {
+				$(".tips.dialog").dialog("open");
+			};
+			
 		};
 
 	return {
@@ -1153,11 +1170,6 @@ var progress = (function() {
 				loadNewData(json);
 			} else {
 				loadLocalData();
-			}
-			//If data is empty, draw the add dialog
-			if (input.bars.length === 0) {
-				progress.add();
-				return false;
 			}
 			
 			//Add saving event for page unload
@@ -1184,8 +1196,8 @@ var progress = (function() {
 				opts.debug = debug;
 			}
 			var container = d3.select("#container")
-				.style("width", containerWidth)
-				.style("margin", "0 " + pageMargin + "px");
+				.style("width", containerWidth);
+				//.style("margin", "0 " + pageMargin + "px");
 
 			var slips = container.selectAll(".slip.active")
 				.data(input.bars, function(d) {
@@ -1296,6 +1308,9 @@ jQuery(document).ready(function() {
 	});
 	$(".header .tips.button").click(function(){
 		$(".tips.dialog").dialog("open");
+	});
+	$(".header .help.button").click(function(){
+		$(".introduction.dialog").dialog("open");
 	});
 	$("#reset").button().click(progress.reset);
 	$("#export").button().click(progress.exportData);
