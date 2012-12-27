@@ -1199,6 +1199,39 @@ button.ui-button::-moz-focus-inner {
  *
  * http://docs.jquery.com/UI/Slider#theming
  */
+.ui-spinner-input {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: .2em 0;
+  vertical-align: middle;
+  margin-left: .4em;
+  margin-right: 22px; }
+
+.ui-spinner-button {
+  width: 16px;
+  height: 50%;
+  font-size: .5em;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  position: absolute;
+  cursor: default;
+  display: block;
+  overflow: hidden;
+  right: 0; }
+
+.ui-spinner-up {
+  top: 0; }
+
+.ui-spinner-down {
+  bottom: 0; }
+
+/* TR overrides */
+.ui-spinner .ui-icon-triangle-1-s {
+  /* need to fix icons sprite */
+  background-position: -65px -16px; }
+
 .ui-slider {
   position: relative;
   text-align: left;
@@ -1207,9 +1240,7 @@ button.ui-button::-moz-focus-inner {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) inset;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) inset;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) inset;
-  display: inline-block;
-  *display: inline !important;
-  *zoom: 1; }
+  /*display: inline-block;*/ }
   .ui-slider .ui-slider-handle {
     position: absolute;
     z-index: 2;
@@ -1235,6 +1266,16 @@ button.ui-button::-moz-focus-inner {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px; }
+  .ui-slider .ui-icon {
+    position: absolute;
+    margin-top: -8px;
+    top: 50%;
+    left: 0; }
+  .ui-slider a.ui-spinner-button {
+    /* more specificity required here to overide default borders */
+    border-top: none;
+    border-bottom: none;
+    border-right: none; }
   .ui-slider .ui-slider-handle.ui-state-active {
     background-position: -17px 0; }
 
@@ -1829,6 +1870,36 @@ button.ui-button span {
   .ui-slider .ui-slider-handle {
     background-image: url("delta/images/slider_handles@2x.png");
     background-size: 34px 21px; } }
+/* timepicker.scss */
+.ui-datepicker .ui-timepicker-div .ui-widget-header {
+  margin-bottom: 8px; }
+.ui-datepicker .ui-timepicker-div dl {
+  text-align: left; }
+  .ui-datepicker .ui-timepicker-div dl dt {
+    height: 25px;
+    margin-bottom: -25px; }
+  .ui-datepicker .ui-timepicker-div dl dd {
+    margin: 0 10px 10px 65px; }
+.ui-datepicker .ui-timepicker-div td {
+  font-size: 90%;
+  border: none; }
+.ui-datepicker .ui-timepicker-div tr {
+  border: none; }
+
+.ui-tpicker-grid-label {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0; }
+
+.ui-timepicker-rtl {
+  direction: rtl; }
+  .ui-timepicker-rtl dl {
+    text-align: right; }
+    .ui-timepicker-rtl dl dd {
+      margin: 0 65px 10px 10px; }
+
+/* End Timepicker CSS */
 /* HTML5 ✰ Boilerplate
  * ==|== normalize ========================================================== */
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {

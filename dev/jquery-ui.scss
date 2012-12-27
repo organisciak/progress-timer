@@ -1529,6 +1529,18 @@ button.ui-button::-moz-focus-inner {
  * http://docs.jquery.com/UI/Slider#theming
  */
 
+//.ui-spinner { display: inline-block; overflow: hidden; padding: 0; vertical-align: middle; }
+.ui-spinner-input { border: none; background: none; padding: 0; margin: .2em 0; vertical-align: middle; margin-left: .4em; margin-right: 22px; }
+.ui-spinner-button { width: 16px; height: 50%; font-size: .5em; padding: 0; margin: 0; text-align: center; position: absolute; cursor: default; display: block; overflow: hidden; right: 0; }
+.ui-spinner-up { top: 0; }
+.ui-spinner-down { bottom: 0; }
+
+/* TR overrides */
+.ui-spinner .ui-icon-triangle-1-s {
+	/* need to fix icons sprite */
+	background-position:-65px -16px;
+}
+
 .ui-slider {
   position: relative;
   text-align: left;
@@ -1537,9 +1549,7 @@ button.ui-button::-moz-focus-inner {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) inset;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) inset;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) inset;
-  display: inline-block;
-  *display: inline !important;
-  *zoom: 1;
+  /*display: inline-block;*/
   .ui-slider-handle {
     position: absolute;
     z-index: 2;
@@ -1553,7 +1563,7 @@ button.ui-button::-moz-focus-inner {
     border-radius: 0;
     border: none;
   }
-  .ui-slider-range {
+  .ui-slider-range { 
     position: absolute;
     z-index: 1;
     font-size: .7em;
@@ -1567,6 +1577,19 @@ button.ui-button::-moz-focus-inner {
     -moz-border-radius: 3px;
     border-radius: 3px;
   }
+  .ui-icon { 
+  	// vertical centre icon
+  	position: absolute; 
+  	margin-top: -8px; 
+  	top: 50%; 
+  	left: 0; 
+  } 
+  a.ui-spinner-button { 
+  	/* more specificity required here to overide default borders */
+  	border-top: none; 
+  	border-bottom: none; 
+  	border-right: none; 
+  	} 
   .ui-slider-handle.ui-state-active {
     background-position: -17px 0;
   }
@@ -1574,42 +1597,20 @@ button.ui-button::-moz-focus-inner {
 
 .ui-slider-horizontal {
   height: 6px;
-  .ui-slider-handle {
-    top: -5px;
-    margin-left: -0.6em;
-  }
-  .ui-slider-range {
-    top: 0;
-    height: 100%;
-  }
-  .ui-slider-range-min {
-    left: 0;
-  }
-  .ui-slider-range-max {
-    right: 0;
-  }
+  .ui-slider-handle { top: -5px; margin-left: -0.6em; }
+  .ui-slider-range { top: 0; height: 100%; }
+  .ui-slider-range-min { left: 0; }
+  .ui-slider-range-max { right: 0; }
 }
 
 .ui-slider-vertical {
   width: .8em;
   height: 100px;
-  .ui-slider-handle {
-    left: -0.3em;
-    margin-left: 0;
-    margin-bottom: -0.6em;
-  }
-  .ui-slider-range {
-    left: 0;
-    width: 100%;
-  }
-  .ui-slider-range-min {
-    bottom: 0;
-  }
-  .ui-slider-range-max {
-    top: 0;
-  }
+  .ui-slider-handle { left: -0.3em; margin-left: 0; margin-bottom: -0.6em; }
+  .ui-slider-range { left: 0; width: 100%; }
+  .ui-slider-range-min { bottom: 0; }
+  .ui-slider-range-max { top: 0; }
 }
-
                                                    /*
 * jQuery UI Tabs 1.8.16
 *

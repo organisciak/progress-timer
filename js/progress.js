@@ -293,13 +293,11 @@ var progress = (function() {
 					break;
 				case 'clock':
 					var offset = getTimeOffset(),
-						startDate = $("input[name=start-date]").attr("value"),
-						startTime = $("input[name=start-time]").timespinner( "value" ),
-						endDate = $("input[name=end-date]").attr("value"),
-						endTime = $("input[name=end-time]").timespinner( "value" );
-					start = new Date(startDate).getTime() + msToday(startTime),
+						startDate = $("input[name=start-date]").datetimepicker('getDate'),
+						endDate = $("input[name=end-date]").datetimepicker('getDate'),
+					start = new Date(startDate).getTime(),
 					current = (new Date()).getTime(),	
-					end = new Date(endDate).getTime() + msToday(endTime);
+					end = new Date(endDate).getTime();
 					break;
 			}
 			return {
@@ -777,32 +775,41 @@ var progress = (function() {
 					}
 					parentDiv.empty();
 					$("<div class='choose-timer'>")
-						.html("<h3>Choose start time</h3>" + "<input type='text' name='start-date'>" + "<input name='start-time'>")
+						.html("<h3>Choose start time</h3>" + "<input type='text' name='start-date'>")
 						.appendTo(parentDiv);
 					//Choose end time
 					$("<div class='choose-timer'>")
-						.html("<h3>Choose end time</h3>" + "<input type='text' name='end-date'>" + "<input name='end-time'>")
+						.html("<h3>Choose end time</h3>" + "<input type='text' name='end-date'>")
 						.appendTo(parentDiv);
 
 					$('input[name="start-date"]')
-						.datepicker({})
-						.datepicker("setDate", start);
+						.datetimepicker({
+							//altField: "input[name='start-time']",
+							hourGrid: 6,
+							minuteGrid: 15
+						})
+						.datetimepicker("setDate", start);
 					$("input[name='end-date']")
-						.datepicker({})
+						.datetimepicker({
+							//altField: "input[name='end-time']",
+							hourGrid: 6,
+							minuteGrid: 15
+						})
 						.datepicker("setDate", end);
-					$("input[name='start-time']")
+					/*$("input[name='start-time']")
 						//Initialize timespinner
-							.timespinner({ stop: function( event, ui ) {checkDataQuality("clock");} })
-							.timespinner("value", msToday(start)+offset ); //set timespinner value
+							.timepicker({
+								 })
+							.timepicker("value", msToday(start)+offset ); //set timespinner value
 							
 					$("input[name='end-time']")
 						.timespinner({ stop: function( event, ui ) {checkDataQuality("clock");} })
 						.timespinner("value", msToday(end)+offset);
-
+					
 
 					$("input[name='start-date'], input[name='end-date']").change(function() {
 						checkDataQuality("clock");
-					});
+					});*/
 				},
 				timerControls: function(parentDiv, data, index) {
 					parentDiv.empty();
