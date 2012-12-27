@@ -116,7 +116,9 @@ var progress = (function() {
 				return value;
 			} else if (type === "clock") {
 				date = new Date(value);
-				return date.toLocaleString();
+				var d = $.datepicker.formatDate('mm-dd', date),
+					t = date.toLocaleTimeString();
+				return d + " " + t;
 			} else if (type === "timer") {
 				time = msToFullTime(value);
 				return time.hours + ":" + leadingZero(time.minutes) + ":" + leadingZero(time.seconds);
