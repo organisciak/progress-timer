@@ -1871,20 +1871,22 @@ button.ui-button span {
     background-image: url("delta/images/slider_handles@2x.png");
     background-size: 34px 21px; } }
 /* timepicker.scss */
-.ui-datepicker .ui-timepicker-div .ui-widget-header {
-  margin-bottom: 8px; }
-.ui-datepicker .ui-timepicker-div dl {
-  text-align: left; }
-  .ui-datepicker .ui-timepicker-div dl dt {
-    height: 25px;
-    margin-bottom: -25px; }
-  .ui-datepicker .ui-timepicker-div dl dd {
-    margin: 0 10px 10px 65px; }
-.ui-datepicker .ui-timepicker-div td {
-  font-size: 90%;
-  border: none; }
-.ui-datepicker .ui-timepicker-div tr {
-  border: none; }
+.ui-datepicker .ui-timepicker-div {
+  font-size: 11px; }
+  .ui-datepicker .ui-timepicker-div .ui-widget-header {
+    margin-bottom: 8px; }
+  .ui-datepicker .ui-timepicker-div dl {
+    text-align: left; }
+    .ui-datepicker .ui-timepicker-div dl dt {
+      height: 25px;
+      margin-bottom: -25px; }
+    .ui-datepicker .ui-timepicker-div dl dd {
+      margin: 0 10px 10px 65px; }
+  .ui-datepicker .ui-timepicker-div td {
+    font-size: 90%;
+    border: none; }
+  .ui-datepicker .ui-timepicker-div tr {
+    border: none; }
 
 .ui-tpicker-grid-label {
   background: none;
@@ -1900,9 +1902,11 @@ button.ui-button span {
       margin: 0 65px 10px 10px; }
 
 .ui-datepicker {
-  margin-left: 150px;
-  margin-top: -30px;
   padding: 3px; }
+  .ui-datepicker td a {
+    width: 20px;
+    height: 20px;
+    font-size: 10px; }
 
 /* End Timepicker CSS */
 /* HTML5 ✰ Boilerplate
@@ -2433,3 +2437,6 @@ text {
         margin-top: 50px;
         text-align: center;
         font-size: 17pt; }
+
+.ui-widget-header {
+  font-size: 12px; }

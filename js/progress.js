@@ -786,16 +786,21 @@ var progress = (function() {
 
 					$('input[name="start-date"]')
 						.datetimepicker({
-							//altField: "input[name='start-time']",
 							hourGrid: 6,
-							minuteGrid: 15
+							minuteGrid: 15,
+							beforeShow: function(input, inst) {
+									inst.dpDiv.css({marginTop: -100-input.offsetHeight + 'px', marginLeft: 20+input.offsetWidth + 'px'});
+								}
 						})
 						.datetimepicker("setDate", start);
 					$("input[name='end-date']")
 						.datetimepicker({
 							//altField: "input[name='end-time']",
 							hourGrid: 6,
-							minuteGrid: 15
+							minuteGrid: 15,
+							beforeShow: function(input, inst) {
+								inst.dpDiv.css({marginTop: -160-input.offsetHeight + 'px', marginLeft: 20+input.offsetWidth + 'px'});
+							}
 						})
 						.datepicker("setDate", end);
 					$("input[name='start-date'], input[name='end-date']").change(function() {

@@ -1,5 +1,6 @@
 /* timepicker.scss */
 .ui-datepicker .ui-timepicker-div {
+	font-size: 11px;
 	.ui-widget-header { margin-bottom: 8px; }
 	dl { 
 		text-align: left; 
@@ -24,9 +25,12 @@
 
 //Custom CSS
 .ui-datepicker {	
-	margin-left: 150px;
-	margin-top: -30px;
 	padding: 3px;
+	td a {
+		width: 20px;
+		height: 20px;
+		font-size: 10px;
+	}
 }
 /* End Timepicker CSS */
 
