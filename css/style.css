@@ -1899,6 +1899,10 @@ button.ui-button span {
     .ui-timepicker-rtl dl dd {
       margin: 0 65px 10px 10px; }
 
+.ui-datepicker {
+  margin-left: 150px;
+  margin-top: -30px; }
+
 /* End Timepicker CSS */
 /* HTML5 ✰ Boilerplate
  * ==|== normalize ========================================================== */

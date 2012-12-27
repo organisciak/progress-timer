@@ -796,20 +796,9 @@ var progress = (function() {
 							minuteGrid: 15
 						})
 						.datepicker("setDate", end);
-					/*$("input[name='start-time']")
-						//Initialize timespinner
-							.timepicker({
-								 })
-							.timepicker("value", msToday(start)+offset ); //set timespinner value
-							
-					$("input[name='end-time']")
-						.timespinner({ stop: function( event, ui ) {checkDataQuality("clock");} })
-						.timespinner("value", msToday(end)+offset);
-					
-
 					$("input[name='start-date'], input[name='end-date']").change(function() {
 						checkDataQuality("clock");
-					});*/
+					});
 				},
 				timerControls: function(parentDiv, data, index) {
 					parentDiv.empty();
