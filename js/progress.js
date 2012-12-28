@@ -581,7 +581,12 @@ var progress = (function() {
 				return d.type === "counter" && d.curly !== true;
 			});
 
-			d = 500;
+			/*counters.call(function(selection){
+				var d = selection.data()[0];
+				console.log(d);
+				//selection.append("p").text(function(d){return d.end});
+			});*/
+			d = 100;
 			var counterValues;
 			if (d < 40) counterValues = [1, 5, 10];
 			if (d < 80) counterValues = [1, 5, 10];
