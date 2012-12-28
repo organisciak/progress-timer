@@ -1265,31 +1265,6 @@ var fullTimeToMs = function(str) {
 			str = str.split(":");
 			return (str[0] * 60 * 60 * 1000) + (str[1] * 60 * 1000) + (str[2] * 1000);
 		};
-//JQUERY TIMESPINNER EXTENSION (http://jqueryui.com/spinner/#time)
-$.widget( "ui.timespinner", $.ui.spinner, {
-        options: {
-            // seconds
-            step: 60 * 1000,
-            // hours
-            page: 60
-        },
-       _parse: function( value ) {
-		
-            if ( typeof value === "string" ) {
-                // already a timestamp
-                if ( Number( value ) == value ) {
-                    return Number( value );
-                }
-		a = Globalize.parseDate( value );
-                return +Globalize.parseDate( value );
-            }
-            return value;
-        },
-        _format: function( value ) {
-             a = Globalize.format( new Date(value), "t" );
-             return a;
-        }
-    });
 
 //Main on-load script
 jQuery(document).ready(function() {
@@ -1303,17 +1278,6 @@ jQuery(document).ready(function() {
 	}, 1000);
 
 	$(".add-question, .header .add.button").click(progress.add);
-	$("#set").button().click(function() {
-		timer = window.setInterval(function() {
-			progress.draw();
-		}, 1000);
-	});
-	$("#clear").button().click(function() {
-		clearInterval(timer);
-	});
-	$("#debug").button().click(function(){
-		$(".debug.dialog").dialog("open");
-	});
 	$(".header .tips.button").click(function(){
 		$(".tips.dialog").dialog("open");
 	});
