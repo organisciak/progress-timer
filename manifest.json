@@ -1,0 +1,22 @@
+{
+"name": "Progress Bar Timer",
+	//Required
+	"version": "0.1",
+	"manifest_version": 2,
+	
+	//Recommended
+	"description": "Make general purpose trackers: progress bars that count time, data, and anything you want.",
+	//"default_locale": "en",
+	"icons": { "16": "images/icon16.png",
+	             "48": "images/icon48.png",
+	            "128": "images/icon128.png" },
+	
+	"app" : {
+		"launch" : {
+			"local_path" : "progress.html"
+		}
+	},
+	"permissions" : [
+		"storage"
+	]
+}
