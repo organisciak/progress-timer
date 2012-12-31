@@ -42,3 +42,10 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+
+# CUSTOM #
+##########
+*.bak
+extension/css
+extension/js
+extension/progress.html
