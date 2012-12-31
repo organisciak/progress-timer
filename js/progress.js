@@ -16,11 +16,11 @@ var progress = (function() {
 			],
 		"settings": {
 			"lastTip" : -1,
-			"tipShow" : false,
+			"tipShow" : false
 		}
 	},
 	opts = {
-		debug: false
+		debug: true
 	},
 	tips = [
 	{
@@ -30,15 +30,15 @@ var progress = (function() {
 	},
 	{
 	"preamble":"Idea: tracking your weight loss.",
-	"tip":"Did you know that progress bars can count down? Set the start of the bar as your starting weight, and the end as your target.",
+	"tip":"Did you know that progress bars can count down? Set the start of the bar as your starting weight, and the end as your target."
 	}, 
 	{
 	"preamble":"Sorting progress bars",
-	"tip":"Click and drag on an empty spot of a progress bar slip to sort progress bars to your preferred order.",
+	"tip":"Click and drag on an empty spot of a progress bar slip to sort progress bars to your preferred order."
 	}, 
 	{
 	"preamble":"Super-secret pro-tip: Curly notation",
-	"tip":"If you write numbers between curly braces in the description of a counter timer, the progress bar will add them up and set them as the current progress. This is an experimental feature, but really useful sometimes.",
+	"tip":"If you write numbers between curly braces in the description of a counter timer, the progress bar will add them up and set them as the current progress. This is an experimental feature, but really useful sometimes."
 	}
 	
 	],
@@ -47,7 +47,7 @@ var progress = (function() {
 				{"title": "Essay Progress", "description":"Toward a max word count of 6000", "start":0, "current":5000, "end":6000},
 				{"title": "Days until Christmas", "description":"", "start":"Dec 1", "current":"Dec 18", "end":"Dec 24"},
 				{"title": "Work Day", "start":0, "description":"The end is coming..", "current":6, "end":8},
-				{"title": "Pokemon Collection", "description":"Gotta catch 'em all!", "start":0, "current":150, "end":100},
+				{"title": "Pokemon Collection", "description":"Gotta catch 'em all!", "start":0, "current":150, "end":100}
 			],
 		pageWidth = document.width <= 1200 ? document.width : 1200,
 		pageMargin = 170,
@@ -156,8 +156,8 @@ var progress = (function() {
 			return Math.floor(
 			Math.random() * 0x1000000).toString(16);
 		},
-		leadingZero = function(int) {
-			return (int > 9 ? "" + int : "0" + int);
+		leadingZero = function(integer) {
+			return (integer > 9 ? "" + integer : "0" + integer);
 		},
 		getCurrentVal = function(d) {
 			var currentTime = (new Date()).getTime(),
@@ -402,9 +402,9 @@ var progress = (function() {
 					buttons = that.selectAll(".change-counter");
 				if (d.curly === true && buttons[0].length > 0) {
 					buttons.remove();
-				} else if (d.curly === false && buttons[0].length < 0) {
+				}/* else if (d.curly === false && buttons[0].length < 0) {
 					//TODO: Add buttons back here
-				}
+				}*/
 			});
 
 			//Update text for current progress
@@ -1013,7 +1013,6 @@ var progress = (function() {
 										"end": parseFloat(values.end),
 										"curly":curly
 									});
-									console.log(input);
 								} else {
 									slipAdd(key, type, title, description,
 									parseFloat(values.start), parseFloat(values.end), parseFloat(values.current));
@@ -1197,6 +1196,10 @@ var progress = (function() {
 			}
 			if (debug !== undefined) {
 				opts.debug = debug;
+			}
+			if (opts.debug !== true) {
+				log("Debugging is false");
+				$("#debug").hide();
 			}
 			var container = d3.select("#container")
 				.style("width", containerWidth);
