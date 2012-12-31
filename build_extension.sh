@@ -44,6 +44,9 @@ cp -r css/images/* extension/css/images
 #Set progress.js debugging flag back to true
 sed -i.bak "s/debug\: false/debug\: true/g" js/progress.js
 
-echo "Chrome extension compiled successfully."
+## 4. Zip extension to archive
+zip -r progress extension/*
+
+echo "Chrome extension compiled successfully to progress.zip."
 exit 0
 
