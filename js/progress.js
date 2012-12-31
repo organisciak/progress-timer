@@ -581,7 +581,7 @@ var progress = (function() {
 				return d.type === "counter" && d.curly !== true;
 			});
 
-			d = 500;
+			d = 100;
 			var counterValues;
 			if (d < 40) counterValues = [1, 5, 10];
 			if (d < 80) counterValues = [1, 5, 10];
@@ -606,7 +606,7 @@ var progress = (function() {
 				if (v !== 0) {
 					counters.append("button")
 						.attr("class", "change-counter")
-						.text((v >= 0 ? "+" : "-") + v)
+						.text((v >= 0 ? "+" : "") + v)
 						.style("float", "right")
 						.on("click", (function(val) {
 						return function(d) {
