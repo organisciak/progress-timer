@@ -116,7 +116,7 @@
   color: #1b1d1f;
   font-size: 14px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  background: #f6f7f9 url("delta/images/fallback_moduleHeader.png") 0 0 repeat-x;
+  background: #f6f7f9 url("images/fallback_moduleHeader.png") 0 0 repeat-x;
   /* Old browsers */
   background: -moz-linear-gradient(top, #f6f7f9 0%, #ebedf0 100%);
   /* FF3.6+ */
@@ -214,26 +214,26 @@
 .ui-icon {
   width: 16px;
   height: 16px;
-  background-image: url("delta/images/ui-icons_222222_256x240.png"); }
+  background-image: url("images/ui-icons_222222_256x240.png"); }
   .ui-icon.inline {
     display: inline-block; }
   .ui-icon.float {
     float: left; }
 
 .ui-widget-content .ui-icon, .ui-widget-header .ui-icon {
-  background-image: url("delta/images/ui-icons_222222_256x240.png"); }
+  background-image: url("images/ui-icons_222222_256x240.png"); }
 
 .ui-state-default .ui-icon {
-  background-image: url("delta/images/ui-icons_888888_256x240.png"); }
+  background-image: url("images/ui-icons_888888_256x240.png"); }
 
 .ui-state-hover .ui-icon, .ui-state-focus .ui-icon, .ui-state-active .ui-icon {
-  background-image: url("delta/images/ui-icons_454545_256x240.png"); }
+  background-image: url("images/ui-icons_454545_256x240.png"); }
 
 .ui-state-highlight .ui-icon {
-  background-image: url("delta/images/ui-icons_2e83ff_256x240.png"); }
+  background-image: url("images/ui-icons_2e83ff_256x240.png"); }
 
 .ui-state-error .ui-icon, .ui-state-error-text .ui-icon {
-  background-image: url("delta/images/ui-icons_cd0a0a_256x240.png"); }
+  background-image: url("images/ui-icons_cd0a0a_256x240.png"); }
 
 /* positioning */
 .ui-icon-carat-1-n {
@@ -1094,7 +1094,7 @@ input.ui-button {
   right: .5em; }
 
 .ui-button .ui-icon {
-  background-image: url("delta/images/ui-icons_FFFFFF_256x240.png"); }
+  background-image: url("images/ui-icons_FFFFFF_256x240.png"); }
 
 /*button sets*/
 .ui-buttonset {
@@ -1155,7 +1155,7 @@ button.ui-button::-moz-focus-inner {
     margin: 0;
     width: 30px;
     height: 30px;
-    background: url("delta/images/modalClose.png") 0 0 no-repeat;
+    background: url("images/modalClose.png") 0 0 no-repeat;
     border: 0 !important;
     z-index: 10000; }
     .ui-dialog .ui-dialog-titlebar-close span {
@@ -1247,7 +1247,7 @@ button.ui-button::-moz-focus-inner {
     width: 17px;
     height: 21px;
     cursor: default;
-    background: url("delta/images/slider_handles.png") 0 0 no-repeat;
+    background: url("images/slider_handles.png") 0 0 no-repeat;
     outline: none;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -1586,9 +1586,9 @@ td.ui-datepicker-unselectable {
     .ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
       float: left; }
 .ui-datepicker .ui-icon-circle-triangle-w {
-  background: url("delta/images/icons_16.png") 0 -128px no-repeat !important; }
+  background: url("images/icons_16.png") 0 -128px no-repeat !important; }
 .ui-datepicker .ui-icon-circle-triangle-e {
-  background: url("delta/images/icons_16.png") 0 -112px no-repeat !important; }
+  background: url("images/icons_16.png") 0 -112px no-repeat !important; }
 
 .ui-datepicker-header .ui-state-hover {
   border: 0;
@@ -1864,11 +1864,11 @@ button.ui-button span {
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1) {
   .ui-dialog .ui-dialog-titlebar-close {
-    background-image: url("delta/images/modalClose@2x.png");
+    background-image: url("images/modalClose@2x.png");
     background-size: 30px 30px; }
 
   .ui-slider .ui-slider-handle {
-    background-image: url("delta/images/slider_handles@2x.png");
+    background-image: url("images/slider_handles@2x.png");
     background-size: 34px 21px; } }
 /* timepicker.scss */
 .ui-datepicker .ui-timepicker-div {
