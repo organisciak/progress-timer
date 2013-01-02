@@ -1007,7 +1007,6 @@ var progress = (function() {
 										curly = true;
 									} 
 								}
-								
 								if (index !== undefined) {
 									$.extend(input.bars[index], {
 										"name": title,
