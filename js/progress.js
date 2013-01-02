@@ -38,7 +38,11 @@ var progress = (function() {
 	}, 
 	{
 	"preamble":"Super-secret pro-tip: Curly notation",
-	"tip":"If you write numbers between curly braces in the description of a counter timer, the progress bar will add them up and set them as the current progress. This is an experimental feature, but really useful sometimes."
+	"tip":"If you write numbers between curly braces in the description of a counter timer (e.g. \"{10}\"), the progress bar will add them up and set them as the current progress. This is an experimental feature, but quite useful."
+	},
+	{
+	"preamble":"Organize your progress bars",
+	"tip":"You can change the order of progress bars by dragging them."
 	}
 	
 	],
