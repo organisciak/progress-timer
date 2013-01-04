@@ -25,7 +25,7 @@ var progress = (function() {
 	tips = [
 	{
 	"preamble":"Dueling bars 2",
-	"tip":"Sometimes it's useful to have a counter bar next to a clock or timer. If you have a deadline to hit the end of your counter (e.g. \"write 400 words in 2 hours\"), you can make sure that you stay on track.",
+	"tip":"Sometimes it's useful to have a counter bar next to a clock or timer. If you have a deadline to hit by the end of your counter (e.g. \"write 400 words in 2 hours\"), you can make sure that you stay on track.",
 	"image":"images/dueling-bars.png"
 	},
 	{
