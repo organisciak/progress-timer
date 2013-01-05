@@ -330,7 +330,7 @@ var progress = (function() {
 			if (input.bars[index].type === "timer" && !input.bars[index].progress.start) {
 				input.bars[index].progress.start = new Date().getTime();
 			}
-			progress.save();
+			saveLocalData();
 
 		},
 		resetTimer = function(selection) {
@@ -341,9 +341,8 @@ var progress = (function() {
 					//If timer was running at the time of reset, delete progress and start again.
 					delete input.bars[index].progress.start;
 					startTimer(selection); //Starting also includes a data save
-				} else {
-					progress.save();
 				}
+				saveLocalData();
 			}
 
 		},
@@ -357,7 +356,7 @@ var progress = (function() {
 				//Date() timer progress into the 'current' var
 				input.bars[index].current = input.bars[index].current + (current - start);
 
-				progress.save();
+				saveLocalData();
 			}
 		},
 		toggleTimer = function(selection) {
@@ -585,8 +584,8 @@ var progress = (function() {
 				return d.type === "counter" && d.curly !== true;
 			});
 
-			d = 100;
-			var counterValues;
+			var d = 100,
+				counterValues;
 			if (d < 40) counterValues = [1, 5, 10];
 			if (d < 80) counterValues = [1, 5, 10];
 			else if (d < 120) counterValues = [1, 5, 50];
@@ -646,26 +645,26 @@ var progress = (function() {
 				};
 			}
 			input.bars.push(newBar);
-			progress.save();
+			saveLocalData();
 			progress.draw();
 		},
 		slipDelete = function(selection) {
 			index = input.bars.indexOf(selection);
 			input.bars.splice(index, 1);
-			progress.save();
+			saveLocalData();
 			progress.draw();
 		},
 		slipEdit = function(selection) {
 			index = input.bars.indexOf(selection);
 			draw.editDialog(index);
-			progress.save();
+			saveLocalData();
 			progress.draw();
 		},
 		//DATA FUNCTIONS
 		changeCounter = function(data, change) {
 			index = input.bars.indexOf(data);
 			input.bars[index].current = parseInt(input.bars[index].current, 10) + parseInt(change, 10);
-			progress.save();
+			saveLocalData();
 			progress.draw();
 		},
 		saveLocalData = function() {
@@ -685,7 +684,7 @@ var progress = (function() {
 		- checks to make sure the data is well-formed
 		*/
 			input = json;
-			progress.save();
+			saveLocalData();
 			progress.draw();
 			return;
 		},
@@ -1161,6 +1160,16 @@ var progress = (function() {
 				$(".tips.dialog").dialog("open");
 			};
 			
+			addEvent(window, "storage", function (event) {
+			  if (event.key == 'progressData') {
+				//TODO: Update data without first resetting bars.
+				input.bars = [];
+				progress.draw();
+				progress.load();
+				progress.draw();
+			  }
+			});
+			
 		};
 
 	return {
@@ -1179,7 +1188,7 @@ var progress = (function() {
 			
 			//Add saving event for page unload
 			$(window).unload(function() {
-				progress.save();
+				saveLocalData();
 			});
 			
 			postLoad();
@@ -1292,7 +1301,32 @@ $.widget( "ui.timespinner", $.ui.spinner, {
         }
     });
 
-//Main on-load script
+//AddEvent via http://html5demos.com/js/h5utils.js
+var addEvent = (function () {
+  if (document.addEventListener) {
+    return function (el, type, fn) {
+      if (el && el.nodeName || el === window) {
+        el.addEventListener(type, fn, false);
+      } else if (el && el.length) {
+        for (var i = 0; i < el.length; i++) {
+          addEvent(el[i], type, fn);
+        }
+      }
+    };
+  } else {
+    return function (el, type, fn) {
+      if (el && el.nodeName || el === window) {
+        el.attachEvent('on' + type, function () { return fn.call(el, window.event); });
+      } else if (el && el.length) {
+        for (var i = 0; i < el.length; i++) {
+          addEvent(el[i], type, fn);
+        }
+      }
+    };
+  }
+})();
+
+//Main onload script
 jQuery(document).ready(function() {
 	progress.load();
 	progress.draw(true);
