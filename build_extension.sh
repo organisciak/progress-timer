@@ -16,7 +16,7 @@ rm js/progress.js.bak
 # Array of all javascript files to compile
 javascripts=(js/lib/jquery-1.8.2.min.js js/lib/jquery-ui.js js/lib/d3.v2.min.js js/lib/json2.js js/delta/modernizr-2.0.6.min.js js/globalize-master/lib/globalize.js js/lib/jquery-ui-timepicker-addon.js js/delta/custom.js js/progress.js)
 commands=$(for file in "${javascripts[@]}"; do echo "--js $file"; done)
-java -jar lib/compiler-latest/compiler.jar --js_output_file extension/js/progress.js $commands
+java -jar lib/compiler-latest/compiler.jar --jscomp_off=suspiciousCode --js_output_file extension/js/progress.js $commands
 
 echo "Preparing progress.html..."
 cp progress.html extension/progress.html
@@ -41,7 +41,11 @@ sed -i.bak "s/debug\: false/debug\: true/g" js/progress.js
 
 echo "Moving images to extension folder..."
 rm -rf extension/images/*
-cp -r images* extension/images
+cp -r images extension/
+
+echo "Cleaning filesystem..."
+rm -f extension/.DS_Store
+rm -f extension/manifest.json~
 
 echo "Compressing extension to progress.zip..."
 zip -r progress extension/*
