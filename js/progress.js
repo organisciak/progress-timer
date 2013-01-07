@@ -124,7 +124,7 @@ var progress = (function() {
 					t = date.toLocaleTimeString();
 				return d + " " + t;
 			} else if (type === "timer") {
-				time = msToFullTime(value);
+				time = msToFullTime(value, true);
 				return time.hours + ":" + leadingZero(time.minutes) + ":" + leadingZero(time.seconds);
 			} else {
 				throw "No valid bar type";
@@ -186,10 +186,13 @@ var progress = (function() {
 				m = leadingZero(date.getMinutes());
 			return h + ":" + m;
 		},
-		msToFullTime = function(milliseconds) {
-			hours = Math.floor(milliseconds / (1000 * 60 * 60)) % 24;
+		msToFullTime = function(milliseconds, fullHours) {
+			hours = Math.floor(milliseconds / (1000 * 60 * 60));
 			minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
 			seconds = Math.floor(milliseconds / (1000)) % 60;
+			if (fullHours !== true) {
+				hours = hours % 24;
+			}
 			return {
 				"hours": hours,
 				"minutes": minutes,
@@ -296,6 +299,7 @@ var progress = (function() {
 					current = (index === undefined) ? 0 : input.bars[index].current,
 					//In milliseconds
 					end = hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
+					log(end);
 					break;
 				case 'clock':
 					var offset = getTimeOffset(),
