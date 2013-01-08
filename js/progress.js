@@ -857,7 +857,7 @@ var progress = (function() {
 					//$("input[type=number]").spinner();
 
 					if (data !== undefined) {
-						var end = msToFullTime(new Date(data.end)),
+						var end = msToFullTime(new Date(data.end), true),
 							current;
 						if (data.progress.start) {
 							current = data.current + (new Date().getTime() - data.progress.start);
@@ -1262,16 +1262,6 @@ var progress = (function() {
 		}
 	};
 })();
-var msToFullTime = function(milliseconds) {
-			hours = Math.floor(milliseconds / (1000 * 60 * 60)) % 24;
-			minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
-			seconds = Math.floor(milliseconds / (1000)) % 60;
-			return {
-				"hours": hours,
-				"minutes": minutes,
-				"seconds": seconds
-			};
-		};
 var fullTimeToMs = function(str) {
 			/*
 			Takes string in format hh:mm:ss and converts to milliseconds
