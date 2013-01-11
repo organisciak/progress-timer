@@ -20,7 +20,8 @@ var progress = (function() {
 		}
 	},
 	opts = {
-		debug: true
+		debug: true,
+		chrome: false
 	},
 	tips = [
 	{
@@ -334,7 +335,7 @@ var progress = (function() {
 			if (input.bars[index].type === "timer" && !input.bars[index].progress.start) {
 				input.bars[index].progress.start = new Date().getTime();
 			}
-			saveLocalData();
+			saveData();
 
 		},
 		resetTimer = function(selection) {
@@ -346,7 +347,7 @@ var progress = (function() {
 					delete input.bars[index].progress.start;
 					startTimer(selection); //Starting also includes a data save
 				}
-				saveLocalData();
+				saveData();
 			}
 
 		},
@@ -360,7 +361,7 @@ var progress = (function() {
 				//Date() timer progress into the 'current' var
 				input.bars[index].current = input.bars[index].current + (current - start);
 
-				saveLocalData();
+				saveData();
 			}
 		},
 		toggleTimer = function(selection) {
@@ -481,7 +482,7 @@ var progress = (function() {
 					log(end);
 					bar = input.bars.splice(start, 1);
 					input.bars.splice(end, 0, bar[0]);
-					saveLocalData();
+					saveData();
 				}
 			});
 		},
@@ -649,36 +650,64 @@ var progress = (function() {
 				};
 			}
 			input.bars.push(newBar);
-			saveLocalData();
+			saveData();
 			progress.draw();
 		},
 		slipDelete = function(selection) {
 			index = input.bars.indexOf(selection);
 			input.bars.splice(index, 1);
-			saveLocalData();
+			saveData();
 			progress.draw();
 		},
 		slipEdit = function(selection) {
 			index = input.bars.indexOf(selection);
 			draw.editDialog(index);
-			saveLocalData();
+			saveData();
 			progress.draw();
 		},
 		//DATA FUNCTIONS
 		changeCounter = function(data, change) {
 			index = input.bars.indexOf(data);
 			input.bars[index].current = parseInt(input.bars[index].current, 10) + parseInt(change, 10);
-			saveLocalData();
+			saveData();
 			progress.draw();
+		},
+		saveData = function(forceSync) {
+			if (opts.chrome === false) {
+				saveLocalData();
+			} else if (opts.chrome === true) {
+				saveChromeData(forceSync);
+			}
 		},
 		saveLocalData = function() {
 			/* 
-		Save data to local storage as a JSON string
-		*/
+			Save data to local storage as a JSON string
+			*/
 			//Stringify JSON
 			var str = JSON.stringify(input);
 			localStorage.setItem('progressData', str);
 			return;
+		},
+		saveChromeData = function(forceSync) {
+		/* Save data to chrome.storage */
+			input.lastSave = new Date().getTime();
+			if (typeof(forceSync) === "undefined") forceSync = false;
+			if ( forceSync === true || typeof(input.lastSync) === "undefined" || (input.lastSave-input.lastSync) > (5*60*1000) ) {	 
+					console.log("Syncing! Forced: %s | lastSync", forceSync, typeof(input.lastSync));
+					input.lastSync = input.lastSave;
+					chrome.storage.sync.set(input);
+					if (typeof(input.syncTimeout) !== "undefined") {
+						console.log("Deleting syncTimeout");
+						window.clearTimeout(input.syncTimeout);
+						delete input.syncTimeout;
+					}
+			} else {
+				//Save locally if sync has happened in the last five minutes
+				console.log("Saving locally");
+				chrome.storage.local.set(input);
+				//Sync in 5 minutes if left untouched
+				input.syncTimeout = window.setTimeout(function(){saveChromeData(true);}, 5*60*1000);	
+			}
 		},
 		loadNewData = function(json) {
 			/* 
@@ -688,11 +717,18 @@ var progress = (function() {
 		- checks to make sure the data is well-formed
 		*/
 			input = json;
-			saveLocalData();
+			saveData();
 			progress.draw();
 			return;
 		},
-		loadLocalData = function() {
+		loadData = function(callback) {
+			if (opts.chrome === false) {
+				loadLocalData(callback);
+			} else if (opts.chrome === true) {
+				loadChromeData(callback);
+			}
+		},
+		loadLocalData = function(callback) {
 			/* 
 		Load local storage JSON string and parse to object 
 		*/
@@ -706,6 +742,21 @@ var progress = (function() {
 				parseDataTypes();
 				progress.draw();
 			}
+			if (typeof(callback) === "function") {
+				callback();
+			}
+			return;
+		},
+		loadChromeData = function(callback) {
+			/* 
+			Load Chrome sync data
+			*/
+			chrome.storage.sync.get(null, function(data) {
+				input = data;
+				if (typeof(callback) === "function") {
+					callback();
+				}
+			});	
 			return;
 		},
 		parseDataTypes = function() {
@@ -718,11 +769,27 @@ var progress = (function() {
 			input.settings.lastTip = input.settings.lastTip ? parseInt(input.settings.lastTip) : -1;
 			input.settings.tipShow = (typeof(input.settings.tipShow) !=="undefined") ? input.settings.tipShow : true;
 		},
+		deleteData = function() {
+			if (opts.chrome === false) {
+				deleteLocalData();
+			} else if (opts.chrome === true) {
+				deleteChromeData();
+			}
+			location.reload();
+		},
 		deleteLocalData = function() {
 			/* 
 		Remove Local storage data
 		*/
 			localStorage.removeItem('progressData');
+		},
+		deleteChromeData = function() {
+			/* 
+			Load Chrome sync data
+			*/
+			chrome.storage.local.clear();
+			chrome.storage.sync.clear();
+			return;
 		},
 		//MENU DRAWING
 		draw = (function() {
@@ -1066,7 +1133,7 @@ var progress = (function() {
 					var status = $(this).is(':checked');
 					input.settings.tipShow = status;
 					$(".tip-toggle").attr('checked', input.settings.tipShow);
-					saveLocalData();
+					saveData();
 					});
 					
 			//Export Data Dialog
@@ -1102,7 +1169,7 @@ var progress = (function() {
 			$(".delete.dialog").dialog({
 				buttons: {
 					"Delete all data": function() {
-						deleteLocalData();
+						deleteData();
 						progress.load();
 						progress.draw();
 						$(this).dialog("close");
@@ -1164,15 +1231,31 @@ var progress = (function() {
 				$(".tips.dialog").dialog("open");
 			};
 			
-			addEvent(window, "storage", function (event) {
-			  if (event.key == 'progressData') {
-				//TODO: Update data without first resetting bars.
-				input.bars = [];
-				progress.draw();
-				progress.load();
-				progress.draw();
-			  }
-			});
+			if (opts.chrome === false) {
+				addEvent(window, "storage", function (event) {
+				  if (event.key == 'progressData') {
+					//TODO: Update data without first resetting bars.
+					input.bars = [];
+					progress.draw();
+					progress.load();
+					progress.draw();
+				  }
+				});
+			} else if (opts.chrome === true) {
+			chrome.storage.onChanged.addListener(function(changes, namespace) {
+				console.log(changes);
+				if (typeof(input.lastSave) == "undefined" || typeof(changes.lastSave) == "undefined") {
+					return;
+				}
+				updateTime = changes.lastSave.newValue;
+				if (input.lastSave !== updateTime) {
+					input.bars = [];
+					progress.draw();
+					progress.load();
+					progress.draw();
+				 }
+			  });
+			}
 			
 		};
 
@@ -1187,21 +1270,20 @@ var progress = (function() {
 			if (json) {
 				loadNewData(json);
 			} else {
-				loadLocalData();
+				loadData(postLoad);
 			}
 			
 			//Add saving event for page unload
 			$(window).unload(function() {
-				saveLocalData();
+				saveData(true);
 			});
 			
-			postLoad();
 		},
 		save: function() {
 			/*Public wrapper for saving.*/
-			saveLocalData();
+			saveData();
 		},
-		draw: function(debug) {
+		draw: function() {
 			/*
 		Update the progress bar drawing. This implements the 
 		Enter-Update-Exit model for D3.
@@ -1210,11 +1292,7 @@ var progress = (function() {
 			if (input === undefined) {
 				progress.load();
 			}
-			if (debug !== undefined) {
-				opts.debug = debug;
-			}
 			if (opts.debug !== true) {
-				log("Debugging is false");
 				$("#debug").hide();
 			}
 			var container = d3.select("#container")
@@ -1323,7 +1401,7 @@ var addEvent = (function () {
 //Main onload script
 jQuery(document).ready(function() {
 	progress.load();
-	progress.draw(true);
+	progress.draw();
 	
 	//DEBUGGING
 	var timer;
