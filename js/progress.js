@@ -706,7 +706,9 @@ var progress = (function() {
 				console.log("Saving locally");
 				chrome.storage.local.set(input);
 				//Sync in 5 minutes if left untouched
-				input.syncTimeout = window.setTimeout(function(){saveChromeData(true);}, 5*60*1000);	
+				if (typeof(input.syncTimeout) === "undefined") {
+					input.syncTimeout = window.setTimeout(function(){saveChromeData(true);}, 5*60*1000);	
+				}
 			}
 		},
 		loadNewData = function(json) {
@@ -726,6 +728,20 @@ var progress = (function() {
 				loadLocalData(callback);
 			} else if (opts.chrome === true) {
 				loadChromeData(callback);
+			}
+		},
+		checkStorageSpace = function() {
+			if (opts.chrome === false) {
+				/*Ignoring localStorage for now, as the 5mb default certainly 
+				wouldn't be hit by an unsuspecting user, and the app would
+				crash well before that happened anyway.
+				*/
+			} else if (opts.chrome === true) {
+				chrome.storage.local.getBytesInUse(function(e){ 
+					if (e > (0.75*102400)) {
+						alert("You're approaching the storage limit for this app. Curently, you have "+Math.ceil(100*e/102400)+"% of the allowable storage used. Try deleting some bars for extra space"); 
+						}
+					})
 			}
 		},
 		loadLocalData = function(callback) {
@@ -1231,6 +1247,8 @@ var progress = (function() {
 				$(".tips.dialog").dialog("open");
 			};
 			
+			
+			checkStorageSpace();
 			if (opts.chrome === false) {
 				addEvent(window, "storage", function (event) {
 				  if (event.key == 'progressData') {
