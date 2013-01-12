@@ -21,7 +21,7 @@ var progress = (function() {
 	},
 	opts = {
 		debug: true,
-		chrome: false
+		chrome: true
 	},
 	tips = [
 	{
@@ -693,17 +693,17 @@ var progress = (function() {
 			input.lastSave = new Date().getTime();
 			if (typeof(forceSync) === "undefined") forceSync = false;
 			if ( forceSync === true || typeof(input.lastSync) === "undefined" || (input.lastSave-input.lastSync) > (5*60*1000) ) {	 
-					console.log("Syncing! Forced: %s | lastSync", forceSync, typeof(input.lastSync));
+					log("Syncing! Forced: " + forceSync);
 					input.lastSync = input.lastSave;
 					chrome.storage.sync.set(input);
 					if (typeof(input.syncTimeout) !== "undefined") {
-						console.log("Deleting syncTimeout");
+						log("Deleting syncTimeout");
 						window.clearTimeout(input.syncTimeout);
 						delete input.syncTimeout;
 					}
 			} else {
 				//Save locally if sync has happened in the last five minutes
-				console.log("Saving locally");
+				log("Saving locally");
 				chrome.storage.local.set(input);
 				//Sync in 5 minutes if left untouched
 				if (typeof(input.syncTimeout) === "undefined") {
@@ -767,11 +767,30 @@ var progress = (function() {
 			/* 
 			Load Chrome sync data
 			*/
-			chrome.storage.sync.get(null, function(data) {
-				input = data;
-				if (typeof(callback) === "function") {
-					callback();
-				}
+			chrome.storage.sync.get(null, function(syncData) {
+				var syncEmpty = $.isEmptyObject(syncData);
+				//Doublecheck there there isn't any newer data stored locally
+				chrome.storage.local.get(null, function(localData){
+					var localEmpty = $.isEmptyObject(localData);
+					if (syncEmpty && localEmpty) {
+						log("Both sync and local are empty. Trying localStorage.");
+						loadLocalData(callback);
+					} else { 
+						if (syncEmpty) {
+							input = localData;
+						} else if (localEmpty) {
+							input = syncData;
+						} else if (localData.lastSave > syncData.lastSave) {
+							input = localData;
+						} else {
+							input = syncData;
+						}
+					}
+					if (typeof(callback) === "function") {
+						callback();
+					}
+				});
+				
 			});	
 			return;
 		},
@@ -1261,9 +1280,11 @@ var progress = (function() {
 				});
 			} else if (opts.chrome === true) {
 			chrome.storage.onChanged.addListener(function(changes, namespace) {
-				console.log(changes);
-				if (typeof(input.lastSave) == "undefined" || typeof(changes.lastSave) == "undefined") {
+				if (typeof(changes.lastSave) == "undefined") {
 					return;
+				}
+				if (typeof(input.lastSave) == "undefined") {
+					input.lastSave = 0;
 				}
 				updateTime = changes.lastSave.newValue;
 				if (input.lastSave !== updateTime) {
