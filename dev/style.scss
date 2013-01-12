@@ -168,7 +168,7 @@ h1, h2, h3, h4, .ui-dialog-title {
 			text-decoration: none;
 		}
 	}
-	#sync, syncWindow {
+	&.sync, &.syncWindow {
 		left: 10px;
 	}
 }
