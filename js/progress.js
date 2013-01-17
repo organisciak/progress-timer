@@ -21,7 +21,7 @@ var progress = (function() {
 	},
 	opts = {
 		debug: true,
-		chrome: true
+		chrome: false
 	},
 	tips = [
 	{
