@@ -2354,7 +2354,7 @@ h1, h2, h3, h4, .ui-dialog-title {
     height: 20px;
     cursor: default;
     text-align: center; }
-  .footer a {
+  .footer.sync, .footer a {
     color: #888;
     text-decoration: none;
     cursor: pointer; }
