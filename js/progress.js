@@ -16,12 +16,12 @@ var progress = (function() {
 			],
 		"settings": {
 			"lastTip" : -1,
-			"tipShow" : false
+			"tipShow" : true
 		}
 	},
 	opts = {
 		debug: true,
-		chrome: false
+		chrome: true
 	},
 	tips = [
 	{
@@ -300,7 +300,6 @@ var progress = (function() {
 					current = (index === undefined) ? 0 : input.bars[index].current,
 					//In milliseconds
 					end = hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000;
-					log(end);
 					break;
 				case 'clock':
 					var offset = getTimeOffset(),
@@ -479,7 +478,6 @@ var progress = (function() {
 				},
 				update: function(e, ui) {
 					end = ui.item.prevAll(".slip.active").length;
-					log(end);
 					bar = input.bars.splice(start, 1);
 					input.bars.splice(end, 0, bar[0]);
 					saveData();
@@ -692,12 +690,14 @@ var progress = (function() {
 		/* Save data to chrome.storage */
 			input.lastSave = new Date().getTime();
 			if (typeof(forceSync) === "undefined") forceSync = false;
-			if ( forceSync === true || typeof(input.lastSync) === "undefined" || (input.lastSave-input.lastSync) > (5*60*1000) ) {	 
+			if ( forceSync === true || typeof(input.lastSync) === "undefined" || (input.lastSave-input.lastSync) > (5*60*1000) ) {
 					log("Syncing! Forced: " + forceSync);
 					input.lastSync = input.lastSave;
-					chrome.storage.sync.set(input);
+					chrome.storage.sync.set(input, function() {
+						//Okay fine, the "syncing" notification shows up after syncing ;)
+						$(".footer.syncWindow").slideDown(300).slideDown(300).delay(500).slideUp(130);
+					});
 					if (typeof(input.syncTimeout) !== "undefined") {
-						log("Deleting syncTimeout");
 						window.clearTimeout(input.syncTimeout);
 						delete input.syncTimeout;
 					}
@@ -1161,7 +1161,18 @@ var progress = (function() {
 			//Defaults for all
 			$(".dialog")
 				.dialog({autoOpen: false, modal: true, resizable: false});
-
+			
+			$(".footer.syncWindow").hide();
+			if (opts.chrome === true) {
+				//Syncing Status Bar
+				$(".footer.sync")
+					.click(function() {
+						saveChromeData(true);
+				});
+			} else {
+				$(".footer.sync").hide();
+			}
+			
 			//Setting Dialog
 			$(".tip-toggle")
 				.change(function() {

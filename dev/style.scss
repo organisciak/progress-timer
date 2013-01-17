@@ -161,15 +161,21 @@ h1, h2, h3, h4, .ui-dialog-title {
 	font-family: Verdana, sans-serif;
 	z-index: 300;
 	&#credit, &#credit a {
-		cursor: pointer;
 		right: 10px;
-		a {
-			color: #888;
-			text-decoration: none;
-		}
 	}
 	&.sync, &.syncWindow {
 		left: 10px;
+	}
+	&.syncWindow {	
+		width:100px;
+		height:20px;
+		cursor:default;
+		text-align:center;
+	}
+	a {
+		color: #888;
+		text-decoration: none;
+		cursor:pointer;
 	}
 }
 

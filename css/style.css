@@ -2339,16 +2339,25 @@ h1, h2, h3, h4, .ui-dialog-title {
   margin: 0 auto 200px auto;
   padding: 10px; }
 
-#credit, #credit a {
+.footer {
   position: fixed;
   bottom: 0;
-  right: 10px;
-  font-size: 10px;
+  font-size: 11px;
   font-family: Verdana, sans-serif;
   z-index: 300; }
-  #credit a, #credit a a {
+  .footer#credit, .footer#credit a {
+    right: 10px; }
+  .footer.sync, .footer.syncWindow {
+    left: 10px; }
+  .footer.syncWindow {
+    width: 100px;
+    height: 20px;
+    cursor: default;
+    text-align: center; }
+  .footer a {
     color: #888;
-    text-decoration: none; }
+    text-decoration: none;
+    cursor: pointer; }
 
 .ui-state-highlight {
   line-height: 1.2em;
