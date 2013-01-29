@@ -55,7 +55,7 @@ var progress = (function() {
 				{"title": "Pokemon Collection", "description":"Gotta catch 'em all!", "start":0, "current":150, "end":100}
 			],
 		pageWidth = document.width <= 1200 ? document.width : 1200,
-		pageMargin = 170,
+		pageMargin = 50,
 		containerWidth = pageWidth - pageMargin * 2,
 		slipMargin = 10,
 		slipWidth = containerWidth - slipMargin * 2,
