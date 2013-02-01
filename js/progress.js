@@ -20,7 +20,7 @@ var progress = (function() {
 		}
 	},
 	opts = {
-		debug: true,
+		debug: false,
 		chrome: true
 	},
 	tips = [

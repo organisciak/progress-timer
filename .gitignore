@@ -51,3 +51,4 @@ extension/js
 extension/progress.html
 extension/images
 .c9*
+node_modules
