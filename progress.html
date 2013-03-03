@@ -34,17 +34,24 @@
 <!--DIALOGS-->
 <!-- Settings Dialog -->
 <div class="settings menu dialog" title="Settings">
-<h3>Tips</h3>
-<input type="checkbox" name="tipToggle" class="tip-toggle" value="true">Show tips on page load.
-      
-	<h3>Export Your Data</h3>
-	Export all your data as a JSON string.
-	<button id="export" />Export Data</button>
-	<h3>Import Your Data</h3>
-	Import a JSON string of your progress bar settings.</br> 
-	<button id="import" />Import Data</button>
-	<h3>Delete all your data</h3>
-	<button id="reset" />Clear Data</button>
+<div class="option-settings">
+	<h3>Options</h3>
+	<input type="checkbox" name="tipToggle" class="tip-toggle" value="true">Show tips on page load.
+	<br /><input type="checkbox" name="notifyToggle" class="notify-toggle" value="true">Show pop-up notifications when clock or timer progress bars end.
+</div>
+     
+	<div class="data-settings">	
+		<h3>Export Your Data</h3>
+		Export all your data as a JSON string.<br />
+		<button id="export" />Export Data</button>
+
+		<h3>Import Your Data</h3>
+		Import a JSON string of your progress bar settings.<br /> 
+		<button id="import" />Import Data</button>
+
+		<h3>Delete all your data</h3>
+		<button id="reset" />Clear Data</button>
+	</div>
 </div>
 
 <!--Import Data Dialog-->

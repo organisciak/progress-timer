@@ -2239,20 +2239,25 @@ body {
 
 .header {
   width: 100%;
+  min-width: 550px;
   padding-top: 15px;
-  text-align: center; }
+  text-align: center;
+  background: #3c3d3f;
+  color: white;
+  border-bottom: solid 2px #acadaf; }
   .header h1 {
-    border-bottom: solid 1px #b9b9b9;
-    width: 400;
-    margin: 0 -30px;
+    width: 350px;
+    margin: -10px -30px 0 -45px;
+    color: whitesmoke;
     padding: 10px;
-    cursor: default;
+    cursor: pointer;
+    font-size: 1.7em;
     display: inline-block; }
   .header a.button {
     font-family: Parisienne, Raleway, Futura, Helvetica, Arial, sans-serif;
-    font-size: 15pt;
+    font-size: 13pt;
     vertical-align: top;
-    color: #404040;
+    color: whitesmoke;
     margin: 0 5px;
     cursor: pointer; }
     .header a.button:hover, .header a.button:focus {
@@ -2262,19 +2267,17 @@ body {
   position: relative;
   margin: 10px auto 10px auto;
   padding: 15px 10px;
-  border-radius: 3px;
+  border-radius: 2px;
   border-bottom: solid 2px #b9b9b9;
   background: white;
-  border-left: none;
-  border-right: none;
-  border-radius: 3px; }
+  border-radius: 2px; }
 
 .dialog .image {
   border: 0;
   float: right;
   margin: 10px;
   border: solid 1px lightgrey;
-  border-radius: 3px;
+  border-radius: 2px;
   padding: 5px; }
 .dialog .footnote {
   border-top: solid 1px darkgray;
@@ -2294,7 +2297,7 @@ body {
   margin: 5px 0; }
 
 h2 {
-  font-size: 14pt;
+  font-size: 1.25em;
   margin: 0; }
 
 h3 {
@@ -2369,7 +2372,7 @@ h1, h2, h3, h4, .ui-dialog-title {
   line-height: 1.2em;
   background: rgba(200, 200, 200, 0.2);
   border: dotted 1px #999;
-  border-radius: 3px; }
+  border-radius: 2px; }
 
 .ui-dialog-buttonpane .errors, .ui-dialog-buttonpane .alerts {
   width: 500px;
@@ -2432,7 +2435,7 @@ text {
       position: absolute;
       left: 0;
       background: none;
-      border-radius: 3px;
+      border-radius: 2px;
       width: 100%;
       top: 0;
       height: 100%;

@@ -19,9 +19,12 @@ var progress = (function() {
                     'tipShow' : true
             }
     },
+    state = {
+        loaded: false
+    },
     opts = {
             debug: true,
-            chrome: false
+            chrome: true
     },
     tips = [
     {
@@ -484,9 +487,37 @@ var progress = (function() {
         d3.selectAll('.slip.active .current')
             .classed('highlight', function(d) {
                 var c = getCurrentVal(d);
-                if ((d.start < d.end) && (c > d.end || c < d.start)) {
-                    return true;
-                } else if ((d.start > d.end) && (c < d.end || c > d.start)) {
+                if (
+                    ((d.start < d.end) && (c > d.end || c < d.start)) ||
+                    ((d.start > d.end) && (c < d.end || c > d.start))
+                ) {
+                    // Check if it was highlighted last time
+                    var that = d3.select(this);
+                    if (
+                        (d.type === 'timer' || d.type === 'clock') &&
+                        !that.classed('current-background') &&
+                        !that.classed('highlight') &&
+                        state.loaded === true &&
+                        input.settings.notify !== false
+                    ) {
+                        var title, content = '';
+                        title = (d.type === 'timer' ? 'Timer' : 'Clock') +
+                            ' progress bar finished';
+                        if (d.name !== '') {
+                            content = '"' + d.name + '" is done.';
+                        } else {
+                            content = 'Unnamed bar is done.';
+                        }
+                        // Checking permissions is for the future: as an
+                        // extension, permissions are *always* on
+                        if (webkitNotifications.checkPermission() === 0) {
+                            webkitNotifications.createNotification(
+                                'images/icon48.png',
+                                title,
+                                content
+                            ).show();
+                        }
+                    }
                     return true;
                 } else {
                     return false;
@@ -645,6 +676,7 @@ var progress = (function() {
             })
             .attr('x', barWidth + slipMargin)
             .attr('y', 31);
+
     },
     addCounterButtons = function(selection) {
         var counters = selection.filter(function(d, i) {
@@ -731,7 +763,8 @@ var progress = (function() {
     //DATA FUNCTIONS
     changeCounter = function(data, change) {
         index = input.bars.indexOf(data);
-        input.bars[index].current = parseInt(input.bars[index].current, 10) + parseInt(change, 10);
+        input.bars[index].current = parseInt(input.bars[index].current, 10) +
+                                                        parseInt(change, 10);
         saveData();
         progress.draw();
     },
@@ -1011,7 +1044,9 @@ var progress = (function() {
             },
             timerControls: function(parentDiv, data, index) {
                 parentDiv.empty();
-                var detailDiv = $('<em>A timer lets you count down for a given amount of time. Like an egg timer!</em><br/>').appendTo(parentDiv);
+                var detailDiv = $('<em>A timer lets you count down for a ' +
+                        'given amount of time. Like an egg timer!</em><br/>')
+                        .appendTo(parentDiv);
 
                 var startDiv = $("<div style='position:absolute;width:125px;'>")
                         .css('left', 0)
@@ -1025,7 +1060,7 @@ var progress = (function() {
                                 checkDataQuality('timer');
                         });
 
-                var currentDiv = $("<div style='position:absolute;width:125px;'>")
+              var currentDiv = $("<div style='position:absolute;width:125px;'>")
                     .css('left', 125)
                     .appendTo(parentDiv);
                 $('<h3>Minutes</h3>').appendTo(currentDiv);
@@ -1055,7 +1090,8 @@ var progress = (function() {
                     var end = msToFullTime(new Date(data.end), true),
                             current;
                     if (data.progress.start) {
-                        current = data.current + (new Date().getTime() - data.progress.start);
+                        current = data.current +
+                            (new Date().getTime() - data.progress.start);
                         //Pause and restart timer, to save updated progress
                     } else {
                         current = data.current;
@@ -1064,11 +1100,11 @@ var progress = (function() {
                     $("input[name='minutes']").attr('value', end.minutes);
                     $("input[name='seconds']").attr('value', end.seconds);
 
-                    var progressNote = $("<p style='position:absolute;top:130px;'>Your current timer progress is " + format(current, 'timer') + '.</p>')
-                            .append(
-
-                    )
-                            .appendTo(detailDiv);
+                    var progressNote = $('<p style="position:absolute; ' +
+                                'top:130px;">Your current timer progress is ' +
+                                format(current, 'timer') + '.</p>'
+                                )
+                                .appendTo(detailDiv);
 
                     $('<button>Reset progress?</button>')
                         .click(function() {
@@ -1089,7 +1125,10 @@ var progress = (function() {
                 counter type.
                 */
                 parentDiv.empty();
-                $('<em>A counter lets you track progress between two numbers. You have to manually set the current place.</em><br/>').appendTo(parentDiv);
+                $('<em>A counter lets you track progress between two ' +
+                        'numbers. You have to manually set the current ' +
+                        ' place.</em><br/>')
+                    .appendTo(parentDiv);
 
                 var startDiv = $("<div style='position:absolute;width:150px;'>")
                         .css('left', 0)
@@ -1169,7 +1208,8 @@ var progress = (function() {
                 }
                 if (index !== undefined) {
                     /* If editing an existing bar. */
-                    $('.dialog').attr('title', 'Edit an existing progress bar.');
+                    $('.dialog')
+                        .attr('title', 'Edit an existing progress bar.');
                     type = input.bars[index].type;
                     $("input[name='title-input']")
                         .attr('value', input.bars[index].title);
@@ -1181,9 +1221,17 @@ var progress = (function() {
                     //Choose bar type
                     $('<h3>Choose progress bar type</h3>').appendTo(detailsDiv);
                     $("<div id='choose-type'>")
-                            .html("<input type='radio' name='bar-type' value='Counter' checked>Counter" + "<input type='radio' name='bar-type' value='Timer'>Timer" + "<input type='radio' name='bar-type' value='Clock'>Clock")
-                            .appendTo(detailsDiv);
-                    type = $('.dialog input[name=bar-type]:checked').attr('value').toLowerCase();
+                        .html('<input type="radio" name="bar-type" ' +
+                                'value="Counter" checked>Counter' +
+                                '<input type="radio" name="bar-type" ' +
+                                'value="Timer">Timer' +
+                                '<input type="radio" name="bar-type" ' +
+                                'value="Clock">Clock'
+                        )
+                        .appendTo(detailsDiv);
+                    type = $('.dialog input[name=bar-type]:checked')
+                        .attr('value')
+                        .toLowerCase();
                     $('.dialog input[name=bar-type]').change(function() {
                             type = $(this).attr('value').toLowerCase();
                             drawControls(type);
@@ -1204,8 +1252,11 @@ var progress = (function() {
 
                             //Get Start and end values
                             var values = getDialogValues(type, index),
-                                title = $("input[name='title-input']").attr('value'),
-                                description = $("textarea[name='description-input']").val();
+                                title = $("input[name='title-input']")
+                                            .attr('value'),
+                                description =
+                                    $("textarea[name='description-input']")
+                                                                    .val();
 
                             if (type === 'counter') {
                                 newCurrent = parseDescription(description);
@@ -1224,8 +1275,15 @@ var progress = (function() {
                                     'curly': curly
                                 });
                             } else {
-                                slipAdd(key, type, title, description,
-                                parseFloat(values.start), parseFloat(values.end), parseFloat(values.current));
+                                slipAdd(
+                                    key,
+                                    type,
+                                    title,
+                                    description,
+                                    parseFloat(values.start),
+                                    parseFloat(values.end),
+                                    parseFloat(values.current)
+                                );
                             }
 
                             dialog.remove();
@@ -1239,7 +1297,8 @@ var progress = (function() {
         };
     })(),
     setNewTip = function() {
-            var nextTip = input.settings.lastTip + 1 < tips.length ? input.settings.lastTip + 1 : 0,
+            var nextTip = input.settings.lastTip + 1 < tips.length ?
+                                            input.settings.lastTip + 1 : 0,
                     tip = tips[nextTip],
                     fields = ['preamble', 'tip', 'image', 'example'];
 
@@ -1261,7 +1320,12 @@ var progress = (function() {
     prepareDialogs = function() {
             //Defaults for all
             $('.dialog')
-                    .dialog({autoOpen: false, modal: true, resizable: false});
+                    .dialog({
+                            autoOpen: false,
+                            modal: true,
+                            resizable: false,
+                            width: 600
+                    });
 
             $('.footer.syncWindow').hide();
             if (opts.chrome === true) {
@@ -1275,18 +1339,27 @@ var progress = (function() {
             }
 
             //Setting Dialog
+            $('.notify-toggle')
+                .change(function() {
+                    var status = $(this).is(':checked');
+                    input.settings.notify = status;
+                    $('.notify-toggle').attr('checked', input.settings.notify);
+                    saveData();
+                });
+
+            //Setting Dialog
             $('.tip-toggle')
-                    .change(function() {
-                            var status = $(this).is(':checked');
-                            input.settings.tipShow = status;
-                            $('.tip-toggle').attr('checked', input.settings.tipShow);
-                            saveData();
-                            });
+                .change(function() {
+                    var status = $(this).is(':checked');
+                    input.settings.tipShow = status;
+                    $('.tip-toggle').attr('checked', input.settings.tipShow);
+                    saveData();
+                });
 
             //Export Data Dialog
             $('.export.dialog').dialog({
                     width: 800,
-                    open: function(event, ui ) {
+                    open: function(event, ui) {
                             var str = JSON.stringify(input);
                             $('.export.dialog textarea').text(str);
                     },
@@ -1298,19 +1371,20 @@ var progress = (function() {
             });
             //Import Data Dialog
             $('#import-dialog').dialog({
-                    width: 800,
-                    buttons: {
-                            'Import': function() {
-                                    //Parse text, if there's an error than hopefully it will happen before sending to progress.load
-                                    var input = JSON.parse($('#input-box').attr('value'));
-                                    progress.load(input);
-                                    $(this).dialog('close');
-                                    document.location.reload();
-                            },
-                            'Cancel': function() {
-                                    $(this).dialog('close');
-                            }
+                width: 800,
+                buttons: {
+                    'Import': function() {
+                        //Parse text, if there's an error then hopefully it will
+                        //happen before sending to progress.load
+                        var input = JSON.parse($('#input-box').attr('value'));
+                        progress.load(input);
+                        $(this).dialog('close');
+                        document.location.reload();
+                    },
+                    'Cancel': function() {
+                        $(this).dialog('close');
                     }
+                }
             });
             //Data reset dialog
             $('.delete.dialog').dialog({
@@ -1357,12 +1431,19 @@ var progress = (function() {
         $('.tip-toggle')
                 .attr('checked', input.settings.tipShow);
 
+        if (input.settings.notify !== false) {
+            input.settings.notify = true;
+        }
+        $('.notify-toggle')
+                .attr('checked', input.settings.notify);
+
         //Set-up Sample Bar
         var example = d3.selectAll('.slip.disabled');
         example.select('.bar-outline').attr('width', barWidth);
         example.select('.progress').attr('width', barWidth * 0.75);
 
-        var sample = sample_items[Math.floor(Math.random() * sample_items.length)];
+        var sample_index = Math.floor(Math.random() * sample_items.length),
+            sample = sample_items[sample_index];
         example.select('h2').text(sample.title);
         example.select('.note').text(sample.description);
         example.select('.start').text(sample.start);
@@ -1412,64 +1493,86 @@ var progress = (function() {
 
 return {
     load: function(json) {
-            /*
-            Load data. If json is specified, load new data.
-            */
-            //Initialise dialogs
-            prepareDialogs();
-            //Load Data
-            if (json) {
-                    loadNewData(json);
-            } else {
-                    loadData(postLoad);
+        /*
+        Initialize app and Load data.
+        If json is specified, load new data.
+        */
+        state.loaded = false;
+        //Initialize Notifications
+        // check for notifications support
+         if (webkitNotifications) {
+            // Notifications are supported, check for permission
+            // The Chrome extension should automatically have permission
+            if (webkitNotifications.checkPermission() == 1) {
+                // Ask for permission
+                webkitNotifications.requestPermission();
+                log('Hmmm....');
             }
+        } else {
+            log('Notifications are not supported for' +
+                'this Browser/OS version yet.');
+        }
 
-            //Add saving event for page unload
-            $(window).unload(function() {
-                    saveData(true);
-            });
+        //Initialise dialogs
+        prepareDialogs();
 
+        //Load Data
+        if (json) {
+            loadNewData(json);
+        } else {
+            loadData(postLoad);
+        }
+
+        //Add saving event for page unload
+        $(window).unload(function() {
+            saveData(true);
+        });
+
+        // Set status to 'loaded' in two seconds
+        // TODO: this should reflect the actual state, not
+        // just wait and respond
+        setTimeout(function() {state.loaded = true},2000);
     },
     save: function() {
             /*Public wrapper for saving.*/
             saveData();
     },
     draw: function() {
-            /*
-    Update the progress bar drawing. This implements the
-    Enter-Update-Exit model for D3.
+        /*
+        Update the progress bar drawing. This implements the
+        Enter-Update-Exit model for D3.
 
-    */
-            if (input === undefined) {
-                    progress.load();
-            }
-            if (opts.debug !== true) {
-                    $('#debug').hide();
-            }
-            var container = d3.select('#container')
-                    .style('width', containerWidth);
-                    //.style("margin", "0 " + pageMargin + "px");
+        */
+        if (input === undefined) {
+                progress.load();
+        }
+        if (opts.debug !== true) {
+                $('#debug').hide();
+        }
+        var container = d3.select('#container')
+                .style('width', containerWidth);
+                //.style("margin", "0 " + pageMargin + "px");
 
-            var slips = container.selectAll('.slip.active')
-                    .data(input.bars, function(d) {
-                    return d.key;
-            });
+        var slips = container.selectAll('.slip.active')
+                .data(input.bars, function(d) {
+                return d.key;
+        });
 
-            //ENTER
-            slips.enter().insert('div', '.slip.disabled')
-                    .attr('class', 'slip active ui-widget-content')
-                    .call(enter);
+        //ENTER
+        slips.enter().insert('div', '.slip.disabled')
+                .attr('class', 'slip active ui-widget-content')
+                .call(enter);
 
-            //UPDATE
-            slips.call(update);
+        //UPDATE
+        slips.call(update);
 
-            //EXIT
-            slips.exit().transition()
-                    .duration(300)
-                    .style('overflow', 'hidden')
-                    .style('padding', 0 + 'px 0')
-                    .style('height', 0 + 'px')
-                    .remove();
+        //EXIT
+        slips.exit().transition()
+                .duration(300)
+                .style('overflow', 'hidden')
+                .style('padding', 0 + 'px 0')
+                .style('height', 0 + 'px')
+                .remove();
     },
     add: function() {
             draw.editDialog();
@@ -1487,7 +1590,7 @@ return {
             $('.import.dialog').dialog('open');
     },
     settingsMenu: function() {
-            $('.settings.menu.dialog').dialog('open');
+        $('.settings.menu.dialog').dialog('open');
     }
 };
 })();
@@ -1515,7 +1618,9 @@ var addEvent = (function() {
     } else {
         return function(el, type, fn) {
           if (el && el.nodeName || el === window) {
-            el.attachEvent('on' + type, function() { return fn.call(el, window.event); });
+            el.attachEvent('on' + type, function() {
+                return fn.call(el, window.event);
+            });
           } else if (el && el.length) {
             for (var i = 0; i < el.length; i++) {
               addEvent(el[i], type, fn);
@@ -1530,7 +1635,6 @@ jQuery(document).ready(function() {
     progress.load();
     progress.draw();
 
-    //DEBUGGING
     var timer;
     timer = window.setInterval(function() {
             progress.draw();
