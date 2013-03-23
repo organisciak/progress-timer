@@ -12,7 +12,7 @@ $border-radius: 2px;
 $border1: solid 1px lightgray;
 
 @mixin page-bg($opacity) {
-	background: rgba(221, 221, 221, $opacity);
+	background: rgba(226, 226, 226, $opacity);
 }
 
 @mixin card {
@@ -25,8 +25,6 @@ body {
 	font-family: Helvetica, Arial, sans-serif;
 	font-size: 10pt;
 	@include page-bg(1.0); //Background
-	///*image from subtlepatterns.com*/
-	background: url(images/debut_light.png) 50% 50% repeat;
 	margin: 0;
 	padding: 0;
 	color: $text-color;

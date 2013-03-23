@@ -53,3 +53,4 @@ extension/images
 .c9*
 *.~
 *~
+node_modules
