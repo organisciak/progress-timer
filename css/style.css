@@ -1026,10 +1026,11 @@
   padding: .2em;
   width: 300px;
   overflow: visible;
-  border: 0 none;
-  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.75); }
+  border: 7px solid rgba(60, 60, 60, 0.1);
+  -webkit-background-clip: padding-box;
+  /* for Safari */
+  background-clip: padding-box;
+  /* for IE9+, Firefox 4+, Opera, Chrome */ }
   .ui-dialog .ui-dialog-titlebar {
     position: relative;
     background: transparent !important;
@@ -2176,6 +2177,13 @@ body {
   background: white;
   border-radius: 2px; }
 
+.dialog input[type="text"], .dialog textarea, .dialog input[type="number"] {
+  background: #e9e9e9;
+  border: 0;
+  padding: 5px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.35), 0 1px 0 white;
+  border-radius: 4px;
+  color: #3c3d3f; }
 .dialog .image {
   border: 0;
   float: right;
