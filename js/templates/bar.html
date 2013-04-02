@@ -1,0 +1,22 @@
+<button class='edit-button' style='float:right'>Edit<div>
+<button class='delete-button' style='float:right'><div>
+<button class="timer-toggle ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;" role="button" aria-disabled="false">
+	<span class="ui-button-text">Start/Pause</span>
+</button>
+<button class="timer-reset ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" style="float: right;" role="button" aria-disabled="false">
+	<span class="ui-button-text">Reset</span>
+</button>
+<h2><%= model.escape('title') %></h2>
+<p>
+	<span class="note"></span>
+</p>
+<svg width="809" height="45" class="bar">
+	<g transform="translate(0,10)">
+		<rect class="bar-outline" width="789" height="20" x="10"></rect>
+		<rect class="progress" height="20" x="10" width="789"></rect>
+		<text class="start" x="10" y="31">0:00:00</text>
+		<text class="current current-background highlight inactive" y="15" x="770.4921875">102:46:34</text>
+		<text class="current highlight inactive" y="15" x="770.4921875">102:46:34</text>
+		<text class="end" text-anchor="start" x="799" y="31">80:00:00</text>
+	</g>
+</svg>
