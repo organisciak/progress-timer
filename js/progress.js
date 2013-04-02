@@ -397,27 +397,16 @@ var progress = (function() {
     },
     enter = function(selection) {
         //START DEBUG
-        selection.append('button').attr('class', 'delete-button')
+        /*selection.append('button').attr('class', 'delete-button')
             .text('X').style('float', 'right')
-            .on('click', slipDelete);
+            .on('click', slipDelete);*/
 
-        $('.delete-button').text('').button({
-            text: false,
-            icons: {
-                primary: 'ui-icon-closethick'
-            }
-        });
 
-        selection.append('button').attr('class', 'edit-button')
+
+        /*selection.append('button').attr('class', 'edit-button')
             .text('Edit').style('float', 'right')
-            .on('click', slipEdit);
+            .on('click', slipEdit);*/
 
-        $('.edit-button').text('').button({
-            text: false,
-            icons: {
-                primary: 'ui-icon-pencil'
-            }
-        });
 
         $('button').button();
 
@@ -559,12 +548,6 @@ var progress = (function() {
             };
         }
         input.bars.push(newBar);
-        saveData();
-        progress.draw();
-    },
-    slipDelete = function(selection) {
-        index = input.bars.indexOf(selection);
-        input.bars.splice(index, 1);
         saveData();
         progress.draw();
     },

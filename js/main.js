@@ -6,6 +6,8 @@ require.config({
   paths: {
     jquery: 'lib/jquery-1.8.2.min',
     jqueryui: 'lib/jquery-ui',
+    underscore: 'lib/underscore',
+    backbone: 'lib/backbone',
     json2: 'lib/json2',
     d3: 'lib/d3.v2.min',
     modernizer: 'delta/modernizr-2.0.6.min',
@@ -18,6 +20,13 @@ require.config({
             exports: '$',
             deps: ['jquery']
         },
+        'underscore': {
+            exports: '_'
+        },
+        'backbone': {
+            exports: 'Backbone',
+            deps: ['underscore', 'jquery']
+        },
         'timepicker': {
             deps: ['jquery', 'jqueryui']
         },
@@ -28,8 +37,11 @@ require.config({
   }
 });
 
-require(['progress'], function(Progress) {
-  // The "app" dependency is passed in as "App"
+require(['progress', 'progressBackbone'], function(Progress, ProgressB) {
+    // Start Backbone refactor code
+    ProgressB.start();
+
+    // Old code below
     Progress.load();
     Progress.draw();
 

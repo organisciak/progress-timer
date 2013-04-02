@@ -1,14 +1,14 @@
 # Module: progress/progressLocation
 #
 define(->
-  current = (() ->
-    if data.type is 'timer' and data.progress.start?
-        return data.current +
-            new Date().getTime() - data.progress.start
-    else
-        return data.current
-  )()
   (data, fullWidth) ->
+    current = (() ->
+      if data.type is 'timer' and data.progress.start?
+          return data.current +
+              new Date().getTime() - data.progress.start
+      else
+          return data.current
+    )()
     countUp = data.start < data.end
     if current <= data.start and countUp?
         percentage = 0
