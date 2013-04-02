@@ -54,3 +54,7 @@ extension/images
 *.~
 *~
 node_modules
+js/data/*.js
+js/time/*.js
+js/progress/*.js
+js/format/*.js

@@ -1,80 +1,21 @@
+define([
+        'jqueryui', 'd3',
+        'progress/addevent', 'progress/parseDescription', 'progress/setNewTip',
+        'progress/format', 'progress/progressLocation',
+        'data/input', 'data/state', 'data/options', 'data/tips',
+        'data/sample_items'
+        ], function($, d3, 
+        addEvent, parseDescription, setNewTip, format, progressLocation,
+        input, state, opts, tips, sample_items) {
+
+var generateKey = function() {
+    return Math.floor(Math.random() * 0x1000000).toString(16);
+}
+
 //PROGRESS CLASS
 var progress = (function() {
     //PRIVATE VARIABLES
-    var input = {
-            'barWidth': 500,
-            'bars': [
-                    /*{
-                    "type": "counter",
-                    "name": "Manual",
-                    "key": "sdffbs3",
-                    "note": "...and a note",
-                    "start": 0,
-                    "end": 100,
-                    "current": 30
-            }*/
-                    ],
-            'settings': {
-                    'lastTip' : -1,
-                    'tipShow' : true
-            }
-    },
-    state = {
-        loaded: false
-    },
-    opts = {
-            debug: true,
-            chrome: true
-    },
-    tips = [
-    {
-    'preamble': 'Dueling bars 2',
-    'tip': 'Sometimes it\'s useful to have a counter bar next to a clock ' +
-    'or timer. If you have a deadline to hit by the end of your counter ' +
-    '(e.g. \"write 400 words in 2 hours\"), you can make sure that you ' +
-    'stay on track.',
-    'image': 'images/dueling-bars.png'
-    },
-    {
-    'preamble': 'Idea: tracking your weight loss.',
-    'tip': 'Did you know that progress bars can count down? Set the ' +
-    'start of the bar as your starting weight, and the end as your target.'
-    },
-    {
-    'preamble': 'Sorting progress bars',
-    'tip': 'Click and drag on an empty spot of a progress bar slip to' +
-    'sort progress bars to your preferred order.'
-    },
-    {
-    'preamble': 'Super-secret pro-tip: Curly notation',
-    'tip': 'If you write numbers between curly braces in the description' +
-    'of a counter timer (e.g. \"{10}\"), the progress bar will add them' +
-    'up and set them as the current progress. This is an experimental' +
-    'feature, but quite useful.'
-    },
-    {
-    'preamble': 'Organize your progress bars',
-    'tip': 'You can change the order of progress bars by dragging them.'
-    }
-
-    ],
-    sample_items = [
-        {'title': 'Losing Weight',
-            'description': 'Tracking my progress to my goal weight.',
-            'start': 220, 'current': 190, 'end': 180},
-        {'title': 'Essay Progress',
-            'description': 'Toward a max word count of 6000',
-            'start': 0, 'current': 5000, 'end': 6000},
-        {'title': 'Days until Christmas',
-            'description': '',
-            'start': 'Dec 1', 'current': 'Dec 18', 'end': 'Dec 24'},
-        {'title': 'Work Day', 'start': 0,
-            'description': 'The end is coming..', 'current': 6, 'end': 8},
-        {'title': 'Pokemon Collection',
-            'description': "Gotta catch 'em all!",
-            'start': 0, 'current': 150, 'end': 100}
-                    ],
-            pageWidth = document.width <= 1200 ? document.width : 1200,
+    var pageWidth = document.width <= 1200 ? document.width : 1200,
             pageMargin = 50,
             containerWidth = pageWidth - pageMargin * 2,
             slipMargin = 10,
@@ -92,108 +33,6 @@ var progress = (function() {
             }
         }
     },
-    msToday = function(date) {
-        /* Return the number of milliseconds since the start of the day. */
-        if (typeof date == 'number') {
-                date = new Date(date);
-        }
-        v = new Date(date);
-        v.setHours(0, 0, 0, 0);
-        return (date.getTime() - v.getTime());
-    },
-    sumArr = function(arr) {
-        /* Sum all the values in an array */
-        var sum = 0;
-        for (var i = 0; i < arr.length; i++) {
-            sum = sum + arr[i];
-        }
-        return sum;
-    },
-    parseDescription = function(text) {
-        /*
-        Check description for numbers in the format {0}. All numbers between
-        curly braces are added and the value is returned.
-        */
-    // Find integers between curly braces (including negative numbers and
-    // decimals)
-        var re = /\{(-?[\d\.]+?)\}/g,
-            values = text.match(re),
-            newCount = null;
-
-        if (values !== null) {
-            /*
-            Count the max precision after the decimal place, then use
-            toFixed() to overcome floating point numbers problems
-            */
-            max_precision = 0;
-            values = values.map(function(d) {
-                var v = d.replace('{', '').replace('}', '');
-                decimals = v.split('.');
-                precision = decimals.length > 1 ? decimals[1].length : 0;
-                if (precision > max_precision) {
-                    max_precision = precision;
-                }
-                return parseFloat(v);
-                });
-            return parseFloat(sumArr(values).toFixed(max_precision));
-        } else {
-            return null;
-        }
-
-    },
-    format = function(value, type) {
-        //Format text based on the bar type
-        if (type === 'counter') {
-            return value;
-        } else if (type === 'clock') {
-            date = new Date(value);
-            var d = $.datepicker.formatDate('mm-dd', date),
-                t = date.toLocaleTimeString();
-            return d + ' ' + t;
-        } else if (type === 'timer') {
-            time = msToFullTime(value, true);
-            return time.hours + ':' +
-                leadingZero(time.minutes) + ':' +
-                leadingZero(time.seconds);
-        } else {
-            throw 'No valid bar type';
-        }
-    },
-    progressLocation = function(data, fullWidth) {
-        current = (function() {
-            if (data.type === 'timer' && data.progress.start) {
-                return data.current +
-                    new Date().getTime() - data.progress.start;
-            } else {
-                return data.current;
-            }
-        })();
-        var countUp = (data.start < data.end);
-        if (current <= data.start && countUp) {
-            percentage = 0;
-        }
-        else if (current >= data.end && countUp) {
-            percentage = 1;
-        }
-        else if (current <= data.end && !countUp) {
-            percentage = 1;
-        }
-        else if (current >= data.start && !countUp) {
-            percentage = 0;
-        } else {
-            percentage = countUp ?
-                (current - data.start) / (data.end - data.start) :
-                (data.start - current) / (data.start - data.end);
-        }
-        var location = percentage * fullWidth;
-        return location;
-    },
-    generateKey = function() {
-        return Math.floor(Math.random() * 0x1000000).toString(16);
-    },
-    leadingZero = function(integer) {
-        return (integer > 9 ? '' + integer : '0' + integer);
-    },
     getCurrentVal = function(d) {
         var currentTime = (new Date()).getTime(),
             c = d.current;
@@ -204,32 +43,7 @@ var progress = (function() {
         }
         return c;
     },
-    formatDate = function(date) {
-        var y = date.getFullYear(),
-            m = 1 + date.getMonth(),
-            d = date.getDate();
-        m = leadingZero(m);
-        d = leadingZero(d);
-        return y + '-' + m + '-' + d;
-    },
-    formatHour = function(date) {
-        var h = date.getHours(),
-            m = leadingZero(date.getMinutes());
-        return h + ':' + m;
-    },
-    msToFullTime = function(milliseconds, fullHours) {
-        hours = Math.floor(milliseconds / (1000 * 60 * 60));
-        minutes = Math.floor(milliseconds / (1000 * 60)) % 60;
-        seconds = Math.floor(milliseconds / (1000)) % 60;
-        if (fullHours !== true) {
-            hours = hours % 24;
-        }
-        return {
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
-    },
+
     checkDataQuality = function(type, index) {
         /*
         Check if data in the add dialog is possible, if not then
@@ -1296,27 +1110,6 @@ var progress = (function() {
             }
         };
     })(),
-    setNewTip = function() {
-            var nextTip = input.settings.lastTip + 1 < tips.length ?
-                                            input.settings.lastTip + 1 : 0,
-                    tip = tips[nextTip],
-                    fields = ['preamble', 'tip', 'image', 'example'];
-
-            for (var i = 0; i < fields.length; i++) {
-                    field = fields[i];
-                    if (tip[field] && tip[field] !== '') {
-                            var val = tip[field];
-                            if (field === 'image') {
-                                    val = "<img src='" + val + "' />";
-                            }
-                            $(this).children('.' + field)
-                                    .html(val).show();
-                    } else {
-                            $(this).children('.' + field).hide();
-                    }
-            }
-            input.settings.lastTip = nextTip;
-    },
     prepareDialogs = function() {
             //Defaults for all
             $('.dialog')
@@ -1595,71 +1388,5 @@ return {
 };
 })();
 
-var fullTimeToMs = function(str) {
-    /*
-    Takes string in format hh:mm:ss and converts to milliseconds
-    */
-    str = str.split(':');
-    return (str[0] * 60 * 60 * 1000) + (str[1] * 60 * 1000) + (str[2] * 1000);
-};
-
-//AddEvent via http://html5demos.com/js/h5utils.js
-var addEvent = (function() {
-    if (document.addEventListener) {
-        return function(el, type, fn) {
-          if (el && el.nodeName || el === window) {
-            el.addEventListener(type, fn, false);
-          } else if (el && el.length) {
-            for (var i = 0; i < el.length; i++) {
-              addEvent(el[i], type, fn);
-            }
-          }
-        };
-    } else {
-        return function(el, type, fn) {
-          if (el && el.nodeName || el === window) {
-            el.attachEvent('on' + type, function() {
-                return fn.call(el, window.event);
-            });
-          } else if (el && el.length) {
-            for (var i = 0; i < el.length; i++) {
-              addEvent(el[i], type, fn);
-            }
-          }
-        };
-    }
-    })();
-
-//Main onload script
-jQuery(document).ready(function() {
-    progress.load();
-    progress.draw();
-
-    var timer;
-    timer = window.setInterval(function() {
-            progress.draw();
-    }, 1000);
-
-    $('.add-question, .header .add.button').click(progress.add);
-    $('#set').button().click(function() {
-            timer = window.setInterval(function() {
-                    progress.draw();
-            }, 1000);
-    });
-    $('#clear').button().click(function() {
-            clearInterval(timer);
-    });
-    $('#debug').button().click(function() {
-            $('.debug.dialog').dialog('open');
-    });
-    $('.header .tips.button').click(function() {
-            $('.tips.dialog').dialog('open');
-    });
-    $('.header .help.button').click(function() {
-            $('.introduction.dialog').dialog('open');
-    });
-    $('#reset').button().click(progress.reset);
-    $('#export').button().click(progress.exportData);
-    $('#import').button().click(progress.importData);
-    $('.header .settings.button').click(progress.settingsMenu);
+return progress;
 });
