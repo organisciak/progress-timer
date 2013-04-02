@@ -58,3 +58,8 @@ js/data/*.js
 js/time/*.js
 js/progress/*.js
 js/format/*.js
+js/views/*.js
+js/models/*.js
+js/templates/*.js
+js/collections/*.js
+js/progressBackbone.js
