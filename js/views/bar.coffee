@@ -54,4 +54,7 @@ define([
 
     editDialog: =>
       console.log "TODO: Edit dialog"
+
+    progressLocation: =>
+      @model.percentProgress() * @page.get("barWidth")
 )

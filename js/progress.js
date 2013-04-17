@@ -15,12 +15,12 @@ var generateKey = function() {
 //PROGRESS CLASS
 var progress = (function() {
     //PRIVATE VARIABLES
-    var pageWidth = document.width <= 1200 ? document.width : 1200,
-            pageMargin = 50,
-            containerWidth = pageWidth - pageMargin * 2,
-            slipMargin = 10,
-            slipWidth = containerWidth - slipMargin * 2,
-            barWidth = slipWidth - slipMargin * 2,
+    var pageWidth = document.width <= 1200 ? document.width : 1200, //bb
+            pageMargin = 50,                                    //bb
+            containerWidth = pageWidth - pageMargin * 2,        //bb
+            slipMargin = 10,                                    //bb
+            slipWidth = containerWidth - slipMargin * 2,        //bb
+            barWidth = slipWidth - slipMargin * 2,              //bb
 
 //PRIVATE FUNCTIONS
     //UTILITY FUNCTIONS
