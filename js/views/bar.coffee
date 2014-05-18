@@ -6,7 +6,7 @@ define([
   class BarView extends Backbone.View
     tagName: 'div'
     className: 'slip ui-widget-content'
-    template: _.template(BarSlipTemplate)
+    #template: _.template(BarSlipTemplate)
     events:
       'click .delete-button' : "confirmDelete"
       'click .edit-button' : "editDialog"
