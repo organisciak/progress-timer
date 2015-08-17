@@ -1,3 +1,0 @@
-{"barWidth":500,"bars":[{"current":2000,"end":5000,"key":"57d133","name":"Essay Word Count","note":"","start":0,"type":"counter"},{"curly":false,"current":1366224132070,"end":1367298000000,"key":"d44b5f","name":"Time until due date","note":"","start":1364792400000,"type":"clock"},{"current":30000,"end":600000,"key":"84335c","name":"Break from Writing","note":"10 minutes away from the computer.","progress":{"current":null,"start":1366223548329},"start":0,"type":"timer"}],"lastSave":1366223741368,"lastSync":1366223741368,"settings":{"lastTip":0,"notify":true,"tipShow":false},"syncTimeout":42}
-----
-
