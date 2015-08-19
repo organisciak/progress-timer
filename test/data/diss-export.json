@@ -1,0 +1,98 @@
+{
+    "barWidth": 500,
+    "bars": [
+        {
+            "curly": false,
+            "current": 1439939603646,
+            "end": 1439094600000,
+            "key": "82247a",
+            "name": "WORKWEEK",
+            "note": "",
+            "start": 1438543920000,
+            "type": "clock"
+        },
+        {
+            "curly": false,
+            "current": 35150027,
+            "end": 25200000,
+            "key": "143f77",
+            "name": "Dissertation Writing (new)",
+            "note": "+45 (take off 2h30 from experiments)",
+            "progress": {
+                "current": null
+            },
+            "start": 0,
+            "type": "timer"
+        },
+        {
+            "curly": false,
+            "current": 32555,
+            "end": 40000,
+            "key": "6bbec7",
+            "name": "Word Count",
+            "note": "",
+            "start": 32550,
+            "type": "counter"
+        },
+        {
+            "curly": false,
+            "current": 0,
+            "end": 18000000,
+            "key": "f82188",
+            "name": "Dissertation Admin",
+            "note": "TODO items, fixing compile errors, adding images. Email people.\n\n+ 30",
+            "progress": {
+                "current": null
+            },
+            "start": 0,
+            "type": "timer"
+        },
+        {
+            "curly": false,
+            "current": 0,
+            "end": 14400000,
+            "key": "1b5650",
+            "name": "Read",
+            "note": "Or document read.\n\nMitric, Vocab paper, last.fm tags",
+            "progress": {
+                "current": null
+            },
+            "start": 0,
+            "type": "timer"
+        },
+        {
+            "curly": false,
+            "current": 76543892,
+            "end": 61200000,
+            "key": "161ed6",
+            "name": "Dissertation Experiments",
+            "note": "",
+            "progress": {
+                "current": null
+            },
+            "start": 0,
+            "type": "timer"
+        },
+        {
+            "curly": false,
+            "current": 28201741,
+            "end": 50400000,
+            "key": "5b6f4f",
+            "name": "Dissertation Writing (old/editing)",
+            "note": "Adapting old work and editing.",
+            "progress": {
+                "current": null
+            },
+            "start": 0,
+            "type": "timer"
+        }
+    ],
+    "lastSave": 1438895777272,
+    "lastSync": 1438895777272,
+    "settings": {
+        "lastTip": 1,
+        "notify": true,
+        "tipShow": false
+    },
+    "syncTimeout": 93
+}
