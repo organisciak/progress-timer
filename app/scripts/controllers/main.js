@@ -25,9 +25,4 @@ angular.module('progressTimerApp')
       console.error(status);
     });
 
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
   }]);

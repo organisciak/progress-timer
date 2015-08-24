@@ -1,0 +1,9 @@
+<h2>{{bar.name}}</h2>
+<p>{{bar.note}}</p>
+<blockquote><small>{{ bar | json }}</small></blockquote>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="{{bar.percentile}}" 
+  aria-valuemin="0" aria-valuemax="100" ng-style="{width: bar.percentile + '%'}">
+    <span class="sr-only">{{bar.percentile}} Complete</span>
+  </div>
+</div>
