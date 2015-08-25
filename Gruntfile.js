@@ -25,6 +25,8 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  // 
+
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -179,6 +181,16 @@ module.exports = function (grunt) {
       }
     },
 
+    // Custom build of lodash, just what is needed.
+    lodash: {
+      build: {
+        dest: './bower_components/lodash.build.js'
+      },
+      options: {
+        modifier: 'modern',
+        include: ['each']
+      }
+    },
     // Automatically inject Bower components into the app
     wiredep: {
       app: {
@@ -464,6 +476,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
+    'lodash',
     'wiredep',
     'concurrent:test',
     'autoprefixer',
@@ -473,6 +486,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'lodash',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',

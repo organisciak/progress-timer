@@ -38,7 +38,10 @@
     "phantomjs": "^1.9.18",
     "karma-phantomjs-launcher": "^0.2.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt-lodash": "^0.4.0",
+    "lodash-cli": "^3.10.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
