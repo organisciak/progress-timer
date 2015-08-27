@@ -17,7 +17,7 @@
             "end": 35150027,
             "key": "143f77",
             "name": "Dissertation Writing (new)",
-            "note": "+45 (take off 2h30 from experiments)",
+            "note": "**+45 (take off 2h30 *from* experiments)((",
             "progress": {
                 "current": null
             },
@@ -30,7 +30,7 @@
             "end": 40000,
             "key": "6bbec7",
             "name": "Word Count",
-            "note": "",
+            "note": "[Test Link](http://porganized.com)",
             "start": 32550,
             "type": "counter"
         },

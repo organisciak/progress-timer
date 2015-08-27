@@ -15,6 +15,7 @@ angular
     'ngMessages',
     'ngRoute',
     'ngSanitize',
+    'markdown',
     'ngTouch'
   ])
   .config(function ($routeProvider) {
