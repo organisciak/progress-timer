@@ -21,7 +21,7 @@ angular.module('progressTimerApp')
 
     });
 
-    loadData.error(function(data, status, headers, config) {
+    loadData.error(function(data, status) {
       console.error(status);
     });
 

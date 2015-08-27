@@ -188,7 +188,7 @@ module.exports = function (grunt) {
       },
       options: {
         modifier: 'modern',
-        include: ['each']
+        include: ['each', 'padLeft']
       }
     },
     // Automatically inject Bower components into the app

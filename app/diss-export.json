@@ -3,18 +3,18 @@
     "bars": [
         {
             "curly": false,
-            "current": 1439939603646,
-            "end": 1439094600000,
+            "current": 1440523328840,
+            "end": 1440623328840,
             "key": "82247a",
             "name": "WORKWEEK",
             "note": "",
-            "start": 1438543920000,
+            "start": 1440423328840,
             "type": "clock"
         },
         {
             "curly": false,
-            "current": 35150027,
-            "end": 25200000,
+            "current": 25200000,
+            "end": 35150027,
             "key": "143f77",
             "name": "Dissertation Writing (new)",
             "note": "+45 (take off 2h30 from experiments)",
@@ -26,7 +26,7 @@
         },
         {
             "curly": false,
-            "current": 32855,
+            "current": 33855,
             "end": 40000,
             "key": "6bbec7",
             "name": "Word Count",

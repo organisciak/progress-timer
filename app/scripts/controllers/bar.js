@@ -8,7 +8,7 @@
  * Controller of the progressTimerApp
  */
 angular.module('progressTimerApp')
-  .controller('BarCtrl', function ($scope, $log) {
+  .controller('BarCtrl', function ($scope) {
       // TODO rather than endless if/elses,
       // perhaps this.controller can be used to import
       // type-specific controller elements
@@ -58,7 +58,7 @@ angular.module('progressTimerApp')
         if (percentile >= 100) {
           $scope.bar.running = false;
         }
-        return $scope.bar.percentile = percentile;
+        $scope.bar.percentile = percentile;
         //$scope.bar.running = true;
       };
 
