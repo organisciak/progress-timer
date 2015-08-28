@@ -24,19 +24,42 @@ angular.module('progressTimerApp')
         }
       }
 
+      // If clock or timer, watch for calls to update view
+      // No point doing this for bars that only change with
+      // user input
+      if ($scope.bar.type === 'timer' || $scope.bar.type === 'clock') {
+        $scope.$on("updateTemporal", function() {
+              updatePercentile();
+        });
+      }
+
       // Update the progress percentile info
       var updatePercentile = function() {
         var percentile;
         var bar = $scope.bar;
         var current = (function() {
-            if (bar.type === 'timer' && bar.progress.start) {
-                return bar.current +
-                    new Date().getTime() - bar.progress.start;
+            if (bar.type === 'timer' && (bar.running || bar.progress.start)) {
+                // To protect progress when the app is shut down
+                // Temporary progress is saved to bar.progress
+                var extraCurrent = 0;
+                var now = (new Date()).getTime();
+                if (bar.progress.start) {
+                  extraCurrent = now - bar.progress.start;
+                }
+                if (bar.running) {
+                  $scope.bar.progress = { start: now };
+                }
+                $scope.bar.current = bar.current + extraCurrent;
+                return $scope.bar.current;
+            } else if (bar.type === 'clock') {
+                // Update current while we're at it
+                $scope.bar.current = (new Date()).getTime();
+                return $scope.bar.current;
             } else {
                 return bar.current;
             }
         })();
-        
+
         var countUp = (bar.start < bar.end);
 
         if (current <= bar.start && countUp) {

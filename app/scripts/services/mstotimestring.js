@@ -22,6 +22,6 @@ angular.module('progressTimerApp')
           'minutes': minutes,
           'seconds': seconds
       };
-    }
+    };
 
   });

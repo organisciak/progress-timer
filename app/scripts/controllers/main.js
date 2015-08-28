@@ -8,8 +8,8 @@
  * Controller of the progressTimerApp
  */
 angular.module('progressTimerApp')
-  .controller('MainCtrl', ['$http', '$log', '$scope', 
-  function ($http, $log, $scope) {
+  .controller('MainCtrl', 
+  function ($http, $log, $scope, $rootScope, $interval) {
     var loadData;
     var main = this;
 
@@ -21,8 +21,13 @@ angular.module('progressTimerApp')
 
     });
 
+    var interval = $interval(function(){
+      $scope.$broadcast('updateTemporal');
+    }, 1000);
+
+
     loadData.error(function(data, status) {
       console.error(status);
     });
 
-  }]);
+  });
