@@ -8,7 +8,7 @@
  * Controller of the progressTimerApp
  */
 angular.module('progressTimerApp')
-  .controller('BarCtrl', function ($scope) {
+  .controller('BarCtrl', function ($scope, $log) {
       // TODO rather than endless if/elses,
       // perhaps this.controller can be used to import
       // type-specific controller elements
@@ -31,6 +31,34 @@ angular.module('progressTimerApp')
         $scope.$on("updateTemporal", function() {
               updatePercentile();
         });
+      }
+
+      $scope.toggleTimer = function() {
+            if ($scope.bar.type !== 'timer') {
+                  $log.warn("You can only toggle timers. How did you get here?");
+                  return;
+            }
+            
+            $scope.bar.running ? stopTimer() : startTimer();
+      }
+
+      var stopTimer = function(){
+        if ($scope.bar.progress.start) {
+            $scope.bar.current = $scope.bar.current + (new Date()).getTime() - $scope.bar.progress.start;
+        }
+        $scope.bar.progress = { };
+        $scope.bar.running = false;
+        $scope.$emit("prepareInterval");
+      };
+
+      var startTimer = function() {
+            if ($scope.bar.progress.start) {
+                  $log.error("Can't start the time when it is already running. Cycling to recover.");
+                  stopTimer();
+            }
+            $scope.bar.progress = { start: (new Date()).getTime() };
+            $scope.bar.running = true;
+            $scope.$emit("prepareInterval");
       }
 
       // Update the progress percentile info

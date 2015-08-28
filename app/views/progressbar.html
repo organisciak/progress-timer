@@ -1,4 +1,11 @@
-<h2>{{bar.name}}</h2>
+<h2>
+  {{bar.name}}
+  <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
+  ng-click='toggleTimer()'>
+    <span ng-show="bar.running">Stop</span>
+    <span ng-show="!bar.running">Start</span>
+  </button>
+</h2>
 <p ng-bind-html="bar.note | markdown"></p>
 <blockquote><small>{{ bar | json }}</small></blockquote>
 <div class="progress">
