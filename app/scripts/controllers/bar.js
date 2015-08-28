@@ -35,7 +35,6 @@ angular.module('progressTimerApp')
 
       // Update the progress percentile info
       var updatePercentile = function() {
-        var percentile;
         var bar = $scope.bar;
         var current = (function() {
             if (bar.type === 'timer' && (bar.running || bar.progress.start)) {
@@ -62,30 +61,28 @@ angular.module('progressTimerApp')
 
         var countUp = (bar.start < bar.end);
 
-        if (current <= bar.start && countUp) {
-           percentile = 0;
+        if (current < bar.start && countUp) {
+           $scope.bar.percentile = 0;
+           $scope.bar.overextend = true;
         }
-        else if (current >= bar.end && countUp) {
-            percentile = 100;
+        else if (current > bar.end && countUp) {
+            $scope.bar.percentile = 100;
+            $scope.bar.overextend = true;
         }
-        else if (current <= bar.end && !countUp) {
-            percentile = 100;
+        else if (current < bar.end && !countUp) {
+            $scope.bar.percentile = 100;
+            $scope.bar.overextend = true;
         }
-        else if (current >= bar.start && !countUp) {
-            percentile = 0;
+        else if (current > bar.start && !countUp) {
+            $scope.bar.percentile = 0;
+            $scope.bar.overextend = true;
         } else {
-            percentile = countUp ?
+            $scope.bar.percentile = countUp ?
                 100 * (current - bar.start) / (bar.end - bar.start) :
                 100 * (bar.start - current) / (bar.start - bar.end);
+            $scope.bar.overextend = false;
         }
-        if (percentile >= 100) {
-          $scope.bar.running = false;
-        }
-        $scope.bar.percentile = percentile;
-        //$scope.bar.running = true;
       };
-
-      //$scope.bar.running = true;
 
       updatePercentile();
 

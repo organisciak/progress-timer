@@ -5,7 +5,7 @@
   <div class="progress-bar progress-bar-striped" role="progressbar" 
   aria-valuenow="{{bar.percentile}}" aria-valuemin="0" aria-valuemax="100"
   ng-style="{width: bar.percentile + '%'}"
-  ng-class="{active: bar.running}">
+  ng-class="{active: bar.running, 'progress-bar-danger': bar.overextend}">
     <span ng-show="bar.percentile > 5">{{bar.current | formatProgress:bar.type}}</span>
   </div>
 </div>
