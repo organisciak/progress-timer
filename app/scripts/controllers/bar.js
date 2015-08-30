@@ -61,6 +61,11 @@ angular.module('progressTimerApp')
             $scope.$emit("prepareInterval");
       }
 
+      var resetTimer = function() {
+            $scope.bar.current = 0;  
+      };
+      $scope.resetTimer = resetTimer;
+
       // Update the progress percentile info
       var updatePercentile = function() {
         var bar = $scope.bar;

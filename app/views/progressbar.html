@@ -5,6 +5,8 @@
     <span ng-show="bar.running">Stop</span>
     <span ng-show="!bar.running">Start</span>
   </button>
+   <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
+  ng-click='resetTimer()'>Reset</button>
 </h2>
 <p ng-bind-html="bar.note | markdown"></p>
 <blockquote><small>{{ bar | json }}</small></blockquote>
