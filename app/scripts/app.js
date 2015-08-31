@@ -18,6 +18,9 @@ angular
     'markdown',
     'ngTouch'
   ])
+  // Make lodash injectable
+  .constant('_', window._)
+  // Config routes
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

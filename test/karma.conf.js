@@ -21,6 +21,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      // My custom build of lodash, manually included
+      'bower_components/lodash.build.js',
       // bower:js
       'bower_components/jquery/dist/jquery.js',
       'bower_components/moment/moment.js',
