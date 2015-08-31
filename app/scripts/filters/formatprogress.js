@@ -19,20 +19,7 @@ angular.module('progressTimerApp')
             return moment(input).format('lll');
         } else if (type === 'timer') {
             var time, timeStr = "";
-            time = msToTimeString(input);
-            if (time.days > 0) { 
-              timeStr = time.days + " day" + (time.days > 1 ? "s" : "");
-            }
-            if (time.hours > 0) {
-              timeStr = timeStr + " " + time.hours + ":";
-            }
-            if (time.minutes > 0 || time.hours > 0) {
-              timeStr = timeStr + _.padLeft(time.minutes, 2, "0") + ":";
-            }
-            if (time.days <= 0) {
-              timeStr = timeStr + _.padLeft(time.seconds, 2, "0");
-            }
-
+            timeStr = msToTimeString(input);
             return timeStr;
         } else {
             throw 'No valid bar type';
