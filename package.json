@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "grunt-lodash": "^0.4.0",
+    "karma-ng-html2js-preprocessor": "^0.1.2",
     "lodash-cli": "^3.10.1"
   },
   "scripts": {

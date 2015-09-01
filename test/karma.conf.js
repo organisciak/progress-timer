@@ -19,6 +19,16 @@ module.exports = function(config) {
       "jasmine"
     ],
 
+    // Load Templates to cache, so that templateurl loads properly
+    preprocessors: {
+      'app/views/**/*.html': ['ng-html2js']
+    },
+    
+     ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'app/'
+     },
+
     // list of files / patterns to load in the browser
     files: [
       // My custom build of lodash, manually included
@@ -40,7 +50,8 @@ module.exports = function(config) {
       // endbower
       "app/scripts/**/*.js",
       "test/mock/**/*.js",
-      "test/spec/**/*.js"
+      "test/spec/**/*.js",
+      "app/views/**/*.html"
     ],
 
     // list of files / patterns to exclude
@@ -65,6 +76,7 @@ module.exports = function(config) {
     // Which plugins to enable
     plugins: [
       "karma-phantomjs-launcher",
+      'karma-ng-html2js-preprocessor',
       "karma-jasmine"
     ],
 

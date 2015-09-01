@@ -11,10 +11,6 @@ angular.module('progressTimerApp')
     return {
       templateUrl: 'views/progressbar.html',
       restrict: 'E',
-      controller: 'BarCtrl',
-      link: function postLink(/*scope, element, attrs*/) {
-        console.log("Bar link placeholder.");
-        //element.text('this is the progressBar directive');
-      }
+      controller: 'BarCtrl'
     };
   });
