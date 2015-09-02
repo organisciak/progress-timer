@@ -1,5 +1,5 @@
 'use strict';
-/* globals moment, _ */
+/* globals moment */
 
 /**
  * @ngdoc filter
@@ -18,9 +18,7 @@ angular.module('progressTimerApp')
         } else if (type === 'clock') {
             return moment(input).format('lll');
         } else if (type === 'timer') {
-            var time, timeStr = "";
-            timeStr = msToTimeString(input);
-            return timeStr;
+            return msToTimeString(input);
         } else {
             throw 'No valid bar type';
         }

@@ -39,8 +39,8 @@ angular.module('progressTimerApp')
                   return;
             }
             
-            $scope.bar.running ? stopTimer() : startTimer();
-      }
+            ($scope.bar.running ? stopTimer : startTimer)();
+      };
 
       var stopTimer = function(){
         if ($scope.bar.progress.start) {
@@ -52,14 +52,15 @@ angular.module('progressTimerApp')
       };
 
       var startTimer = function() {
+            var now = (new Date()).getTime();
             if ($scope.bar.progress.start) {
                   $log.error("Can't start the time when it is already running. Cycling to recover.");
                   stopTimer();
             }
-            $scope.bar.progress = { start: (new Date()).getTime() };
+            $scope.bar.progress = { start: now };
             $scope.bar.running = true;
             $scope.$emit("prepareInterval");
-      }
+      };
 
       var resetTimer = function() {
             $scope.bar.current = 0;  

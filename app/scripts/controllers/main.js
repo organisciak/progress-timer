@@ -9,7 +9,7 @@
  */
 angular.module('progressTimerApp')
   .controller('MainCtrl', 
-  function ($http, $log, $scope, $rootScope, $interval) {
+  function ($http, $log, $scope, $rootScope, $interval, _) {
     var loadData, intervalTimer;
     var main = this;
     loadData = $http.get('diss-export.json');
@@ -28,8 +28,8 @@ angular.module('progressTimerApp')
       $log.debug("Setting time interval");
       // Find first time-based bar that is running
       var hasTime = _.find($scope.bars, function(bar) {
-        if (bar.type == 'timer' || bar.type == 'clock') {
-          return (bar.running || (bar.type == 'timer' && bar.progress.start));
+        if (bar.type === 'timer' || bar.type === 'clock') {
+          return (bar.running || (bar.type === 'timer' && bar.progress.start));
         }
         return false;
       });
