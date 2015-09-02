@@ -56,4 +56,5 @@ describe('Directive: progressBar', function () {
       expect(scope.bar.percentile).toBe(100);
     }));
   });
+  
 });
