@@ -16,15 +16,24 @@
 
 <div class="panel-footer">
     <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
-    ng-click='toggleTimer()'>
-      <span ng-show="bar.running">Stop</span>
-      <span ng-show="!bar.running">Start</span>
-    </button>
-     <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
-    ng-click='resetTimer()'>Reset</button>
+    ng-click='toggleTimer()'
+    aria-label="{{bar.rugging ? 'Stop' : 'Start'}}">
 
-    <button type="button" class="btn btn-default" 
-    ng-click='debug = !debug'>Debug</button>
+      <span ng-show="bar.running" class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+      <span ng-show="!bar.running" class="glyphicon glyphicon-play" aria-hidden="true"></span>
+    </button>
+     <button type="button" class="btn btn-default" 
+      ng-show="bar.type == 'timer'"  aria-label="Reset"
+      ng-click='resetTimer()'>
+        <span class="glyphicon glyphicon-repeat" aria-hidden="true">
+    </button>
+
+    <button type="button" class="btn btn-default" aria-label="Debug"
+    ng-click='debug = !debug'>
+      <span class="glyphicon glyphicon-dashboard" aria-hidden="true">
+    </span>
+</button>
+
 
 </div>
 
