@@ -9,6 +9,8 @@
  */
 angular.module('progressTimerApp')
   .controller('BarCtrl', function ($scope, $log) {
+      $scope.debug = false;
+        
       // TODO rather than endless if/elses,
       // perhaps this.controller can be used to import
       // type-specific controller elements

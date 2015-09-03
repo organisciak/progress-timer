@@ -33,7 +33,7 @@ describe('Directive: progressBar', function () {
     }));
 
     it('should populate elements with bar details', function () {
-      expect(element.find('h2').text()).toBe(scope.bar.name);
+      expect(element.find('.panel-heading').text()).toBe(scope.bar.name);
       expect(element.find('.description').text()).toBe(scope.bar.note);
       expect(element.find('.progress-bar').hasClass('active')).toBe(true);
     });

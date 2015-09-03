@@ -1,19 +1,31 @@
-<h2>{{bar.name}}</h2>
-  <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
-  ng-click='toggleTimer()'>
-    <span ng-show="bar.running">Stop</span>
-    <span ng-show="!bar.running">Start</span>
-  </button>
-   <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
-  ng-click='resetTimer()'>Reset</button>
+<div class="panel panel-default">
+<div class="panel-heading">{{bar.name}}</div>
 
-<p class="description" ng-bind-html="bar.note | markdown"></p>
-<blockquote><small>{{ bar | json }}</small></blockquote>
-<div class="progress">
-  <div class="progress-bar progress-bar-striped" role="progressbar" 
-  aria-valuenow="{{bar.percentile}}" aria-valuemin="0" aria-valuemax="100"
-  ng-style="{width: bar.percentile + '%'}"
-  ng-class="{active: bar.running, 'progress-bar-danger': bar.overextend}">
-    <span ng-show="bar.percentile > 5">{{bar.current | formatProgress:bar.type}}</span>
+<div class="panel-body">
+  <p class="description" ng-bind-html="bar.note | markdown"></p>
+  <blockquote ng-show="debug"><small>{{ bar | json }}</small></blockquote>
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped" role="progressbar" 
+    aria-valuenow="{{bar.percentile}}" aria-valuemin="0" aria-valuemax="100"
+    ng-style="{width: bar.percentile + '%'}"
+    ng-class="{active: bar.running, 'progress-bar-danger': bar.overextend}">
+      <span ng-show="bar.percentile > 5">{{bar.current | formatProgress:bar.type}}</span>
+    </div>
   </div>
+</div>
+
+<div class="panel-footer">
+    <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
+    ng-click='toggleTimer()'>
+      <span ng-show="bar.running">Stop</span>
+      <span ng-show="!bar.running">Start</span>
+    </button>
+     <button type="button" class="btn btn-default" ng-show="bar.type == 'timer'" 
+    ng-click='resetTimer()'>Reset</button>
+
+    <button type="button" class="btn btn-default" 
+    ng-click='debug = !debug'>Debug</button>
+
+</div>
+
 </div>
