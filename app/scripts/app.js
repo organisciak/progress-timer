@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'markdown',
-    'ngTouch'
+    'ngTouch',
+    'ui.bootstrap.datetimepicker'
   ])
   // Make lodash injectable
   .constant('_', window._)

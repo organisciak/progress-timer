@@ -72,7 +72,7 @@ angular.module('progressTimerApp')
 
       $scope.toggleEdit = function() {
             $scope.edit = !$scope.edit;
-            if (bar.type === 'counter') {
+            if ($scope.bar.type === 'counter') {
                   updatePercentile();
             } else {
                   $scope.$emit("prepareInterval");   
