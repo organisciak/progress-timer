@@ -10,6 +10,7 @@
 angular.module('progressTimerApp')
   .controller('BarCtrl', function ($scope, $log) {
       $scope.debug = false;
+      $scope.edit = false;
         
       // TODO rather than endless if/elses,
       // perhaps this.controller can be used to import
@@ -68,6 +69,15 @@ angular.module('progressTimerApp')
             $scope.bar.current = 0;  
       };
       $scope.resetTimer = resetTimer;
+
+      $scope.toggleEdit = function() {
+            $scope.edit = !$scope.edit;
+            if (bar.type === 'counter') {
+                  updatePercentile();
+            } else {
+                  $scope.$emit("prepareInterval");   
+            }
+      };
 
       // Update the progress percentile info
       var updatePercentile = function() {
